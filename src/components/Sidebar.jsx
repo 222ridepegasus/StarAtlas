@@ -1,0 +1,374 @@
+import { useState } from 'react';
+
+// Star color mapping (from visual config)
+const SPECTRAL_COLORS = {
+  O: '#3399ff',
+  B: '#66ccff',
+  A: '#ffffff',
+  F: '#ffff99',
+  G: '#ffff33',
+  K: '#ff9900',
+  M: '#ff3300',
+  L: '#996633',
+  T: '#9933cc',
+  Y: '#330033',
+  D: '#ffffff'
+};
+
+const Sidebar = ({ 
+  onToggleGrid, 
+  onViewDistanceChange, 
+  onToggleGridVisibility, 
+  onToggleLabelsVisibility, 
+  onToggleAxesHelper,
+  onLineModeChange,
+  onSpectralFilterChange 
+}) => {
+  const [gridMode, setGridMode] = useState('circular');
+  const [viewDistance, setViewDistance] = useState(20);
+  const [showGrid, setShowGrid] = useState(true);
+  const [showLabels, setShowLabels] = useState(true);
+  const [showAxes, setShowAxes] = useState(false);
+  const [lineMode, setLineMode] = useState('connections');
+  const [spectralFilter, setSpectralFilter] = useState({
+    O: true, B: true, A: true, F: true, G: true, K: true, M: true, L: true, T: true, Y: true, D: true
+  });
+
+  const handleToggleGrid = () => {
+    const newMode = gridMode === 'square' ? 'circular' : 'square';
+    setGridMode(newMode);
+    onToggleGrid(newMode);
+  };
+
+  const handleViewDistanceChange = (distance) => {
+    setViewDistance(distance);
+    onViewDistanceChange(distance);
+  };
+
+  const handleToggleGridVisibility = () => {
+    const newValue = !showGrid;
+    setShowGrid(newValue);
+    onToggleGridVisibility(newValue);
+  };
+
+  const handleToggleLabelsVisibility = () => {
+    const newValue = !showLabels;
+    setShowLabels(newValue);
+    onToggleLabelsVisibility(newValue);
+  };
+
+  const handleToggleAxesHelper = () => {
+    const newValue = !showAxes;
+    setShowAxes(newValue);
+    onToggleAxesHelper(newValue);
+  };
+
+  const handleLineModeChange = (mode) => {
+    setLineMode(mode);
+    onLineModeChange(mode);
+  };
+
+  const handleSpectralFilterToggle = (spectralClass) => {
+    const newFilter = { ...spectralFilter, [spectralClass]: !spectralFilter[spectralClass] };
+    setSpectralFilter(newFilter);
+    onSpectralFilterChange(newFilter);
+  };
+
+  const viewDistances = [8, 12, 16, 20];
+
+  return (
+    <div style={{
+      position: 'fixed',
+      top: '16px',
+      left: '16px',
+      backgroundColor: 'rgba(17, 24, 39, 0.9)',
+      backdropFilter: 'blur(8px)',
+      border: '1px solid rgba(55, 65, 81, 1)',
+      borderRadius: '8px',
+      padding: '16px',
+      color: 'white',
+      fontFamily: 'monospace',
+      fontSize: '14px',
+      zIndex: 9999,
+      minWidth: '200px'
+    }}>
+      <h2 style={{ 
+        fontSize: '18px', 
+        fontWeight: 'bold', 
+        marginBottom: '16px',
+        color: '#d1d5db'
+      }}>
+        Controls
+      </h2>
+      
+      <div style={{ marginBottom: '16px' }}>
+        <button
+          onClick={handleToggleGrid}
+          style={{
+            width: '100%',
+            padding: '8px 16px',
+            backgroundColor: '#2563eb',
+            border: 'none',
+            borderRadius: '4px',
+            color: 'white',
+            cursor: 'pointer',
+            textAlign: 'left',
+            transition: 'background-color 0.2s'
+          }}
+          onMouseEnter={(e) => e.target.style.backgroundColor = '#1d4ed8'}
+          onMouseLeave={(e) => e.target.style.backgroundColor = '#2563eb'}
+        >
+          Grid: {gridMode === 'square' ? 'Square' : 'Radial'}
+        </button>
+      </div>
+
+      <div style={{ marginBottom: '16px' }}>
+        <div style={{ 
+          marginBottom: '8px',
+          color: '#9ca3af',
+          fontSize: '12px'
+        }}>
+          View Distance: {viewDistance} LY
+        </div>
+        <div style={{ display: 'flex', gap: '4px' }}>
+          {viewDistances.map(distance => (
+            <button
+              key={distance}
+              onClick={() => handleViewDistanceChange(distance)}
+              style={{
+                flex: 1,
+                padding: '6px',
+                backgroundColor: viewDistance === distance ? '#059669' : '#374151',
+                border: 'none',
+                borderRadius: '4px',
+                color: 'white',
+                cursor: 'pointer',
+                fontSize: '12px',
+                transition: 'background-color 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                if (viewDistance !== distance) {
+                  e.target.style.backgroundColor = '#4b5563';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (viewDistance !== distance) {
+                  e.target.style.backgroundColor = '#374151';
+                }
+              }}
+            >
+              {distance}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Line Mode Radio Group */}
+      <div style={{ marginBottom: '16px', paddingTop: '8px', borderTop: '1px solid rgba(55, 65, 81, 1)' }}>
+        <div style={{ 
+          marginBottom: '8px',
+          color: '#9ca3af',
+          fontSize: '12px',
+          fontWeight: 'bold'
+        }}>
+          Line Display
+        </div>
+        
+        <label style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          cursor: 'pointer',
+          userSelect: 'none',
+          marginBottom: '6px'
+        }}>
+          <input
+            type="radio"
+            name="lineMode"
+            value="connections"
+            checked={lineMode === 'connections'}
+            onChange={(e) => handleLineModeChange(e.target.value)}
+            style={{
+              marginRight: '8px',
+              cursor: 'pointer',
+              width: '16px',
+              height: '16px',
+              accentColor: '#2563eb'
+            }}
+          />
+          <span>Show Connections</span>
+        </label>
+
+        <label style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          cursor: 'pointer',
+          userSelect: 'none',
+          marginBottom: '6px'
+        }}>
+          <input
+            type="radio"
+            name="lineMode"
+            value="stalks"
+            checked={lineMode === 'stalks'}
+            onChange={(e) => handleLineModeChange(e.target.value)}
+            style={{
+              marginRight: '8px',
+              cursor: 'pointer',
+              width: '16px',
+              height: '16px',
+              accentColor: '#2563eb'
+            }}
+          />
+          <span>Show Stalks</span>
+        </label>
+
+        <label style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          cursor: 'pointer',
+          userSelect: 'none'
+        }}>
+          <input
+            type="radio"
+            name="lineMode"
+            value="none"
+            checked={lineMode === 'none'}
+            onChange={(e) => handleLineModeChange(e.target.value)}
+            style={{
+              marginRight: '8px',
+              cursor: 'pointer',
+              width: '16px',
+              height: '16px',
+              accentColor: '#2563eb'
+            }}
+          />
+          <span>Stars Only</span>
+        </label>
+      </div>
+
+      {/* Spectral Class Filter */}
+      <div style={{ paddingTop: '8px', borderTop: '1px solid rgba(55, 65, 81, 1)' }}>
+        <div style={{ 
+          marginBottom: '8px',
+          color: '#9ca3af',
+          fontSize: '12px',
+          fontWeight: 'bold'
+        }}>
+          Spectral Class Filter
+        </div>
+        
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
+          {Object.keys(spectralFilter).map(spectralClass => (
+            <label 
+              key={spectralClass}
+              style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                cursor: 'pointer',
+                userSelect: 'none',
+                padding: '4px',
+                borderRadius: '4px',
+                backgroundColor: spectralFilter[spectralClass] 
+                  ? `${SPECTRAL_COLORS[spectralClass]}22` 
+                  : 'transparent',
+                border: `1px solid ${spectralFilter[spectralClass] 
+                  ? SPECTRAL_COLORS[spectralClass] 
+                  : 'rgba(55, 65, 81, 1)'}`,
+                transition: 'all 0.2s'
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={spectralFilter[spectralClass]}
+                onChange={() => handleSpectralFilterToggle(spectralClass)}
+                style={{
+                  marginRight: '6px',
+                  cursor: 'pointer',
+                  width: '14px',
+                  height: '14px',
+                  accentColor: SPECTRAL_COLORS[spectralClass]
+                }}
+              />
+              <span style={{ 
+                fontSize: '13px',
+                color: spectralFilter[spectralClass] ? '#ffffff' : '#9ca3af'
+              }}>
+                {spectralClass}
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ paddingTop: '8px', borderTop: '1px solid rgba(55, 65, 81, 1)' }}>
+        <div style={{ marginBottom: '8px' }}>
+          <label style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            cursor: 'pointer',
+            userSelect: 'none'
+          }}>
+            <input
+              type="checkbox"
+              checked={showGrid}
+              onChange={handleToggleGridVisibility}
+              style={{
+                marginRight: '8px',
+                cursor: 'pointer',
+                width: '16px',
+                height: '16px'
+              }}
+            />
+            <span>Show Grid</span>
+          </label>
+        </div>
+
+        <div style={{ marginBottom: '8px' }}>
+          <label style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            cursor: 'pointer',
+            userSelect: 'none'
+          }}>
+            <input
+              type="checkbox"
+              checked={showLabels}
+              onChange={handleToggleLabelsVisibility}
+              style={{
+                marginRight: '8px',
+                cursor: 'pointer',
+                width: '16px',
+                height: '16px'
+              }}
+            />
+            <span>Show Labels</span>
+          </label>
+        </div>
+
+        <div>
+          <label style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            cursor: 'pointer',
+            userSelect: 'none'
+          }}>
+            <input
+              type="checkbox"
+              checked={showAxes}
+              onChange={handleToggleAxesHelper}
+              style={{
+                marginRight: '8px',
+                cursor: 'pointer',
+                width: '16px',
+                height: '16px'
+              }}
+            />
+            <span>Show Axes</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Sidebar;
