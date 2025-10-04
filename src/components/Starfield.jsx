@@ -231,6 +231,7 @@ const Starfield = () => {
     ctx.stroke();
     
     const highlightTexture = new THREE.CanvasTexture(canvas);
+    highlightTexture.needsUpdate = true;
     const highlightMaterial = new THREE.SpriteMaterial({
       map: highlightTexture,
       color: 0xffffff,
@@ -661,6 +662,17 @@ const Starfield = () => {
     setSpectralFilter(filter);
   };
 
+  const handleFocusOnStar = () => {
+    if (selectedStar) {
+      const selectedMesh = starMeshesRef.current.find(
+        mesh => mesh.userData.star === selectedStar
+      );
+      if (selectedMesh) {
+        focusTargetRef.current = selectedMesh.position.clone();
+      }
+    }
+  };
+
   return (
     <>
       <Sidebar 
@@ -675,6 +687,7 @@ const Starfield = () => {
       <InfoPanel 
         star={selectedStar}
         onClose={() => setSelectedStar(null)}
+        onFocus={handleFocusOnStar}
       />
       <div 
         ref={mountRef} 

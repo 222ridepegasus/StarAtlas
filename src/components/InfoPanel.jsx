@@ -1,37 +1,54 @@
-const InfoPanel = ({ star, onClose }) => {
+import { useState, useEffect } from 'react';
+
+const InfoPanel = ({ star, onClose, onFocus }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   if (!star) return null;
 
   return (
     <div style={{
       position: 'fixed',
-      top: '50%',
-      right: '24px',
-      transform: 'translateY(-50%)',
+      top: isMobile ? 'auto' : '16px',
+      bottom: isMobile ? '16px' : 'auto',
+      right: '16px',
+      left: isMobile ? '16px' : 'auto',
+      width: isMobile ? 'auto' : '320px',
+      maxHeight: isMobile ? '60vh' : 'calc(100vh - 32px)',
       backgroundColor: 'rgba(17, 24, 39, 0.95)',
       backdropFilter: 'blur(8px)',
       border: '1px solid rgba(55, 65, 81, 1)',
       borderRadius: '8px',
-      padding: '20px',
+      padding: '16px',
       color: 'white',
       fontFamily: 'monospace',
       fontSize: '14px',
-      zIndex: 9999,
-      minWidth: '280px',
-      maxWidth: '320px'
+      zIndex: 9998,
+      overflowY: 'auto',
+      boxSizing: 'border-box'
     }}>
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: '16px'
+        marginBottom: '16px',
+        paddingBottom: '12px',
+        borderBottom: '1px solid rgba(55, 65, 81, 1)'
       }}>
-        <h2 style={{ 
-          fontSize: '18px', 
+        <h3 style={{
+          fontSize: '16px',
           fontWeight: 'bold',
-          margin: 0
+          margin: 0,
+          color: '#d1d5db'
         }}>
           {star.name}
-        </h2>
+        </h3>
         <button
           onClick={onClose}
           style={{
@@ -40,44 +57,121 @@ const InfoPanel = ({ star, onClose }) => {
             color: '#9ca3af',
             fontSize: '20px',
             cursor: 'pointer',
-            padding: '0 4px',
-            lineHeight: '1'
+            padding: '0',
+            width: '24px',
+            height: '24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'color 0.2s'
           }}
           onMouseEnter={(e) => e.target.style.color = '#ffffff'}
           onMouseLeave={(e) => e.target.style.color = '#9ca3af'}
         >
-          ×
+          ✕
         </button>
       </div>
 
       <div style={{ marginBottom: '12px' }}>
-        <div style={{ color: '#9ca3af', fontSize: '12px', marginBottom: '4px' }}>
+        <div style={{
+          fontSize: '12px',
+          color: '#9ca3af',
+          marginBottom: '4px'
+        }}>
           Distance
         </div>
-        <div style={{ fontSize: '16px' }}>
-          {star.distance_ly.toFixed(2)} light years
+        <div style={{ color: '#ffffff' }}>
+          {star.distance_ly.toFixed(2)} light-years
         </div>
       </div>
 
       <div style={{ marginBottom: '12px' }}>
-        <div style={{ color: '#9ca3af', fontSize: '12px', marginBottom: '4px' }}>
-          Components
+        <div style={{
+          fontSize: '12px',
+          color: '#9ca3af',
+          marginBottom: '4px'
+        }}>
+          Coordinates
         </div>
-        {star.components.map((comp, idx) => (
-          <div key={idx} style={{ fontSize: '14px', marginBottom: '4px' }}>
-            {comp.name} ({comp.spectral_type})
-          </div>
-        ))}
+        <div style={{ color: '#ffffff', fontSize: '12px' }}>
+          RA: {star.ra}<br/>
+          Dec: {star.dec}
+        </div>
       </div>
 
-      <div style={{ 
-        marginTop: '16px',
+      {star.components && star.components.length > 0 && (
+        <div style={{ marginBottom: '16px' }}>
+          <div style={{
+            fontSize: '12px',
+            color: '#9ca3af',
+            marginBottom: '8px'
+          }}>
+            Components ({star.components.length})
+          </div>
+          {star.components.map((component, index) => (
+            <div
+              key={index}
+              style={{
+                backgroundColor: 'rgba(55, 65, 81, 0.5)',
+                padding: '8px',
+                borderRadius: '4px',
+                marginBottom: '6px',
+                fontSize: '12px'
+              }}
+            >
+              <div style={{ color: '#ffffff', marginBottom: '4px' }}>
+                {component.name || `Component ${index + 1}`}
+              </div>
+              <div style={{ color: '#9ca3af' }}>
+                Type: {component.spectral_type || 'Unknown'}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div style={{
+        display: 'flex',
+        gap: '8px',
         paddingTop: '12px',
-        borderTop: '1px solid rgba(55, 65, 81, 1)',
-        fontSize: '12px',
-        color: '#9ca3af'
+        borderTop: '1px solid rgba(55, 65, 81, 1)'
       }}>
-        Right-click to focus camera
+        <button
+          onClick={onFocus}
+          style={{
+            flex: 1,
+            padding: '10px',
+            backgroundColor: '#2563eb',
+            border: 'none',
+            borderRadius: '4px',
+            color: 'white',
+            cursor: 'pointer',
+            fontSize: '13px',
+            fontWeight: 'bold',
+            transition: 'background-color 0.2s'
+          }}
+          onMouseEnter={(e) => e.target.style.backgroundColor = '#1d4ed8'}
+          onMouseLeave={(e) => e.target.style.backgroundColor = '#2563eb'}
+        >
+          Focus Camera
+        </button>
+        <button
+          onClick={onClose}
+          style={{
+            padding: '10px 16px',
+            backgroundColor: '#374151',
+            border: 'none',
+            borderRadius: '4px',
+            color: 'white',
+            cursor: 'pointer',
+            fontSize: '13px',
+            transition: 'background-color 0.2s'
+          }}
+          onMouseEnter={(e) => e.target.style.backgroundColor = '#4b5563'}
+          onMouseLeave={(e) => e.target.style.backgroundColor = '#374151'}
+        >
+          Close
+        </button>
       </div>
     </div>
   );

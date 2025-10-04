@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // Star color mapping (from visual config)
 const SPECTRAL_COLORS = {
@@ -27,12 +27,29 @@ const Sidebar = ({
   const [gridMode, setGridMode] = useState('circular');
   const [viewDistance, setViewDistance] = useState(20);
   const [showGrid, setShowGrid] = useState(true);
+  const [gridDisplay, setGridDisplay] = useState('circular'); // 'circular', 'square', 'none'
   const [showLabels, setShowLabels] = useState(true);
   const [showAxes, setShowAxes] = useState(false);
   const [lineMode, setLineMode] = useState('connections');
   const [spectralFilter, setSpectralFilter] = useState({
     O: true, B: true, A: true, F: true, G: true, K: true, M: true, L: true, T: true, Y: true, D: true
   });
+  const [isMobile, setIsMobile] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Detect mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+      if (window.innerWidth > 768) {
+        setIsOpen(true); // Always open on desktop
+      }
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleToggleGrid = () => {
     const newMode = gridMode === 'square' ? 'circular' : 'square';
@@ -76,22 +93,65 @@ const Sidebar = ({
 
   const viewDistances = [8, 12, 16, 20];
 
+  // Don't render sidebar on mobile if closed
+  const shouldShowSidebar = !isMobile || isOpen;
+
   return (
-    <div style={{
-      position: 'fixed',
-      top: '16px',
-      left: '16px',
-      backgroundColor: 'rgba(17, 24, 39, 0.9)',
-      backdropFilter: 'blur(8px)',
-      border: '1px solid rgba(55, 65, 81, 1)',
-      borderRadius: '8px',
-      padding: '16px',
-      color: 'white',
-      fontFamily: 'monospace',
-      fontSize: '14px',
-      zIndex: 9999,
-      minWidth: '200px'
-    }}>
+    <>
+      {/* Mobile Toggle Button */}
+      {isMobile && (
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          style={{
+            position: 'fixed',
+            top: '16px',
+            right: '16px',
+            width: '48px',
+            height: '48px',
+            backgroundColor: 'rgba(17, 24, 39, 0.9)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(55, 65, 81, 1)',
+            borderRadius: '8px',
+            color: 'white',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '24px',
+            zIndex: 10000,
+            transition: 'background-color 0.2s'
+          }}
+          onMouseDown={(e) => e.target.style.backgroundColor = 'rgba(55, 65, 81, 1)'}
+          onMouseUp={(e) => e.target.style.backgroundColor = 'rgba(17, 24, 39, 0.9)'}
+          onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(17, 24, 39, 0.9)'}
+        >
+          {isOpen ? '✕' : '⚙'}
+        </button>
+      )}
+
+      {/* Sidebar */}
+      {shouldShowSidebar && (
+        <div style={{
+          position: 'fixed',
+          top: isMobile ? '0' : '16px',
+          left: isMobile ? '0' : '16px',
+          right: isMobile ? '0' : 'auto',
+          bottom: isMobile ? '0' : 'auto',
+          width: isMobile ? '100%' : 'auto',
+          maxWidth: isMobile ? '100%' : '280px',
+          backgroundColor: 'rgba(17, 24, 39, 0.95)',
+          backdropFilter: 'blur(8px)',
+          border: isMobile ? 'none' : '1px solid rgba(55, 65, 81, 1)',
+          borderRadius: isMobile ? '0' : '8px',
+          padding: isMobile ? '20px' : '16px',
+          color: 'white',
+          fontFamily: 'monospace',
+          fontSize: '14px',
+          zIndex: 9999,
+          maxHeight: isMobile ? '100vh' : 'calc(100vh - 32px)',
+          overflowY: 'auto',
+          boxSizing: 'border-box'
+        }}>
       <h2 style={{ 
         fontSize: '18px', 
         fontWeight: 'bold', 
@@ -101,27 +161,7 @@ const Sidebar = ({
         Controls
       </h2>
       
-      <div style={{ marginBottom: '16px' }}>
-        <button
-          onClick={handleToggleGrid}
-          style={{
-            width: '100%',
-            padding: '8px 16px',
-            backgroundColor: '#2563eb',
-            border: 'none',
-            borderRadius: '4px',
-            color: 'white',
-            cursor: 'pointer',
-            textAlign: 'left',
-            transition: 'background-color 0.2s'
-          }}
-          onMouseEnter={(e) => e.target.style.backgroundColor = '#1d4ed8'}
-          onMouseLeave={(e) => e.target.style.backgroundColor = '#2563eb'}
-        >
-          Grid: {gridMode === 'square' ? 'Square' : 'Radial'}
-        </button>
-      </div>
-
+      {/* View Distance - Now at the top */}
       <div style={{ marginBottom: '16px' }}>
         <div style={{ 
           marginBottom: '8px',
@@ -161,6 +201,89 @@ const Sidebar = ({
             </button>
           ))}
         </div>
+      </div>
+
+      {/* Grid Display Radio Group */}
+      <div style={{ marginBottom: '16px', paddingTop: '8px', borderTop: '1px solid rgba(55, 65, 81, 1)' }}>
+        <div style={{ 
+          marginBottom: '8px',
+          color: '#9ca3af',
+          fontSize: '12px',
+          fontWeight: 'bold'
+        }}>
+          Grid Display
+        </div>
+        
+        <label style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          cursor: 'pointer',
+          userSelect: 'none',
+          marginBottom: '6px'
+        }}>
+          <input
+            type="radio"
+            name="gridDisplay"
+            value="circular"
+            checked={gridDisplay === 'circular'}
+            onChange={(e) => handleGridDisplayChange(e.target.value)}
+            style={{
+              marginRight: '8px',
+              cursor: 'pointer',
+              width: '16px',
+              height: '16px',
+              accentColor: '#2563eb'
+            }}
+          />
+          <span>Show Radial</span>
+        </label>
+
+        <label style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          cursor: 'pointer',
+          userSelect: 'none',
+          marginBottom: '6px'
+        }}>
+          <input
+            type="radio"
+            name="gridDisplay"
+            value="square"
+            checked={gridDisplay === 'square'}
+            onChange={(e) => handleGridDisplayChange(e.target.value)}
+            style={{
+              marginRight: '8px',
+              cursor: 'pointer',
+              width: '16px',
+              height: '16px',
+              accentColor: '#2563eb'
+            }}
+          />
+          <span>Show Square</span>
+        </label>
+
+        <label style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          cursor: 'pointer',
+          userSelect: 'none'
+        }}>
+          <input
+            type="radio"
+            name="gridDisplay"
+            value="none"
+            checked={gridDisplay === 'none'}
+            onChange={(e) => handleGridDisplayChange(e.target.value)}
+            style={{
+              marginRight: '8px',
+              cursor: 'pointer',
+              width: '16px',
+              height: '16px',
+              accentColor: '#2563eb'
+            }}
+          />
+          <span>Hide Grid</span>
+        </label>
       </div>
 
       {/* Line Mode Radio Group */}
@@ -310,28 +433,6 @@ const Sidebar = ({
           }}>
             <input
               type="checkbox"
-              checked={showGrid}
-              onChange={handleToggleGridVisibility}
-              style={{
-                marginRight: '8px',
-                cursor: 'pointer',
-                width: '16px',
-                height: '16px'
-              }}
-            />
-            <span>Show Grid</span>
-          </label>
-        </div>
-
-        <div style={{ marginBottom: '8px' }}>
-          <label style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            cursor: 'pointer',
-            userSelect: 'none'
-          }}>
-            <input
-              type="checkbox"
               checked={showLabels}
               onChange={handleToggleLabelsVisibility}
               style={{
@@ -368,6 +469,8 @@ const Sidebar = ({
         </div>
       </div>
     </div>
+      )}
+    </>
   );
 };
 
