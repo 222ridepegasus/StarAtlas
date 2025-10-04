@@ -620,10 +620,6 @@ const Starfield = () => {
 
   const handleToggleGrid = (mode) => {
     setGridMode(mode);
-    if (squareGridRef.current && circularGridRef.current) {
-      squareGridRef.current.visible = showGrid && mode === 'square';
-      circularGridRef.current.visible = showGrid && mode === 'circular';
-    }
   };
 
   const handleViewDistanceChange = (distance) => {
@@ -632,13 +628,15 @@ const Starfield = () => {
 
   const handleToggleGridVisibility = (visible) => {
     setShowGrid(visible);
-    if (squareGridRef.current) {
-      squareGridRef.current.visible = visible && gridMode === 'square';
-    }
-    if (circularGridRef.current) {
-      circularGridRef.current.visible = visible && gridMode === 'circular';
-    }
   };
+
+  // Sync grid visibility when gridMode or showGrid changes
+  useEffect(() => {
+    if (squareGridRef.current && circularGridRef.current) {
+      squareGridRef.current.visible = showGrid && gridMode === 'square';
+      circularGridRef.current.visible = showGrid && gridMode === 'circular';
+    }
+  }, [gridMode, showGrid]);
 
   const handleToggleLabelsVisibility = (visible) => {
     setShowLabels(visible);

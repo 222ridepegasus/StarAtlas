@@ -24,10 +24,8 @@ const Sidebar = ({
   onLineModeChange,
   onSpectralFilterChange 
 }) => {
-  const [gridMode, setGridMode] = useState('circular');
   const [viewDistance, setViewDistance] = useState(20);
-  const [showGrid, setShowGrid] = useState(true);
-  const [gridDisplay, setGridDisplay] = useState('circular'); // 'circular', 'square', 'none'
+  const [gridDisplay, setGridDisplay] = useState('circular');
   const [showLabels, setShowLabels] = useState(true);
   const [showAxes, setShowAxes] = useState(false);
   const [lineMode, setLineMode] = useState('connections');
@@ -37,12 +35,11 @@ const Sidebar = ({
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Detect mobile on mount and resize
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
       if (window.innerWidth > 768) {
-        setIsOpen(true); // Always open on desktop
+        setIsOpen(true);
       }
     };
     
@@ -51,21 +48,20 @@ const Sidebar = ({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const handleToggleGrid = () => {
-    const newMode = gridMode === 'square' ? 'circular' : 'square';
-    setGridMode(newMode);
-    onToggleGrid(newMode);
-  };
-
   const handleViewDistanceChange = (distance) => {
     setViewDistance(distance);
     onViewDistanceChange(distance);
   };
 
-  const handleToggleGridVisibility = () => {
-    const newValue = !showGrid;
-    setShowGrid(newValue);
-    onToggleGridVisibility(newValue);
+  const handleGridDisplayChange = (mode) => {
+    setGridDisplay(mode);
+    if (mode === 'none') {
+      onToggleGridVisibility(false);
+    } else {
+      // Call both synchronously - Starfield will handle the state updates
+      onToggleGrid(mode);
+      onToggleGridVisibility(true);
+    }
   };
 
   const handleToggleLabelsVisibility = () => {
@@ -92,13 +88,10 @@ const Sidebar = ({
   };
 
   const viewDistances = [8, 12, 16, 20];
-
-  // Don't render sidebar on mobile if closed
   const shouldShowSidebar = !isMobile || isOpen;
 
   return (
     <>
-      {/* Mobile Toggle Button */}
       {isMobile && (
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -117,7 +110,7 @@ const Sidebar = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '24px',
+            fontSize: isOpen ? '24px' : '28px',
             zIndex: 10000,
             transition: 'background-color 0.2s'
           }}
@@ -129,7 +122,6 @@ const Sidebar = ({
         </button>
       )}
 
-      {/* Sidebar */}
       {shouldShowSidebar && (
         <div style={{
           position: 'fixed',
@@ -161,7 +153,6 @@ const Sidebar = ({
         Controls
       </h2>
       
-      {/* View Distance - Now at the top */}
       <div style={{ marginBottom: '16px' }}>
         <div style={{ 
           marginBottom: '8px',
@@ -203,7 +194,6 @@ const Sidebar = ({
         </div>
       </div>
 
-      {/* Grid Display Radio Group */}
       <div style={{ marginBottom: '16px', paddingTop: '8px', borderTop: '1px solid rgba(55, 65, 81, 1)' }}>
         <div style={{ 
           marginBottom: '8px',
@@ -286,7 +276,6 @@ const Sidebar = ({
         </label>
       </div>
 
-      {/* Line Mode Radio Group */}
       <div style={{ marginBottom: '16px', paddingTop: '8px', borderTop: '1px solid rgba(55, 65, 81, 1)' }}>
         <div style={{ 
           marginBottom: '8px',
@@ -369,7 +358,6 @@ const Sidebar = ({
         </label>
       </div>
 
-      {/* Spectral Class Filter */}
       <div style={{ paddingTop: '8px', borderTop: '1px solid rgba(55, 65, 81, 1)' }}>
         <div style={{ 
           marginBottom: '8px',
