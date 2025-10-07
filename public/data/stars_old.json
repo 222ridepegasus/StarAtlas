@@ -1,0 +1,874 @@
+[
+  {
+    "name": "Sol",
+    "distance_ly": 0,
+    "ra": "00h00m00s",
+    "dec": "+00°00′00″",
+    "components": [
+      { "name": "Sol", "spectral_type": "G2V" }
+    ]
+  },
+  {
+    "name": "Alpha Centauri",
+    "distance_ly": 4.37,
+    "ra": "14h39m36s",
+    "dec": "−60°50′02″",
+    "components": [
+      { "name": "Alpha Centauri A", "spectral_type": "G2V" },
+      { "name": "Alpha Centauri B", "spectral_type": "K1V" },
+      { "name": "Proxima Centauri", "spectral_type": "M5.5V" }
+    ]
+  },
+  {
+    "name": "Barnard's Star",
+    "distance_ly": 5.958,
+    "ra": "17h57m49s",
+    "dec": "+04°41′36″",
+    "components": [
+      { "name": "Barnard's Star", "spectral_type": "M4V" }
+    ]
+  },
+  {
+    "name": "Luhman 16",
+    "distance_ly": 6.50,
+    "ra": "10h49m18s",
+    "dec": "−53°19′10″",
+    "components": [
+      { "name": "Luhman 16 A", "spectral_type": "L8" },
+      { "name": "Luhman 16 B", "spectral_type": "T1" }
+    ]
+  },
+  {
+    "name": "WISE 0855-0714",
+    "distance_ly": 7.43,
+    "ra": "08h55m10s",
+    "dec": "−07°14′43″",
+    "components": [
+      { "name": "WISE 0855-0714", "spectral_type": "Y" }
+    ]
+  },
+  {
+    "name": "Wolf 359",
+    "distance_ly": 7.86,
+    "ra": "10h56m29s",
+    "dec": "+07°00′53″",
+    "components": [
+      { "name": "Wolf 359", "spectral_type": "M6V" }
+    ]
+  },
+  {
+    "name": "Lalande 21185",
+    "distance_ly": 8.31,
+    "ra": "11h03m20s",
+    "dec": "+35°58′12″",
+    "components": [
+      { "name": "Lalande 21185", "spectral_type": "M2V" }
+    ]
+  },
+  {
+    "name": "Sirius",
+    "distance_ly": 8.66,
+    "ra": "06h45m09s",
+    "dec": "−16°42′58″",
+    "components": [
+      { "name": "Sirius A", "spectral_type": "A1V" },
+      { "name": "Sirius B", "spectral_type": "DA2" }
+    ]
+  },
+  {
+    "name": "UV Ceti",
+    "distance_ly": 8.79,
+    "ra": "01h39m01s",
+    "dec": "−23°50′10″",
+    "components": [
+      { "name": "UV Ceti A", "spectral_type": "M5.5V" },
+      { "name": "UV Ceti B", "spectral_type": "M6V" }
+    ]
+  },
+  {
+    "name": "Ross 154",
+    "distance_ly": 9.70,
+    "ra": "18h49m49s",
+    "dec": "−23°50′10″",
+    "components": [
+      { "name": "Ross 154", "spectral_type": "M3.5V" }
+    ]
+  },
+  {
+    "name": "Ross 248",
+    "distance_ly": 10.29,
+    "ra": "23h41m55s",
+    "dec": "+44°10′30″",
+    "components": [
+      { "name": "Ross 248", "spectral_type": "M5.5V" }
+    ]
+  },
+  {
+    "name": "Epsilon Eridani",
+    "distance_ly": 10.50,
+    "ra": "03h32m56s",
+    "dec": "−09°27′30″",
+    "components": [
+      { "name": "Epsilon Eridani", "spectral_type": "K2V" }
+    ]
+  },
+  {
+    "name": "Lacaille 9352",
+    "distance_ly": 10.69,
+    "ra": "23h05m52s",
+    "dec": "−35°51′11″",
+    "components": [
+      { "name": "Lacaille 9352", "spectral_type": "M0.5V" }
+    ]
+  },
+  {
+    "name": "Ross 128",
+    "distance_ly": 11.01,
+    "ra": "11h47m44s",
+    "dec": "+00°48′16″",
+    "components": [
+      { "name": "Ross 128", "spectral_type": "M4V" }
+    ]
+  },
+  {
+    "name": "EZ Aquarii",
+    "distance_ly": 11.27,
+    "ra": "22h38m33s",
+    "dec": "−15°17′57″",
+    "components": [
+      { "name": "EZ Aquarii A", "spectral_type": "M5V" },
+      { "name": "EZ Aquarii B", "spectral_type": "M5.5V" },
+      { "name": "EZ Aquarii C", "spectral_type": "M6V" }
+    ]
+  },
+  {
+    "name": "Procyon",
+    "distance_ly": 11.46,
+    "ra": "07h39m18s",
+    "dec": "+05°13′30″",
+    "components": [
+      { "name": "Procyon A", "spectral_type": "F5IV-V" },
+      { "name": "Procyon B", "spectral_type": "DQZ" }
+    ]
+  },
+  {
+    "name": "61 Cygni",
+    "distance_ly": 11.41,
+    "ra": "21h06m54s",
+    "dec": "+38°44′58″",
+    "components": [
+      { "name": "61 Cygni A", "spectral_type": "K5V" },
+      { "name": "61 Cygni B", "spectral_type": "K7V" }
+    ]
+  },
+  {
+    "name": "Struve 2398",
+    "distance_ly": 11.53,
+    "ra": "18h42m47s",
+    "dec": "+59°37′49″",
+    "components": [
+      { "name": "Struve 2398 A", "spectral_type": "M3V" },
+      { "name": "Struve 2398 B", "spectral_type": "M3.5V" }
+    ]
+  },
+  {
+    "name": "Groombridge 34",
+    "distance_ly": 11.64,
+    "ra": "00h18m23s",
+    "dec": "+44°01′23″",
+    "components": [
+      { "name": "Groombridge 34 A", "spectral_type": "M1.5V" },
+      { "name": "Groombridge 34 B", "spectral_type": "M3.5V" }
+    ]
+  },
+  {
+    "name": "Epsilon Indi",
+    "distance_ly": 11.87,
+    "ra": "22h03m21s",
+    "dec": "−56°47′10″",
+    "components": [
+      { "name": "Epsilon Indi A", "spectral_type": "K5V" },
+      { "name": "Epsilon Indi Ba", "spectral_type": "T1V" },
+      { "name": "Epsilon Indi Bb", "spectral_type": "T6V" }
+    ]
+  },
+  {
+    "name": "Tau Ceti",
+    "distance_ly": 11.91,
+    "ra": "01h44m04s",
+    "dec": "−15°56′15″",
+    "components": [
+      { "name": "Tau Ceti", "spectral_type": "G8V" }
+    ]
+  },
+  {
+    "name": "GJ 1061",
+    "distance_ly": 12.04,
+    "ra": "03h35m59s",
+    "dec": "−44°30′45″",
+    "components": [
+      { "name": "GJ 1061", "spectral_type": "M5.5V" }
+    ]
+  },
+  {
+    "name": "YZ Ceti",
+    "distance_ly": 12.13,
+    "ra": "01h12m31s",
+    "dec": "−16°59′56″",
+    "components": [
+      { "name": "YZ Ceti", "spectral_type": "M4.5V" }
+    ]
+  },
+  {
+    "name": "Luyten's Star",
+    "distance_ly": 12.37,
+    "ra": "07h27m24s",
+    "dec": "+05°13′33″",
+    "components": [
+      { "name": "Luyten's Star", "spectral_type": "M3.5V" }
+    ]
+  },
+  {
+    "name": "Teegarden's Star",
+    "distance_ly": 12.58,
+    "ra": "02h53m01s",
+    "dec": "+16°52′53″",
+    "components": [
+      { "name": "Teegarden's Star", "spectral_type": "M6.5V" }
+    ]
+  },
+  {
+    "name": "Kapteyn's Star",
+    "distance_ly": 12.83,
+    "ra": "05h11m41s",
+    "dec": "−45°01′06″",
+    "components": [
+      { "name": "Kapteyn's Star", "spectral_type": "M1V" }
+    ]
+  },
+  {
+    "name": "SCR J1845-6357",
+    "distance_ly": 12.57,
+    "ra": "18h45m05s",
+    "dec": "−63°57′48″",
+    "components": [
+      { "name": "SCR J1845-6357 A", "spectral_type": "M8.5V" },
+      { "name": "SCR J1845-6357 B", "spectral_type": "T6" }
+    ]
+  },
+  {
+    "name": "Lacaille 8760",
+    "distance_ly": 12.87,
+    "ra": "21h17m15s",
+    "dec": "−38°52′03″",
+    "components": [
+      { "name": "Lacaille 8760", "spectral_type": "M0V" }
+    ]
+  },
+  {
+    "name": "Kruger 60",
+    "distance_ly": 13.15,
+    "ra": "22h27m59s",
+    "dec": "+57°41′45″",
+    "components": [
+      { "name": "Kruger 60 A", "spectral_type": "M3V" },
+      { "name": "Kruger 60 B", "spectral_type": "M4V" }
+    ]
+  },
+  {
+    "name": "DEN 1048-3956",
+    "distance_ly": 13.17,
+    "ra": "10h48m14s",
+    "dec": "−39°56′06″",
+    "components": [
+      { "name": "DEN 1048-3956", "spectral_type": "M8.5V" }
+    ]
+  },
+  {
+    "name": "Ross 614",
+    "distance_ly": 13.35,
+    "ra": "06h29m23s",
+    "dec": "−02°48′50″",
+    "components": [
+      { "name": "Ross 614 A", "spectral_type": "M4.5V" },
+      { "name": "Ross 614 B", "spectral_type": "M5.5V" }
+    ]
+  },
+  {
+    "name": "UGPS J0722-05",
+    "distance_ly": 13.43,
+    "ra": "07h22m27s",
+    "dec": "−05°40′30″",
+    "components": [
+      { "name": "UGPS J0722-05", "spectral_type": "T9" }
+    ]
+  },
+  {
+    "name": "Wolf 1061",
+    "distance_ly": 14.05,
+    "ra": "16h30m18s",
+    "dec": "−12°39′45″",
+    "components": [
+      { "name": "Wolf 1061", "spectral_type": "M3V" }
+    ]
+  },
+  {
+    "name": "Van Maanen's Star",
+    "distance_ly": 14.07,
+    "ra": "00h49m10s",
+    "dec": "+05°23′19″",
+    "components": [
+      { "name": "Van Maanen's Star", "spectral_type": "DZ8" }
+    ]
+  },
+  {
+    "name": "GJ 1",
+    "distance_ly": 14.25,
+    "ra": "00h05m24s",
+    "dec": "−37°21′27″",
+    "components": [
+      { "name": "GJ 1", "spectral_type": "M1.5V" }
+    ]
+  },
+  {
+    "name": "GJ 1005",
+    "distance_ly": 14.73,
+    "ra": "00h15m28s",
+    "dec": "+13°03′08″",
+    "components": [
+      { "name": "GJ 1005 A", "spectral_type": "M4V" },
+      { "name": "GJ 1005 B", "spectral_type": "M5V" }
+    ]
+  },
+  {
+    "name": "GJ 687",
+    "distance_ly": 14.84,
+    "ra": "17h36m26s",
+    "dec": "+68°20′21″",
+    "components": [
+      { "name": "GJ 687", "spectral_type": "M3V" }
+    ]
+  },
+  {
+    "name": "GJ 674",
+    "distance_ly": 14.84,
+    "ra": "17h28m40s",
+    "dec": "−46°53′43″",
+    "components": [
+      { "name": "GJ 674", "spectral_type": "M2.5V" }
+    ]
+  },
+  {
+    "name": "LP 731-58",
+    "distance_ly": 14.96,
+    "ra": "10h48m13s",
+    "dec": "+09°01′15″",
+    "components": [
+      { "name": "LP 731-58", "spectral_type": "M5.5V" }
+    ]
+  },
+  {
+    "name": "GJ 1245",
+    "distance_ly": 15.20,
+    "ra": "19h53m54s",
+    "dec": "+44°24′55″",
+    "components": [
+      { "name": "GJ 1245 A", "spectral_type": "M5.5V" },
+      { "name": "GJ 1245 B", "spectral_type": "M6V" },
+      { "name": "GJ 1245 C", "spectral_type": "M6V" }
+    ]
+  },
+  {
+    "name": "GJ 876",
+    "distance_ly": 15.34,
+    "ra": "22h53m17s",
+    "dec": "−14°15′49″",
+    "components": [
+      { "name": "GJ 876", "spectral_type": "M4V" }
+    ]
+  },
+  {
+    "name": "GJ 1002",
+    "distance_ly": 15.81,
+    "ra": "00h06m43s",
+    "dec": "−07°32′22″",
+    "components": [
+      { "name": "GJ 1002", "spectral_type": "M5.5V" }
+    ]
+  },
+  {
+    "name": "GJ 412",
+    "distance_ly": 16.10,
+    "ra": "11h05m30s",
+    "dec": "+43°31′36″",
+    "components": [
+      { "name": "GJ 412 A", "spectral_type": "M1V" },
+      { "name": "GJ 412 B", "spectral_type": "M5.5V" }
+    ]
+  },
+  {
+    "name": "GJ 832",
+    "distance_ly": 16.16,
+    "ra": "21h33m34s",
+    "dec": "−49°00′32″",
+    "components": [
+      { "name": "GJ 832", "spectral_type": "M1.5V" }
+    ]
+  },
+  {
+    "name": "GJ 682",
+    "distance_ly": 16.33,
+    "ra": "17h37m04s",
+    "dec": "−44°19′09″",
+    "components": [
+      { "name": "GJ 682", "spectral_type": "M4V" }
+    ]
+  },
+  {
+    "name": "40 Eridani",
+    "distance_ly": 16.45,
+    "ra": "04h15m16s",
+    "dec": "−07°39′10″",
+    "components": [
+      { "name": "40 Eridani A", "spectral_type": "K1V" },
+      { "name": "40 Eridani B", "spectral_type": "DA4" },
+      { "name": "40 Eridani C", "spectral_type": "M4.5V" }
+    ]
+  },
+  {
+    "name": "70 Ophiuchi",
+    "distance_ly": 16.58,
+    "ra": "18h05m27s",
+    "dec": "+02°29′59″",
+    "components": [
+      { "name": "70 Ophiuchi A", "spectral_type": "K0V" },
+      { "name": "70 Ophiuchi B", "spectral_type": "K4V" }
+    ]
+  },
+  {
+    "name": "Altair",
+    "distance_ly": 16.73,
+    "ra": "19h50m47s",
+    "dec": "+08°52′06″",
+    "components": [
+      { "name": "Altair", "spectral_type": "A7V" }
+    ]
+  },
+  {
+    "name": "GJ 445",
+    "distance_ly": 17.17,
+    "ra": "11h47m41s",
+    "dec": "+78°41′28″",
+    "components": [
+      { "name": "GJ 445", "spectral_type": "M4V" }
+    ]
+  },
+
+  {
+    "name": "Stein 2051",
+    "distance_ly": 17.99,
+    "ra": "04h31m12s",
+    "dec": "+58°58′37″",
+    "components": [
+      { "name": "Stein 2051 A", "spectral_type": "M4V" },
+      { "name": "Stein 2051 B", "spectral_type": "DC5" }
+    ]
+  },
+  {
+    "name": "HIP 57050",
+    "distance_ly": 18.57,
+    "ra": "11h41m03s",
+    "dec": "+33°16′05″",
+    "components": [
+      { "name": "HIP 57050", "spectral_type": "M2V" }
+    ]
+  },
+  {
+    "name": "GJ 205",
+    "distance_ly": 18.63,
+    "ra": "05h31m27s",
+    "dec": "−03°40′38″",
+    "components": [
+      { "name": "GJ 205", "spectral_type": "M1.5V" }
+    ]
+  },
+  {
+    "name": "GJ 251",
+    "distance_ly": 18.82,
+    "ra": "06h54m49s",
+    "dec": "−16°58′29″",
+    "components": [
+      { "name": "GJ 251", "spectral_type": "M3V" }
+    ]
+  },
+  {
+    "name": "GJ 229",
+    "distance_ly": 19.00,
+    "ra": "06h10m34s",
+    "dec": "−21°51′53″",
+    "components": [
+      { "name": "GJ 229 A", "spectral_type": "M1V" },
+      { "name": "GJ 229 B", "spectral_type": "T6V" }
+    ]
+  },
+  {
+    "name": "36 Ophiuchi",
+    "distance_ly": 19.47,
+    "ra": "17h15m21s",
+    "dec": "−26°36′09″",
+    "components": [
+      { "name": "36 Ophiuchi A", "spectral_type": "K1V" },
+      { "name": "36 Ophiuchi B", "spectral_type": "K1V" },
+      { "name": "36 Ophiuchi C", "spectral_type": "K5V" }
+    ]
+  },
+  {
+    "name": "WISE J174102.78-464225.5",
+    "distance_ly": 19.50,
+    "ra": "17h41m03s",
+    "dec": "−46°42′26″",
+    "components": [
+      { "name": "WISE J1741-4642", "spectral_type": "Y0" }
+    ]
+  },
+  {
+    "name": "82 Eridani",
+    "distance_ly": 19.71,
+    "ra": "03h19m56s",
+    "dec": "−43°04′11″",
+    "components": [
+      { "name": "82 Eridani", "spectral_type": "G8V" }
+    ]
+  },
+  {
+    "name": "Delta Pavonis",
+    "distance_ly": 19.92,
+    "ra": "20h08m43s",
+    "dec": "−66°10′55″",
+    "components": [
+      { "name": "Delta Pavonis", "spectral_type": "G8V" }
+    ]
+  },
+  {
+    "name": "2MASS J09393548-2448279",
+    "distance_ly": 19.50,
+    "ra": "09h39m35s",
+    "dec": "−24°48′28″",
+    "components": [
+      { "name": "2MASS J0939-2448", "spectral_type": "T8" }
+    ]
+  },
+  {
+    "name": "Wolf 562",
+    "distance_ly": 20.55,
+    "ra": "15h19m27s",
+    "dec": "−07°43′20″",
+    "components": [
+      { "name": "Wolf 562", "spectral_type": "M3V" }
+    ]
+  },
+  {
+    "name": "Eta Cassiopeiae",
+    "distance_ly": 19.33,
+    "ra": "00h49m06s",
+    "dec": "+57°48′55″",
+    "components": [
+      { "name": "Eta Cassiopeiae A", "spectral_type": "G3V" },
+      { "name": "Eta Cassiopeiae B", "spectral_type": "K7V" }
+    ]
+  },
+  {
+    "name": "36 Ophiuchi",
+    "distance_ly": 19.47,
+    "ra": "17h15m21s",
+    "dec": "−26°36′09″",
+    "components": [
+      { "name": "36 Ophiuchi A", "spectral_type": "K1V" },
+      { "name": "36 Ophiuchi B", "spectral_type": "K1V" },
+      { "name": "36 Ophiuchi C", "spectral_type": "K5V" }
+    ]
+  },
+  {
+    "name": "82 Eridani",
+    "distance_ly": 19.71,
+    "ra": "03h19m56s",
+    "dec": "−43°04′11″",
+    "components": [
+      { "name": "82 Eridani", "spectral_type": "G8V" }
+    ]
+  },
+  {
+    "name": "Sigma Draconis",
+    "distance_ly": 18.80,
+    "ra": "19h32m22s",
+    "dec": "+69°39′40″",
+    "components": [
+      { "name": "Sigma Draconis", "spectral_type": "G9V" }
+    ]
+  },
+  {
+    "name": "EQ Pegasi",
+    "distance_ly": 20.43,
+    "ra": "23h31m52s",
+    "dec": "+19°56′14″",
+    "components": [
+      { "name": "EQ Pegasi A", "spectral_type": "M3.5V" },
+      { "name": "EQ Pegasi B", "spectral_type": "M4.5V" }
+    ]
+  },
+  {
+    "name": "Ksi Bootis",
+    "distance_ly": 22.01,
+    "ra": "14h51m23s",
+    "dec": "+19°06′02″",
+    "components": [
+      { "name": "Ksi Bootis A", "spectral_type": "G7V" },
+      { "name": "Ksi Bootis B", "spectral_type": "K5V" }
+    ]
+  },
+  {
+    "name": "HD 219134",
+    "distance_ly": 21.34,
+    "ra": "23h13m17s",
+    "dec": "+57°10′06″",
+    "components": [
+      { "name": "HD 219134", "spectral_type": "K3V" }
+    ]
+  },
+  {
+    "name": "107 Piscium",
+    "distance_ly": 24.93,
+    "ra": "01h42m30s",
+    "dec": "+20°16′07″",
+    "components": [
+      { "name": "107 Piscium", "spectral_type": "K1V" }
+    ]
+  },
+  {
+    "name": "Mu Cassiopeiae",
+    "distance_ly": 25.03,
+    "ra": "01h08m16s",
+    "dec": "+54°55′13″",
+    "components": [
+      { "name": "Mu Cassiopeiae A", "spectral_type": "G5V" },
+      { "name": "Mu Cassiopeiae B", "spectral_type": "M" }
+    ]
+  },
+  {
+    "name": "Beta Hydri",
+    "distance_ly": 24.33,
+    "ra": "00h25m45s",
+    "dec": "−77°15′15″",
+    "components": [
+      { "name": "Beta Hydri", "spectral_type": "G2V" }
+    ]
+  },
+  {
+    "name": "Wolf 25",
+    "distance_ly": 24.25,
+    "ra": "00h48m23s",
+    "dec": "+05°16′50″",
+    "components": [
+      { "name": "Wolf 25", "spectral_type": "K2.5V" }
+    ]
+  },
+  {
+    "name": "Fomalhaut",
+    "distance_ly": 25.13,
+    "ra": "22h57m39s",
+    "dec": "−29°37′20″",
+    "components": [
+      { "name": "Fomalhaut A", "spectral_type": "A3V" },
+      { "name": "Fomalhaut B", "spectral_type": "K4V" },
+      { "name": "Fomalhaut C", "spectral_type": "M4V" }
+    ]
+  },
+  {
+    "name": "Vega",
+    "distance_ly": 25.05,
+    "ra": "18h36m56s",
+    "dec": "+38°47′01″",
+    "components": [
+      { "name": "Vega", "spectral_type": "A0V" }
+    ]
+  },
+  {
+    "name": "Ross 490",
+    "distance_ly": 24.88,
+    "ra": "13h29m60s",
+    "dec": "+10°22′38″",
+    "components": [
+      { "name": "Ross 490", "spectral_type": "M1V" }
+    ]
+  },
+  {
+    "name": "Wolf 294",
+    "distance_ly": 18.22,
+    "ra": "06h54m49s",
+    "dec": "+33°16′05″",
+    "components": [
+      { "name": "Wolf 294", "spectral_type": "M3V" }
+    ]
+  },
+  {
+    "name": "Groombridge 1618",
+    "distance_ly": 15.89,
+    "ra": "10h11m22s",
+    "dec": "+49°27′15″",
+    "components": [
+      { "name": "Groombridge 1618", "spectral_type": "K7V" }
+    ]
+  },
+  {
+    "name": "HD 16160",
+    "distance_ly": 23.56,
+    "ra": "02h36m05s",
+    "dec": "+06°53′13″",
+    "components": [
+      { "name": "HD 16160 A", "spectral_type": "K3V" },
+      { "name": "HD 16160 B", "spectral_type": "M6V" },
+      { "name": "HD 16160 C", "spectral_type": "M3.5V" }
+    ]
+  },
+  {
+    "name": "AD Leonis",
+    "distance_ly": 16.19,
+    "ra": "10h19m36s",
+    "dec": "+19°52′12″",
+    "components": [
+      { "name": "AD Leonis", "spectral_type": "M2.5V" }
+    ]
+  },
+  {
+    "name": "Ross 104",
+    "distance_ly": 22.01,
+    "ra": "11h00m04s",
+    "dec": "+22°49′59″",
+    "components": [
+      { "name": "Ross 104", "spectral_type": "M4V" }
+    ]
+  },
+  {
+    "name": "Ross 619",
+    "distance_ly": 22.08,
+    "ra": "08h11m58s",
+    "dec": "+08°46′22″",
+    "components": [
+      { "name": "Ross 619", "spectral_type": "M4.5V" }
+    ]
+  },
+  {
+    "name": "Ross 775",
+    "distance_ly": 22.11,
+    "ra": "21h29m37s",
+    "dec": "+17°38′36″",
+    "components": [
+      { "name": "Ross 775 A", "spectral_type": "M3V" },
+      { "name": "Ross 775 B", "spectral_type": "M" }
+    ]
+  },
+  {
+    "name": "Wolf 1055",
+    "distance_ly": 19.29,
+    "ra": "19h16m55s",
+    "dec": "+05°10′08″",
+    "components": [
+      { "name": "Wolf 1055 A", "spectral_type": "M2.5V" },
+      { "name": "Wolf 1055 B", "spectral_type": "M8V" }
+    ]
+  },
+  {
+    "name": "Lalande 27173",
+    "distance_ly": 19.20,
+    "ra": "14h57m28s",
+    "dec": "−21°24′56″",
+    "components": [
+      { "name": "Lalande 27173 A", "spectral_type": "K4V" },
+      { "name": "Lalande 27173 B", "spectral_type": "M1.5V" },
+      { "name": "Lalande 27173 C", "spectral_type": "M" }
+    ]
+  },
+  {
+    "name": "Wolf 630",
+    "distance_ly": 21.18,
+    "ra": "16h55m29s",
+    "dec": "−08°20′10″",
+    "components": [
+      { "name": "Wolf 630 A", "spectral_type": "M3.5V" },
+      { "name": "Wolf 630 B", "spectral_type": "M" },
+      { "name": "Wolf 630 C", "spectral_type": "M7V" }
+    ]
+  },
+  {
+    "name": "Ross 671",
+    "distance_ly": 22.40,
+    "ra": "22h56m35s",
+    "dec": "+16°33′12″",
+    "components": [
+      { "name": "Ross 671", "spectral_type": "M1.5V" }
+    ]
+  },
+  {
+    "name": "Ross 882",
+    "distance_ly": 19.53,
+    "ra": "07h44m40s",
+    "dec": "+03°33′09″",
+    "components": [
+      { "name": "Ross 882", "spectral_type": "M4V" }
+    ]
+  },
+  {
+    "name": "Wolf 358",
+    "distance_ly": 22.72,
+    "ra": "10h50m52s",
+    "dec": "+06°48′29″",
+    "components": [
+      { "name": "Wolf 358", "spectral_type": "M4V" }
+    ]
+  },
+  {
+    "name": "Ross 446",
+    "distance_ly": 22.95,
+    "ra": "10h28m55s",
+    "dec": "+00°50′28″",
+    "components": [
+      { "name": "Ross 446", "spectral_type": "M2V" }
+    ]
+  },
+  {
+    "name": "HD 199305",
+    "distance_ly": 22.96,
+    "ra": "20h53m20s",
+    "dec": "+62°09′16″",
+    "components": [
+      { "name": "HD 199305", "spectral_type": "M1V" }
+    ]
+  },
+  {
+    "name": "AN Sextantis",
+    "distance_ly": 25.14,
+    "ra": "10h12m18s",
+    "dec": "−03°44′44″",
+    "components": [
+      { "name": "AN Sextantis", "spectral_type": "M2V" }
+    ]
+  },
+  {
+    "name": "Ross 556",
+    "distance_ly": 25.05,
+    "ra": "02h44m15s",
+    "dec": "+25°31′24″",
+    "components": [
+      { "name": "Ross 556", "spectral_type": "M3V" }
+    ]
+  },
+  {
+    "name": "HD 157881",
+    "distance_ly": 25.16,
+    "ra": "17h25m45s",
+    "dec": "+02°06′41″",
+    "components": [
+      { "name": "HD 157881", "spectral_type": "K7V" }
+    ]
+  }
+]

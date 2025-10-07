@@ -19,7 +19,9 @@ const Sidebar = ({
   onViewDistanceChange, 
   onSpectralFilterChange,
   onOpenFilters,
-  isOpen: externalIsOpen
+  isOpen: externalIsOpen,
+  stars = [],
+  onStarSelect
 }) => {
   const [viewDistance, setViewDistance] = useState(20);
   const [spectralFilter, setSpectralFilter] = useState({
@@ -27,6 +29,8 @@ const Sidebar = ({
   });
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
   
   // Use external state if provided, otherwise use internal state
   const sidebarIsOpen = externalIsOpen !== undefined ? externalIsOpen : isOpen;
@@ -55,6 +59,30 @@ const Sidebar = ({
     const newFilter = { ...spectralFilter, [spectralClass]: !spectralFilter[spectralClass] };
     setSpectralFilter(newFilter);
     onSpectralFilterChange(newFilter);
+  };
+
+  // Search functionality
+  const handleSearchChange = (query) => {
+    setSearchQuery(query);
+    
+    if (query.trim().length < 2) {
+      setSearchResults([]);
+      return;
+    }
+
+    const results = stars.filter(star => 
+      star.name.toLowerCase().includes(query.toLowerCase())
+    ).slice(0, 10); // Limit to 10 results
+    
+    setSearchResults(results);
+  };
+
+  const handleStarSelect = (star) => {
+    setSearchQuery('');
+    setSearchResults([]);
+    if (onStarSelect) {
+      onStarSelect(star);
+    }
   };
 
 
@@ -132,6 +160,87 @@ const Sidebar = ({
           <span>16</span>
           <span>32</span>
         </div>
+      </div>
+
+      {/* Search Section */}
+      <div style={{ marginBottom: '16px' }}>
+        <div style={{ 
+          marginBottom: '8px',
+          color: '#9ca3af',
+          fontSize: '12px',
+          fontWeight: 'bold'
+        }}>
+          Search Stars
+        </div>
+        <input
+          type="text"
+          placeholder="Search by star name..."
+          value={searchQuery}
+          onChange={(e) => handleSearchChange(e.target.value)}
+          style={{
+            width: '100%',
+            padding: '8px 12px',
+            backgroundColor: 'rgba(31, 41, 55, 0.8)',
+            border: '1px solid rgba(55, 65, 81, 1)',
+            borderRadius: '6px',
+            color: '#e5e7eb',
+            fontSize: '14px',
+            fontFamily: 'monospace',
+            outline: 'none',
+            transition: 'border-color 0.2s',
+            boxSizing: 'border-box'
+          }}
+          onFocus={(e) => {
+            e.target.style.borderColor = '#60a5fa';
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = 'rgba(55, 65, 81, 1)';
+          }}
+        />
+        
+        {/* Search Results */}
+        {searchResults.length > 0 && (
+          <div style={{
+            marginTop: '8px',
+            maxHeight: '200px',
+            overflowY: 'auto',
+            backgroundColor: 'rgba(31, 41, 55, 0.9)',
+            border: '1px solid rgba(55, 65, 81, 1)',
+            borderRadius: '6px',
+            padding: '4px'
+          }}>
+            {searchResults.map((star, index) => (
+              <div
+                key={star.name}
+                onClick={() => handleStarSelect(star)}
+                style={{
+                  padding: '8px 12px',
+                  cursor: 'pointer',
+                  borderRadius: '4px',
+                  fontSize: '13px',
+                  color: '#e5e7eb',
+                  transition: 'background-color 0.2s',
+                  borderBottom: index < searchResults.length - 1 ? '1px solid rgba(55, 65, 81, 0.5)' : 'none'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = 'rgba(59, 130, 246, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'transparent';
+                }}
+              >
+                {star.name}
+                <div style={{
+                  fontSize: '11px',
+                  color: '#9ca3af',
+                  marginTop: '2px'
+                }}>
+                  {star.distance_ly.toFixed(1)} LY
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div style={{ paddingTop: '8px', borderTop: '1px solid rgba(55, 65, 81, 1)' }}>
