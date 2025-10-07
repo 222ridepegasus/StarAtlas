@@ -2,10 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Text } from 'troika-three-text';
+import { Line2 } from 'three/examples/jsm/lines/Line2.js';
+import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
+import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry.js';
 import { COLORS, SIZES, STROKE_WEIGHTS, getSpectralColor } from '../config/visual.js';
 import { LABEL_CONFIG, formatStarName } from '../config/labels.js';
 import Sidebar from './Sidebar.jsx';
 import InfoPanel from './InfoPanel.jsx';
+import ViewBar from './ViewBar.jsx';
 
 // Helper function to convert RA string to radians
 const raToRadians = (ra) => {
@@ -67,6 +71,23 @@ const Starfield = () => {
   const mouseDownPosRef = useRef(new THREE.Vector2());
   const selectedStarRef = useRef(null);
   const rebuildConnectionsRef = useRef(null);
+  const targetCameraDistanceRef = useRef(26);
+  const shouldAutoZoomRef = useRef(false);
+  const lastCameraPositionRef = useRef(new THREE.Vector3());
+  const lastCameraQuaternionRef = useRef(new THREE.Quaternion());
+  const debounceTimeoutRef = useRef(null);
+  const isPageVisibleRef = useRef(true);
+  const animationFrameIdRef = useRef(null);
+  const idleFrameCountRef = useRef(0);
+  const hoverFrameCounterRef = useRef(0);
+  const labelFrameCounterRef = useRef(0);
+  const gridLineMaterialsRef = useRef([]);
+  const connectionLineMaterialsRef = useRef([]);
+  const stalkLineMaterialsRef = useRef([]);
+  const tmpV3A = useRef(new THREE.Vector3());
+  const tmpV3B = useRef(new THREE.Vector3());
+  const tmpV2A = useRef(new THREE.Vector2());
+  const tmpV2B = useRef(new THREE.Vector2());
 
   // State
   const [stars, setStars] = useState([]);
@@ -75,10 +96,12 @@ const Starfield = () => {
   const [showGrid, setShowGrid] = useState(true);
   const [showLabels, setShowLabels] = useState(true);
   const [lineMode, setLineMode] = useState('connections');
+  const [autoZoom, setAutoZoom] = useState(true);
   const [spectralFilter, setSpectralFilter] = useState({
     O: true, B: true, A: true, F: true, G: true, K: true, M: true, L: true, T: true, Y: true, D: true
   });
   const [selectedStar, setSelectedStar] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Load star data
   useEffect(() => {
@@ -92,7 +115,7 @@ const Starfield = () => {
   const buildGrids = () => {
     if (!squareGridRef.current || !circularGridRef.current) return;
 
-    // Build square grid
+    // Build square grid (revert to LineBasicMaterial)
     squareGridRef.current.clear();
     const squareGridMaterial = new THREE.LineBasicMaterial({ 
       color: COLORS.gridSquare,
@@ -115,7 +138,7 @@ const Starfield = () => {
       squareGridRef.current.add(new THREE.Line(zGeometry, squareGridMaterial));
     }
 
-    // Build circular grid
+    // Build circular grid - dynamically generate rings based on viewDistance
     circularGridRef.current.clear();
     
     const ringMaterial = new THREE.LineBasicMaterial({
@@ -132,27 +155,27 @@ const Starfield = () => {
       transparent: true
     });
 
-    SIZES.gridCircularRings.forEach(radius => {
-      if (radius <= viewDistance) {
-        const segments = 64;
-        const ringGeometry = new THREE.BufferGeometry();
-        const positions = [];
-        
-        for (let i = 0; i <= segments; i++) {
-          const theta = (i / segments) * Math.PI * 2;
-          positions.push(
-            radius * Math.cos(theta),
-            0,
-            radius * Math.sin(theta)
-          );
-        }
-        
-        ringGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-        const ring = new THREE.LineLoop(ringGeometry, ringMaterial);
-        circularGridRef.current.add(ring);
+    // Generate rings dynamically up to viewDistance in steps of 4
+    for (let radius = 4; radius <= viewDistance; radius += 4) {
+      const segments = 64; // restore original polygon count
+      const ringGeometry = new THREE.BufferGeometry();
+      const positions = [];
+      
+      for (let i = 0; i <= segments; i++) {
+        const theta = (i / segments) * Math.PI * 2;
+        positions.push(
+          radius * Math.cos(theta),
+          0,
+          radius * Math.sin(theta)
+        );
       }
-    });
+      
+      ringGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      const ring = new THREE.LineLoop(ringGeometry, ringMaterial);
+      circularGridRef.current.add(ring);
+    }
 
+    // Generate radial spokes
     for (let i = 0; i < SIZES.gridCircularSegments; i++) {
       const angle = (i / SIZES.gridCircularSegments) * Math.PI * 2;
       const radialGeometry = new THREE.BufferGeometry().setFromPoints([
@@ -170,6 +193,14 @@ const Starfield = () => {
   // Main scene setup
   useEffect(() => {
     if (!mountRef.current || stars.length === 0) return;
+
+    // Capture initial state values for scene setup
+    const initialViewDistance = viewDistance;
+    const initialShowLabels = showLabels;
+    const initialSpectralFilter = { ...spectralFilter };
+    const initialLineMode = lineMode;
+    const initialShowGrid = showGrid;
+    const initialGridMode = gridMode;
 
     labelsRef.current = [];
     starObjectsRef.current = [];
@@ -189,27 +220,37 @@ const Starfield = () => {
     camera.lookAt(0, 0, 0);
     cameraRef.current = camera;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+    const renderer = new THREE.WebGLRenderer({ 
+      antialias: true,
+      powerPreference: "high-performance",
+      stencil: false,
+      depth: true,
+      alpha: false,
+      premultipliedAlpha: false
+    });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(isSafari ? Math.min(window.devicePixelRatio, 1.5) : Math.min(window.devicePixelRatio, 2));
+    renderer.sortObjects = false;
     mountRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
+    controls.dampingFactor = 0.03; // slightly softer braking for more inertia
     controls.screenSpacePanning = false;
     controls.minDistance = 5;
     controls.maxDistance = 100;
     controlsRef.current = controls;
 
     const squareGridGroup = new THREE.Group();
-    squareGridGroup.visible = showGrid && gridMode === 'square';
+    squareGridGroup.visible = initialShowGrid && initialGridMode === 'square';
     scene.add(squareGridGroup);
     squareGridRef.current = squareGridGroup;
 
     const circularGridGroup = new THREE.Group();
-    circularGridGroup.visible = showGrid && gridMode === 'circular';
+    circularGridGroup.visible = initialShowGrid && initialGridMode === 'circular';
     scene.add(circularGridGroup);
     circularGridRef.current = circularGridGroup;
 
@@ -254,16 +295,19 @@ const Starfield = () => {
 
       const pos = raDecToXYZ(star.ra, star.dec, star.distance_ly);
 
-      const geometry = new THREE.SphereGeometry(SIZES.starRadius, 16, 16);
+      const isSafariLocal = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      const starGeomSegments = 16; // restore original polygon count
+      const geometry = new THREE.SphereGeometry(SIZES.starRadius, starGeomSegments, starGeomSegments);
       const material = new THREE.MeshBasicMaterial({ color });
       const sphere = new THREE.Mesh(geometry, material);
       sphere.position.copy(pos);
       sphere.userData = { star, distance: star.distance_ly, spectralClass };
+      sphere.visible = star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass];
       scene.add(sphere);
       starGroup.push(sphere);
       starMeshes.push(sphere);
 
-      const glowGeometry = new THREE.SphereGeometry(SIZES.starGlowRadius, 16, 16);
+      const glowGeometry = new THREE.SphereGeometry(SIZES.starGlowRadius, starGeomSegments, starGeomSegments);
       const glowMaterial = new THREE.MeshBasicMaterial({
         color,
         transparent: true,
@@ -272,6 +316,7 @@ const Starfield = () => {
       const glow = new THREE.Mesh(glowGeometry, glowMaterial);
       glow.position.copy(sphere.position);
       glow.userData = { distance: star.distance_ly, spectralClass };
+      glow.visible = star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass];
       scene.add(glow);
       starGroup.push(glow);
 
@@ -296,24 +341,34 @@ const Starfield = () => {
       
       label.position.copy(sphere.position);
       label.sync();
+      label.visible = initialShowLabels && star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass];
+      if (isSafariLocal) {
+        label.outlineWidth = 0;
+        label.outlineOpacity = 0.0;
+      }
       scene.add(label);
       labelsRef.current.push(label);
       starGroup.push(label);
 
       if (pos.y !== 0) {
-        const stalkGeometry = new THREE.BufferGeometry().setFromPoints([
-          new THREE.Vector3(pos.x, 0, pos.z),
-          new THREE.Vector3(pos.x, pos.y, pos.z)
+        const stalkGeo = new LineGeometry();
+        stalkGeo.setPositions([
+          pos.x, 0, pos.z,
+          pos.x, pos.y, pos.z
         ]);
-        const stalkMaterial = new THREE.LineBasicMaterial({ 
+        const stalkMat = new LineMaterial({
           color: COLORS.stalkLine,
           transparent: true,
           opacity: STROKE_WEIGHTS.stalkOpacity,
-          linewidth: STROKE_WEIGHTS.stalk
+          linewidth: Math.max(1, STROKE_WEIGHTS.stalk),
+          depthTest: true
         });
-        const stalk = new THREE.Line(stalkGeometry, stalkMaterial);
+        stalkMat.resolution.set(window.innerWidth, window.innerHeight);
+        stalkLineMaterialsRef.current.push(stalkMat);
+        const stalk = new Line2(stalkGeo, stalkMat);
+        stalk.computeLineDistances();
         stalk.userData = { distance: star.distance_ly, spectralClass };
-        stalk.visible = lineMode === 'stalks';
+        stalk.visible = initialLineMode === 'stalks' && star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass];
         scene.add(stalk);
         starGroup.push(stalk);
         stalksRef.current.push(stalk);
@@ -329,7 +384,7 @@ const Starfield = () => {
         baseCircleMesh.rotation.x = -Math.PI / 2;
         baseCircleMesh.position.set(pos.x, 0.01, pos.z);
         baseCircleMesh.userData = { distance: star.distance_ly, spectralClass };
-        baseCircleMesh.visible = lineMode === 'stalks';
+        baseCircleMesh.visible = initialLineMode === 'stalks' && star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass];
         scene.add(baseCircleMesh);
         starGroup.push(baseCircleMesh);
         stalksRef.current.push(baseCircleMesh);
@@ -342,18 +397,22 @@ const Starfield = () => {
 
     // Function to rebuild connections based on visible stars
     const rebuildConnections = () => {
-      // Clear all existing connections
+      // CRITICAL: Properly dispose of ALL old connections to prevent memory leak
       connectionsRef.current.forEach(line => {
+        if (line.geometry) {
+          line.geometry.dispose();
+        }
+        if (line.material) {
+          line.material.dispose();
+        }
         scene.remove(line);
-        line.geometry.dispose();
-        line.material.dispose();
       });
       connectionsRef.current = [];
 
       // Get currently visible star meshes
       const visibleStars = starMeshesRef.current.filter(mesh => mesh.visible);
       
-      if (visibleStars.length < 2) return; // Need at least 2 stars to connect
+      if (visibleStars.length < 2) return;
 
       // Create connections between visible stars only
       for (let i = 0; i < visibleStars.length; i++) {
@@ -377,18 +436,23 @@ const Starfield = () => {
           // Only create line if this star's index < neighbor's index to avoid duplicates
           const neighborIndex = visibleStars.indexOf(neighbor);
           if (i < neighborIndex) {
-            const lineGeometry = new THREE.BufferGeometry().setFromPoints([
-              star.position,
-              neighbor.position
+            const lineGeo = new LineGeometry();
+            lineGeo.setPositions([
+              star.position.x, star.position.y, star.position.z,
+              neighbor.position.x, neighbor.position.y, neighbor.position.z
             ]);
-            const lineMaterial = new THREE.LineBasicMaterial({
+            const lineMat = new LineMaterial({
               color: COLORS.connectionLine,
-              linewidth: STROKE_WEIGHTS.connectionLine,
+              linewidth: Math.max(1, STROKE_WEIGHTS.connectionLine),
               opacity: STROKE_WEIGHTS.connectionOpacity,
-              transparent: true
+              transparent: true,
+              depthTest: true
             });
-            const line = new THREE.Line(lineGeometry, lineMaterial);
-            line.visible = lineMode === 'connections';
+            lineMat.resolution.set(window.innerWidth, window.innerHeight);
+            connectionLineMaterialsRef.current.push(lineMat);
+            const line = new Line2(lineGeo, lineMat);
+            line.computeLineDistances();
+            line.visible = initialLineMode === 'connections';
             scene.add(line);
             connectionsRef.current.push(line);
           }
@@ -421,8 +485,14 @@ const Starfield = () => {
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
+      if (isSafari) {
+        hoverFrameCounterRef.current++;
+        if (hoverFrameCounterRef.current % 3 !== 0) return;
+      }
+
       raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(starMeshesRef.current);
+      const visibleStars = starMeshesRef.current.filter(mesh => mesh.visible);
+      const intersects = raycaster.intersectObjects(visibleStars, false);
 
       if (intersects.length > 0) {
         const star = intersects[0].object;
@@ -483,10 +553,71 @@ const Starfield = () => {
 
     setTimeout(() => buildGrids(), 0);
 
+    // Force an initial label positioning/sync after the first render to fix on-load offset
+    setTimeout(() => {
+      const right = new THREE.Vector3();
+      const up = new THREE.Vector3();
+      camera.getWorldDirection(right);
+      right.cross(camera.up).normalize();
+      up.copy(camera.up).normalize();
+
+      labelsRef.current.forEach(label => {
+        const star = label.userData.starRef;
+        if (!star || !label.visible) return;
+        const basePos = star.position.clone();
+        const offset = right.clone().multiplyScalar(label.userData.pad || 0.3)
+          .add(up.clone().multiplyScalar(label.userData.vOffset || 0));
+        label.position.copy(basePos.add(offset));
+        label.quaternion.copy(camera.quaternion);
+        label.sync();
+      });
+      renderer.render(scene, camera);
+    }, 0);
+
+    // Handle page visibility for Safari background tab performance
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        isPageVisibleRef.current = false;
+        // Cancel animation frame when tab is hidden
+        if (animationFrameIdRef.current) {
+          cancelAnimationFrame(animationFrameIdRef.current);
+          animationFrameIdRef.current = null;
+        }
+      } else {
+        isPageVisibleRef.current = true;
+        // Reset clock to prevent large time delta on return
+        clockRef.current.getDelta();
+        // Restart animation loop
+        animate();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     const animate = () => {
-      requestAnimationFrame(animate);
+      // Don't render if tab is hidden
+      if (!isPageVisibleRef.current) return;
+      
+      animationFrameIdRef.current = requestAnimationFrame(animate);
       
       controls.update();
+      
+      controls.update();
+      
+      // Camera distance animation - zoom from current position relative to controls target
+      if (autoZoom && !focusTargetRef.current && shouldAutoZoomRef.current) {
+        const targetDistance = targetCameraDistanceRef.current;
+        const offset = camera.position.clone().sub(controls.target);
+        const currentDistance = offset.length();
+        
+        if (Math.abs(currentDistance - targetDistance) > 0.1) {
+          const newDistance = THREE.MathUtils.lerp(currentDistance, targetDistance, 0.05);
+          const direction = offset.normalize();
+          camera.position.copy(direction.multiplyScalar(newDistance).add(controls.target));
+        } else {
+          // Animation complete - turn off the trigger
+          shouldAutoZoomRef.current = false;
+        }
+      }
       
       if (focusTargetRef.current) {
         const targetPos = focusTargetRef.current;
@@ -511,26 +642,136 @@ const Starfield = () => {
         const scale = 0.5 + pulse * 0.1;
         highlightRef.current.scale.set(scale, scale, 1);
       }
+
+      // Depth-based fade for lines (reduce clutter)
+      const cameraPos = camera.position;
+      const fadeNear = 6;  // start fade near
+      const fadeFar = 40;  // fully faded beyond
+      const computeOpacity = (pos) => {
+        const d = cameraPos.distanceTo(pos);
+        if (d <= fadeNear) return 1.0;
+        if (d >= fadeFar) return 0.15;
+        return THREE.MathUtils.mapLinear(d, fadeNear, fadeFar, 1.0, 0.15);
+      };
+
+      // Update connection/stalk material opacity based on midpoint distance
+      connectionsRef.current.forEach(line => {
+        if (!line.visible) return;
+        const posAttr = line.geometry.getAttribute('instanceStart') || line.geometry.getAttribute('position');
+        // For Line2/LineGeometry, we don't have a simple attribute; estimate via world positions
+        const start = new THREE.Vector3();
+        const end = new THREE.Vector3();
+        line.geometry.boundingBox?.getCenter(start); // fallback if available
+        // If no bbox yet, skip fade to avoid cost
+        if (!line.geometry.boundingBox) {
+          line.geometry.computeBoundingBox();
+        }
+        if (line.geometry.boundingBox) {
+          const mid = line.geometry.boundingBox.getCenter(new THREE.Vector3());
+          const targetOpacity = computeOpacity(mid);
+          if (line.material && line.material.opacity !== undefined) {
+            line.material.opacity = targetOpacity;
+          }
+        }
+      });
+
+      stalksRef.current.forEach(stalk => {
+        if (!stalk.visible) return;
+        if (!stalk.geometry.boundingBox) {
+          stalk.geometry.computeBoundingBox();
+        }
+        if (stalk.geometry.boundingBox) {
+          const mid = stalk.geometry.boundingBox.getCenter(new THREE.Vector3());
+          const targetOpacity = computeOpacity(mid);
+          if (stalk.material && stalk.material.opacity !== undefined) {
+            stalk.material.opacity = targetOpacity;
+          }
+        }
+      });
       
-      labelsRef.current.forEach(label => {
-        const star = label.userData.starRef;
-        if (!star) return;
+      // Only update labels when camera has moved (Safari optimization)
+      const positionChanged = camera.position.distanceToSquared(lastCameraPositionRef.current) > 0.001;
+      const rotationChanged = camera.quaternion.angleTo(lastCameraQuaternionRef.current) > 0.01;
+
+      // Idle frame skipping when scene is inactive
+      const isActive = positionChanged || rotationChanged || focusTargetRef.current || highlightRef.current.visible;
+      if (!isActive) {
+        idleFrameCountRef.current++;
+        if (idleFrameCountRef.current > 120) {
+          if (idleFrameCountRef.current % 10 !== 0) {
+            return;
+          }
+        }
+      } else {
+        idleFrameCountRef.current = 0;
+      }
+
+      if (positionChanged || rotationChanged) {
+        lastCameraPositionRef.current.copy(camera.position);
+        lastCameraQuaternionRef.current.copy(camera.quaternion);
+        
+        // Throttle label updates on Safari only when not focusing or dragging
+        const shouldThrottleLabels = isSafari && !focusTargetRef.current && !isDraggingRef.current;
+        const skipThisFrame = shouldThrottleLabels && (labelFrameCounterRef.current++ % 2 !== 0);
 
         const right = new THREE.Vector3();
         const up = new THREE.Vector3();
-        
+
         camera.getWorldDirection(right);
         right.cross(camera.up).normalize();
         up.copy(camera.up).normalize();
 
-        const basePos = star.position.clone();
-        const offset = right.multiplyScalar(label.userData.pad || 0.3)
-          .add(up.multiplyScalar(label.userData.vOffset || 0));
-        label.position.copy(basePos.add(offset));
+        if (!skipThisFrame) {
+          // First: update label positions
+          labelsRef.current.forEach(label => {
+            const star = label.userData.starRef;
+            if (!star || !label.visible) return;
+            const basePos = tmpV3A.current.copy(star.position);
+            const offset = right.clone().multiplyScalar(label.userData.pad || 0.3)
+              .add(up.clone().multiplyScalar(label.userData.vOffset || 0));
+            label.position.copy(basePos.add(offset));
+            label.quaternion.copy(camera.quaternion);
+            label.sync();
+          });
 
-        label.quaternion.copy(camera.quaternion);
-        label.sync();
-      });
+          // Distance-based fade only (no culling)
+          const canvas = renderer.domElement;
+          const projected = [];
+          const cameraRefLocal = camera;
+
+          // Precompute projected positions and distances
+          labelsRef.current.forEach(label => {
+            if (!label.visible) return;
+            const star = label.userData.starRef;
+            if (!star) return;
+            const pWorld = tmpV3B.current.copy(label.position);
+            const p = pWorld.project(cameraRefLocal);
+            const x = (p.x * 0.5 + 0.5) * canvas.width;
+            const y = (-p.y * 0.5 + 0.5) * canvas.height;
+            const distance = cameraRefLocal.position.distanceTo(star.position);
+            projected.push({ label, x, y, distance });
+          });
+
+          // Gentle distance-based fade curve
+          const near = 10;  // gentler distance fade (restored)
+          const far = 80;   // reach minimum later (restored)
+          const minOpacity = 0.35; // minimum opacity for very far labels (restored)
+
+          projected.forEach(item => {
+            const finalOpacity = item.distance <= near
+              ? 1
+              : item.distance >= far
+                ? minOpacity
+                : THREE.MathUtils.mapLinear(item.distance, near, far, 1, minOpacity);
+
+            if (item.label.material && item.label.material.opacity !== undefined) {
+              item.label.material.opacity = finalOpacity;
+            } else if (item.label.userData && item.label.userData.material) {
+              item.label.userData.material.opacity = finalOpacity;
+            }
+          });
+        }
+      }
       
       renderer.render(scene, camera);
     };
@@ -540,20 +781,64 @@ const Starfield = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
+      // Update LineMaterial resolutions
+      gridLineMaterialsRef.current.forEach(mat => mat.resolution.set(window.innerWidth, window.innerHeight));
+      connectionLineMaterialsRef.current.forEach(mat => mat.resolution.set(window.innerWidth, window.innerHeight));
+      stalkLineMaterialsRef.current.forEach(mat => mat.resolution.set(window.innerWidth, window.innerHeight));
     };
     window.addEventListener('resize', handleResize);
 
     return () => {
+      // Clean up debounce timeout
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+      
+      // Cancel animation frame
+      if (animationFrameIdRef.current) {
+        cancelAnimationFrame(animationFrameIdRef.current);
+      }
+      
+      // Remove visibility change listener
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      
       window.removeEventListener('resize', handleResize);
       renderer.domElement.removeEventListener('mousedown', onMouseDown);
       renderer.domElement.removeEventListener('mousemove', onMouseMove);
       renderer.domElement.removeEventListener('mouseup', onMouseUp);
       renderer.domElement.removeEventListener('contextmenu', onContextMenu);
+      
+      // Dispose all connections
+      connectionsRef.current.forEach(line => {
+        if (line.geometry) line.geometry.dispose();
+        if (line.material) line.material.dispose();
+        scene.remove(line);
+      });
+      connectionsRef.current = [];
+      
+      // Dispose all labels
+      labelsRef.current.forEach(label => {
+        if (label.dispose) label.dispose();
+      });
+      labelsRef.current = [];
+      
+      // Dispose scene objects
       scene.traverse((object) => {
         if (object instanceof Text) {
           object.dispose();
         }
+        if (object.geometry) {
+          object.geometry.dispose();
+        }
+        if (object.material) {
+          if (Array.isArray(object.material)) {
+            object.material.forEach(mat => mat.dispose());
+          } else {
+            object.material.dispose();
+          }
+        }
       });
+      
       if (mountRef.current && renderer.domElement.parentNode === mountRef.current) {
         mountRef.current.removeChild(renderer.domElement);
       }
@@ -593,13 +878,57 @@ const Starfield = () => {
       label.visible = showLabels && withinDistance && passesFilter;
     });
 
-    // Rebuild connections with only visible stars
-    if (rebuildConnectionsRef.current) {
-      rebuildConnectionsRef.current();
+    // Immediately orient and position labels after visibility/filter changes (no camera move needed)
+    const camera = cameraRef.current;
+    const renderer = rendererRef.current;
+    if (camera && renderer) {
+      const right = new THREE.Vector3();
+      const up = new THREE.Vector3();
+      camera.getWorldDirection(right);
+      right.cross(camera.up).normalize();
+      up.copy(camera.up).normalize();
+      labelsRef.current.forEach(label => {
+        if (!label.visible) return;
+        const star = label.userData.starRef;
+        if (!star) return;
+        const basePos = star.position.clone();
+        const offset = right.clone().multiplyScalar(label.userData.pad || 0.3)
+          .add(up.clone().multiplyScalar(label.userData.vOffset || 0));
+        label.position.copy(basePos.add(offset));
+        label.quaternion.copy(camera.quaternion);
+        label.sync();
+      });
     }
 
-    buildGrids();
+    // Clear any existing timeout to prevent accumulation
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+
+    // Rebuild connections and grids immediately for instant redraw
+    debounceTimeoutRef.current = setTimeout(() => {
+      if (rebuildConnectionsRef.current) {
+        rebuildConnectionsRef.current();
+      }
+      buildGrids();
+      debounceTimeoutRef.current = null;
+    }, 0);
+
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+        debounceTimeoutRef.current = null;
+      }
+    };
   }, [viewDistance, showLabels, spectralFilter]);
+
+  // Update target camera distance when view distance changes (only if autoZoom is enabled)
+  useEffect(() => {
+    if (autoZoom) {
+      targetCameraDistanceRef.current = viewDistance * 1.3;
+      shouldAutoZoomRef.current = true;
+    }
+  }, [viewDistance, autoZoom]);
 
   useEffect(() => {
     if (!sceneRef.current) return;
@@ -628,6 +957,10 @@ const Starfield = () => {
 
   const handleToggleGridVisibility = (visible) => {
     setShowGrid(visible);
+  };
+
+  const handleToggleAutoZoom = (enabled) => {
+    setAutoZoom(enabled);
   };
 
   // Sync grid visibility when gridMode or showGrid changes
@@ -671,16 +1004,197 @@ const Starfield = () => {
     }
   };
 
+  // SVG Export function
+  const handleExportSVG = () => {
+    if (!cameraRef.current || !rendererRef.current || !sceneRef.current) {
+      console.error('Scene not ready for export');
+      return;
+    }
+
+    const camera = cameraRef.current;
+    const renderer = rendererRef.current;
+    const canvas = renderer.domElement;
+    const width = canvas.width;
+    const height = canvas.height;
+
+    const projectTo2D = (vec3) => {
+      const v = vec3.clone();
+      v.project(camera);
+      return {
+        x: ((v.x + 1) / 2) * width,
+        y: ((1 - v.y) / 2) * height
+      };
+    };
+
+    const getScreenRadius = (position, worldRadius) => {
+      const distance = camera.position.distanceTo(position);
+      const fovY = THREE.MathUtils.degToRad(camera.fov);
+      const pxPerUnit = height / (2 * Math.tan(fovY / 2) * distance);
+      return Math.max(1, worldRadius * pxPerUnit);
+    };
+
+    const getScreenFontSize = (position, worldHeight) => {
+      const distance = camera.position.distanceTo(position);
+      const fovY = THREE.MathUtils.degToRad(camera.fov);
+      const pxPerUnit = height / (2 * Math.tan(fovY / 2) * distance);
+      return Math.max(8, worldHeight * pxPerUnit);
+    };
+
+    const svg = [];
+    svg.push(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`);
+    svg.push(`<rect width="100%" height="100%" fill="#${COLORS.background.toString(16).padStart(6, '0')}" />`);
+
+    if (showGrid) {
+      if (gridMode === 'circular' && circularGridRef.current) {
+        circularGridRef.current.children.forEach(obj => {
+          if (obj.type === 'LineLoop' && obj.geometry) {
+            const posAttr = obj.geometry.getAttribute('position');
+            const points = [];
+            for (let i = 0; i < posAttr.count; i++) {
+              const v = new THREE.Vector3(
+                posAttr.getX(i),
+                posAttr.getY(i),
+                posAttr.getZ(i)
+              );
+              const p = projectTo2D(v);
+              points.push(`${p.x},${p.y}`);
+            }
+            svg.push(`<polyline points="${points.join(' ')}" fill="none" stroke="#${COLORS.gridCircular.toString(16).padStart(6, '0')}" stroke-width="1" opacity="${STROKE_WEIGHTS.circularRingOpacity}"/>`);
+          } else if (obj.type === 'Line' && obj.geometry) {
+            const posAttr = obj.geometry.getAttribute('position');
+            if (posAttr.count >= 2) {
+              const v1 = new THREE.Vector3(posAttr.getX(0), posAttr.getY(0), posAttr.getZ(0));
+              const v2 = new THREE.Vector3(posAttr.getX(1), posAttr.getY(1), posAttr.getZ(1));
+              const p1 = projectTo2D(v1);
+              const p2 = projectTo2D(v2);
+              svg.push(`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#${COLORS.gridCircular.toString(16).padStart(6, '0')}" stroke-width="1" opacity="${STROKE_WEIGHTS.circularRadialOpacity}"/>`);
+            }
+          }
+        });
+      } else if (gridMode === 'square' && squareGridRef.current) {
+        squareGridRef.current.children.forEach(line => {
+          if (line.geometry) {
+            const posAttr = line.geometry.getAttribute('position');
+            if (posAttr.count >= 2) {
+              const v1 = new THREE.Vector3(posAttr.getX(0), posAttr.getY(0), posAttr.getZ(0));
+              const v2 = new THREE.Vector3(posAttr.getX(1), posAttr.getY(1), posAttr.getZ(1));
+              const p1 = projectTo2D(v1);
+              const p2 = projectTo2D(v2);
+              svg.push(`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#${COLORS.gridSquare.toString(16).padStart(6, '0')}" stroke-width="1" opacity="${STROKE_WEIGHTS.gridLineOpacity}"/>`);
+            }
+          }
+        });
+      }
+    }
+
+    if (lineMode === 'connections') {
+      connectionsRef.current.forEach(line => {
+        if (!line.visible || !line.geometry) return;
+        const posAttr = line.geometry.getAttribute('position');
+        if (posAttr.count >= 2) {
+          const v1 = new THREE.Vector3(posAttr.getX(0), posAttr.getY(0), posAttr.getZ(0));
+          const v2 = new THREE.Vector3(posAttr.getX(1), posAttr.getY(1), posAttr.getZ(1));
+          const p1 = projectTo2D(v1);
+          const p2 = projectTo2D(v2);
+          svg.push(`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#${COLORS.connectionLine.toString(16).padStart(6, '0')}" stroke-width="0.5" opacity="${STROKE_WEIGHTS.connectionOpacity}"/>`);
+        }
+      });
+    }
+
+    if (lineMode === 'stalks') {
+      stalksRef.current.forEach(stalk => {
+        if (!stalk.visible) return;
+        
+        if (stalk.type === 'Line' && stalk.geometry) {
+          const posAttr = stalk.geometry.getAttribute('position');
+          if (posAttr.count >= 2) {
+            const v1 = new THREE.Vector3(posAttr.getX(0), posAttr.getY(0), posAttr.getZ(0));
+            const v2 = new THREE.Vector3(posAttr.getX(1), posAttr.getY(1), posAttr.getZ(1));
+            const p1 = projectTo2D(v1);
+            const p2 = projectTo2D(v2);
+            svg.push(`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#${COLORS.stalkLine.toString(16).padStart(6, '0')}" stroke-width="1" opacity="${STROKE_WEIGHTS.stalkOpacity}"/>`);
+          }
+        } else if (stalk.type === 'Mesh' && stalk.geometry.type === 'CircleGeometry') {
+          const p = projectTo2D(stalk.position);
+          const screenRadius = getScreenRadius(stalk.position, SIZES.stalkBaseRadius);
+          svg.push(`<circle cx="${p.x}" cy="${p.y}" r="${screenRadius}" fill="#${COLORS.stalkEllipse.toString(16).padStart(6, '0')}" opacity="${STROKE_WEIGHTS.stalkBaseOpacity}"/>`);
+        }
+      });
+    }
+
+    starMeshesRef.current.forEach(mesh => {
+      if (!mesh.visible) return;
+      
+      const p = projectTo2D(mesh.position);
+      const color = mesh.material && mesh.material.color ? '#' + mesh.material.color.getHexString() : '#ffffff';
+      const screenRadius = getScreenRadius(mesh.position, SIZES.starRadius);
+      svg.push(`<circle cx="${p.x}" cy="${p.y}" r="${screenRadius}" fill="${color}"/>`);
+    });
+
+    if (showLabels) {
+      labelsRef.current.forEach(label => {
+        if (!label.visible) return;
+        
+        const text = label.text || '';
+        const fontSize = getScreenFontSize(label.position, LABEL_CONFIG.font.size);
+        
+        const starRef = label.userData.starRef;
+        if (!starRef) return;
+        
+        const p = projectTo2D(starRef.position);
+        const starScreenRadius = getScreenRadius(starRef.position, SIZES.starRadius);
+        
+        const offsetX = starScreenRadius + 10;
+        const offsetY = fontSize * 0.3;
+        
+        svg.push(`<text x="${p.x + offsetX}" y="${p.y + offsetY}" font-size="${fontSize}" fill="${LABEL_CONFIG.appearance.color}" font-family="Orbitron, Arial, sans-serif" alignment-baseline="middle">${text}</text>`);
+      });
+    }
+
+    svg.push('</svg>');
+
+    const svgString = svg.join('\n');
+    const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `staratlas-${Date.now()}.svg`;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+  };
+
   return (
     <>
       <Sidebar 
-        onToggleGrid={handleToggleGrid}
         onViewDistanceChange={handleViewDistanceChange}
-        onToggleGridVisibility={handleToggleGridVisibility}
-        onToggleLabelsVisibility={handleToggleLabelsVisibility}
-        onToggleAxesHelper={handleToggleAxesHelper}
-        onLineModeChange={handleLineModeChange}
         onSpectralFilterChange={handleSpectralFilterChange}
+        onOpenFilters={setSidebarOpen}
+        isOpen={sidebarOpen}
+      />
+      <ViewBar
+        gridMode={gridMode}
+        showGrid={showGrid}
+        lineMode={lineMode}
+        showLabels={showLabels}
+        showAxes={axesHelperRef.current ? axesHelperRef.current.visible : false}
+        onGridChange={(mode) => {
+          if (mode === 'none') {
+            handleToggleGridVisibility(false);
+          } else {
+            handleToggleGrid(mode);
+            handleToggleGridVisibility(true);
+          }
+        }}
+        onLineModeChange={handleLineModeChange}
+        onToggleLabels={handleToggleLabelsVisibility}
+        onToggleAxes={handleToggleAxesHelper}
+        onOpenFilters={() => setSidebarOpen(true)}
+        onCloseFilters={() => setSidebarOpen(false)}
+        filterOpen={sidebarOpen}
       />
       <InfoPanel 
         star={selectedStar}

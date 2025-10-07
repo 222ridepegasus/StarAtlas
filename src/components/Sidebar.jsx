@@ -16,24 +16,21 @@ const SPECTRAL_COLORS = {
 };
 
 const Sidebar = ({ 
-  onToggleGrid, 
   onViewDistanceChange, 
-  onToggleGridVisibility, 
-  onToggleLabelsVisibility, 
-  onToggleAxesHelper,
-  onLineModeChange,
-  onSpectralFilterChange 
+  onSpectralFilterChange,
+  onOpenFilters,
+  isOpen: externalIsOpen
 }) => {
   const [viewDistance, setViewDistance] = useState(20);
-  const [gridDisplay, setGridDisplay] = useState('circular');
-  const [showLabels, setShowLabels] = useState(true);
-  const [showAxes, setShowAxes] = useState(false);
-  const [lineMode, setLineMode] = useState('connections');
   const [spectralFilter, setSpectralFilter] = useState({
     O: true, B: true, A: true, F: true, G: true, K: true, M: true, L: true, T: true, Y: true, D: true
   });
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  
+  // Use external state if provided, otherwise use internal state
+  const sidebarIsOpen = externalIsOpen !== undefined ? externalIsOpen : isOpen;
+  const setSidebarIsOpen = externalIsOpen !== undefined ? onOpenFilters : setIsOpen;
 
   useEffect(() => {
     const checkMobile = () => {
@@ -49,36 +46,9 @@ const Sidebar = ({
   }, []);
 
   const handleViewDistanceChange = (distance) => {
-    setViewDistance(distance);
-    onViewDistanceChange(distance);
-  };
-
-  const handleGridDisplayChange = (mode) => {
-    setGridDisplay(mode);
-    if (mode === 'none') {
-      onToggleGridVisibility(false);
-    } else {
-      // Call both synchronously - Starfield will handle the state updates
-      onToggleGrid(mode);
-      onToggleGridVisibility(true);
-    }
-  };
-
-  const handleToggleLabelsVisibility = () => {
-    const newValue = !showLabels;
-    setShowLabels(newValue);
-    onToggleLabelsVisibility(newValue);
-  };
-
-  const handleToggleAxesHelper = () => {
-    const newValue = !showAxes;
-    setShowAxes(newValue);
-    onToggleAxesHelper(newValue);
-  };
-
-  const handleLineModeChange = (mode) => {
-    setLineMode(mode);
-    onLineModeChange(mode);
+    const numDistance = Number(distance);
+    setViewDistance(numDistance);
+    onViewDistanceChange(numDistance);
   };
 
   const handleSpectralFilterToggle = (spectralClass) => {
@@ -87,40 +57,11 @@ const Sidebar = ({
     onSpectralFilterChange(newFilter);
   };
 
-  const viewDistances = [8, 12, 16, 20];
-  const shouldShowSidebar = !isMobile || isOpen;
+  const shouldShowSidebar = !isMobile || sidebarIsOpen;
 
   return (
     <>
-      {isMobile && (
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          style={{
-            position: 'fixed',
-            top: '16px',
-            right: '16px',
-            width: '48px',
-            height: '48px',
-            backgroundColor: 'rgba(17, 24, 39, 0.9)',
-            backdropFilter: 'blur(8px)',
-            border: '1px solid rgba(55, 65, 81, 1)',
-            borderRadius: '8px',
-            color: 'white',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: isOpen ? '24px' : '28px',
-            zIndex: 10000,
-            transition: 'background-color 0.2s'
-          }}
-          onMouseDown={(e) => e.target.style.backgroundColor = 'rgba(55, 65, 81, 1)'}
-          onMouseUp={(e) => e.target.style.backgroundColor = 'rgba(17, 24, 39, 0.9)'}
-          onMouseLeave={(e) => e.target.style.backgroundColor = 'rgba(17, 24, 39, 0.9)'}
-        >
-          {isOpen ? '✕' : '⚙'}
-        </button>
-      )}
+      {/* Mobile button removed - now handled by ViewBar filter button */}
 
       {shouldShowSidebar && (
         <div style={{
@@ -161,201 +102,35 @@ const Sidebar = ({
         }}>
           View Distance: {viewDistance} LY
         </div>
-        <div style={{ display: 'flex', gap: '4px' }}>
-          {viewDistances.map(distance => (
-            <button
-              key={distance}
-              onClick={() => handleViewDistanceChange(distance)}
-              style={{
-                flex: 1,
-                padding: '6px',
-                backgroundColor: viewDistance === distance ? '#059669' : '#374151',
-                border: 'none',
-                borderRadius: '4px',
-                color: 'white',
-                cursor: 'pointer',
-                fontSize: '12px',
-                transition: 'background-color 0.2s'
-              }}
-              onMouseEnter={(e) => {
-                if (viewDistance !== distance) {
-                  e.target.style.backgroundColor = '#4b5563';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (viewDistance !== distance) {
-                  e.target.style.backgroundColor = '#374151';
-                }
-              }}
-            >
-              {distance}
-            </button>
-          ))}
+        <input
+          type="range"
+          min="4"
+          max="32"
+          step="4"
+          value={viewDistance}
+          onChange={(e) => handleViewDistanceChange(e.target.value)}
+          style={{
+            width: '100%',
+            height: '6px',
+            borderRadius: '3px',
+            background: `linear-gradient(to right, #059669 0%, #059669 ${((viewDistance - 4) / 28) * 100}%, #374151 ${((viewDistance - 4) / 28) * 100}%, #374151 100%)`,
+            outline: 'none',
+            cursor: 'pointer',
+            WebkitAppearance: 'none',
+            appearance: 'none'
+          }}
+        />
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginTop: '4px',
+          fontSize: '10px',
+          color: '#6b7280'
+        }}>
+          <span>4</span>
+          <span>16</span>
+          <span>32</span>
         </div>
-      </div>
-
-      <div style={{ marginBottom: '16px', paddingTop: '8px', borderTop: '1px solid rgba(55, 65, 81, 1)' }}>
-        <div style={{ 
-          marginBottom: '8px',
-          color: '#9ca3af',
-          fontSize: '12px',
-          fontWeight: 'bold'
-        }}>
-          Grid Display
-        </div>
-        
-        <label style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          cursor: 'pointer',
-          userSelect: 'none',
-          marginBottom: '6px'
-        }}>
-          <input
-            type="radio"
-            name="gridDisplay"
-            value="circular"
-            checked={gridDisplay === 'circular'}
-            onChange={(e) => handleGridDisplayChange(e.target.value)}
-            style={{
-              marginRight: '8px',
-              cursor: 'pointer',
-              width: '16px',
-              height: '16px',
-              accentColor: '#2563eb'
-            }}
-          />
-          <span>Show Radial</span>
-        </label>
-
-        <label style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          cursor: 'pointer',
-          userSelect: 'none',
-          marginBottom: '6px'
-        }}>
-          <input
-            type="radio"
-            name="gridDisplay"
-            value="square"
-            checked={gridDisplay === 'square'}
-            onChange={(e) => handleGridDisplayChange(e.target.value)}
-            style={{
-              marginRight: '8px',
-              cursor: 'pointer',
-              width: '16px',
-              height: '16px',
-              accentColor: '#2563eb'
-            }}
-          />
-          <span>Show Square</span>
-        </label>
-
-        <label style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          cursor: 'pointer',
-          userSelect: 'none'
-        }}>
-          <input
-            type="radio"
-            name="gridDisplay"
-            value="none"
-            checked={gridDisplay === 'none'}
-            onChange={(e) => handleGridDisplayChange(e.target.value)}
-            style={{
-              marginRight: '8px',
-              cursor: 'pointer',
-              width: '16px',
-              height: '16px',
-              accentColor: '#2563eb'
-            }}
-          />
-          <span>Hide Grid</span>
-        </label>
-      </div>
-
-      <div style={{ marginBottom: '16px', paddingTop: '8px', borderTop: '1px solid rgba(55, 65, 81, 1)' }}>
-        <div style={{ 
-          marginBottom: '8px',
-          color: '#9ca3af',
-          fontSize: '12px',
-          fontWeight: 'bold'
-        }}>
-          Line Display
-        </div>
-        
-        <label style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          cursor: 'pointer',
-          userSelect: 'none',
-          marginBottom: '6px'
-        }}>
-          <input
-            type="radio"
-            name="lineMode"
-            value="connections"
-            checked={lineMode === 'connections'}
-            onChange={(e) => handleLineModeChange(e.target.value)}
-            style={{
-              marginRight: '8px',
-              cursor: 'pointer',
-              width: '16px',
-              height: '16px',
-              accentColor: '#2563eb'
-            }}
-          />
-          <span>Show Connections</span>
-        </label>
-
-        <label style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          cursor: 'pointer',
-          userSelect: 'none',
-          marginBottom: '6px'
-        }}>
-          <input
-            type="radio"
-            name="lineMode"
-            value="stalks"
-            checked={lineMode === 'stalks'}
-            onChange={(e) => handleLineModeChange(e.target.value)}
-            style={{
-              marginRight: '8px',
-              cursor: 'pointer',
-              width: '16px',
-              height: '16px',
-              accentColor: '#2563eb'
-            }}
-          />
-          <span>Show Stalks</span>
-        </label>
-
-        <label style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          cursor: 'pointer',
-          userSelect: 'none'
-        }}>
-          <input
-            type="radio"
-            name="lineMode"
-            value="none"
-            checked={lineMode === 'none'}
-            onChange={(e) => handleLineModeChange(e.target.value)}
-            style={{
-              marginRight: '8px',
-              cursor: 'pointer',
-              width: '16px',
-              height: '16px',
-              accentColor: '#2563eb'
-            }}
-          />
-          <span>Stars Only</span>
-        </label>
       </div>
 
       <div style={{ paddingTop: '8px', borderTop: '1px solid rgba(55, 65, 81, 1)' }}>
@@ -411,51 +186,7 @@ const Sidebar = ({
         </div>
       </div>
 
-      <div style={{ paddingTop: '8px', borderTop: '1px solid rgba(55, 65, 81, 1)' }}>
-        <div style={{ marginBottom: '8px' }}>
-          <label style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            cursor: 'pointer',
-            userSelect: 'none'
-          }}>
-            <input
-              type="checkbox"
-              checked={showLabels}
-              onChange={handleToggleLabelsVisibility}
-              style={{
-                marginRight: '8px',
-                cursor: 'pointer',
-                width: '16px',
-                height: '16px'
-              }}
-            />
-            <span>Show Labels</span>
-          </label>
-        </div>
-
-        <div>
-          <label style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            cursor: 'pointer',
-            userSelect: 'none'
-          }}>
-            <input
-              type="checkbox"
-              checked={showAxes}
-              onChange={handleToggleAxesHelper}
-              style={{
-                marginRight: '8px',
-                cursor: 'pointer',
-                width: '16px',
-                height: '16px'
-              }}
-            />
-            <span>Show Axes</span>
-          </label>
-        </div>
-      </div>
+      {/* Only filtering controls below */}
     </div>
       )}
     </>
