@@ -900,21 +900,20 @@ const Starfield = () => {
             passesFilter = spectralFilter[obj.userData.spectralClass];
           }
           
+          // Check if this is a stalk-related object (Line2 or CircleGeometry mesh)
+          const isStalk = (obj.type === 'Line' && obj.geometry?.type === 'LineGeometry') || 
+                         (obj.type === 'Mesh' && obj.geometry?.type === 'CircleGeometry');
+          
+          // Skip stalks - they're managed by the dedicated lineMode useEffect
+          if (isStalk) return;
+          
+          // For stars and glows, just check distance and filter
           obj.visible = withinDistance && passesFilter;
         }
       });
     });
 
-    labelsRef.current.forEach(label => {
-      const withinDistance = label.userData.distance <= viewDistance;
-      
-      let passesFilter = true;
-      if (label.userData.spectralClass) {
-        passesFilter = spectralFilter[label.userData.spectralClass];
-      }
-      
-      label.visible = showLabels && withinDistance && passesFilter;
-    });
+    // Labels are handled in a separate useEffect to avoid interfering with stalks/connections
 
     // Immediately orient and position labels after visibility/filter changes (no camera move needed)
     const camera = cameraRef.current;
@@ -943,11 +942,8 @@ const Starfield = () => {
       clearTimeout(debounceTimeoutRef.current);
     }
 
-    // Rebuild connections and grids immediately for instant redraw
+    // Rebuild grids immediately for instant redraw
     debounceTimeoutRef.current = setTimeout(() => {
-      if (rebuildConnectionsRef.current) {
-        rebuildConnectionsRef.current();
-      }
       buildGrids();
       debounceTimeoutRef.current = null;
     }, 0);
@@ -958,7 +954,7 @@ const Starfield = () => {
         debounceTimeoutRef.current = null;
       }
     };
-  }, [viewDistance, showLabels, spectralFilter]);
+  }, [viewDistance, spectralFilter]);
 
   // Update target camera distance when view distance changes (only if autoZoom is enabled)
   useEffect(() => {
@@ -967,6 +963,22 @@ const Starfield = () => {
       shouldAutoZoomRef.current = true;
     }
   }, [viewDistance, autoZoom]);
+
+  // Separate useEffect for labels - handles distance and filter changes without affecting stalks/connections
+  useEffect(() => {
+    if (!sceneRef.current) return;
+
+    labelsRef.current.forEach(label => {
+      const withinDistance = label.userData.distance <= viewDistance;
+      
+      let passesFilter = true;
+      if (label.userData.spectralClass) {
+        passesFilter = spectralFilter[label.userData.spectralClass];
+      }
+      
+      label.visible = showLabels && withinDistance && passesFilter;
+    });
+  }, [viewDistance, spectralFilter, showLabels]);
 
   useEffect(() => {
     if (!sceneRef.current) return;
@@ -983,6 +995,11 @@ const Starfield = () => {
     connectionsRef.current.forEach(connection => {
       connection.visible = lineMode === 'connections';
     });
+
+    // Rebuild connections when line mode changes to ensure proper visibility
+    if (lineMode === 'connections' && rebuildConnectionsRef.current) {
+      rebuildConnectionsRef.current();
+    }
   }, [lineMode, viewDistance, spectralFilter]);
 
   const handleToggleGrid = (mode) => {
@@ -1011,9 +1028,14 @@ const Starfield = () => {
 
   const handleToggleLabelsVisibility = (visible) => {
     setShowLabels(visible);
+    // Directly update label visibility without triggering other useEffects
     labelsRef.current.forEach(label => {
       const withinDistance = label.userData.distance <= viewDistance;
-      label.visible = visible && withinDistance;
+      let passesFilter = true;
+      if (label.userData.spectralClass) {
+        passesFilter = spectralFilter[label.userData.spectralClass];
+      }
+      label.visible = visible && withinDistance && passesFilter;
     });
   };
 
