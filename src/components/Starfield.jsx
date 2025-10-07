@@ -67,6 +67,10 @@ const Starfield = () => {
   const highlightRef = useRef(null);
   const clockRef = useRef(new THREE.Clock());
   const focusTargetRef = useRef(null);
+  const focusStartTimeRef = useRef(null);
+  const focusStartPosRef = useRef(null);
+  const focusStartTargetRef = useRef(null);
+  const focusPhaseRef = useRef('orienting'); // 'orienting' or 'zooming'
   const isDraggingRef = useRef(false);
   const mouseDownPosRef = useRef(new THREE.Vector2());
   const selectedStarRef = useRef(null);
@@ -536,7 +540,12 @@ const Starfield = () => {
           mesh => mesh.userData.star === selectedStarRef.current
         );
         if (selectedMesh) {
+          // Store starting positions for smooth transition
+          focusStartTimeRef.current = Date.now();
+          focusStartPosRef.current = cameraRef.current.position.clone();
+          focusStartTargetRef.current = controlsRef.current.target.clone();
           focusTargetRef.current = selectedMesh.position.clone();
+          focusPhaseRef.current = 'orienting';
         }
       }
     };
@@ -619,20 +628,49 @@ const Starfield = () => {
         }
       }
       
-      if (focusTargetRef.current) {
+      if (focusTargetRef.current && focusStartTimeRef.current) {
         const targetPos = focusTargetRef.current;
-        controls.target.lerp(targetPos, 0.1);
+        const startTime = focusStartTimeRef.current;
+        const orientDuration = 800; // 0.8 seconds to orient
+        const zoomDuration = 700; // 0.7 seconds to zoom
+        const elapsed = Date.now() - startTime;
         
-        const offset = camera.position.clone().sub(controls.target);
-        const spherical = new THREE.Spherical().setFromVector3(offset);
-        const desiredRadius = 5;
-        spherical.radius = THREE.MathUtils.lerp(spherical.radius, desiredRadius, 0.1);
-        
-        const newPos = new THREE.Vector3().setFromSpherical(spherical).add(controls.target);
-        camera.position.copy(newPos);
-        
-        if (controls.target.distanceTo(targetPos) < 0.01 && Math.abs(spherical.radius - desiredRadius) < 0.1) {
-          focusTargetRef.current = null;
+        if (focusPhaseRef.current === 'orienting') {
+          // Phase 1: Orient camera to look at the target
+          const progress = Math.min(elapsed / orientDuration, 1);
+          const easedProgress = easeInOutCubic(progress);
+          
+          const startTarget = focusStartTargetRef.current;
+          controls.target.lerpVectors(startTarget, targetPos, easedProgress);
+          
+          // When orienting is complete, start zooming
+          if (progress >= 1) {
+            focusPhaseRef.current = 'zooming';
+            focusStartTimeRef.current = Date.now(); // Reset timer for zoom phase
+          }
+        } else if (focusPhaseRef.current === 'zooming') {
+          // Phase 2: Zoom in to the target
+          const progress = Math.min(elapsed / zoomDuration, 1);
+          const easedProgress = easeInOutCubic(progress);
+          
+          const offset = camera.position.clone().sub(controls.target);
+          const spherical = new THREE.Spherical().setFromVector3(offset);
+          const desiredRadius = 5;
+          
+          // Only adjust radius, keep the same direction relative to target
+          spherical.radius = THREE.MathUtils.lerp(spherical.radius, desiredRadius, easedProgress);
+          
+          const newPos = new THREE.Vector3().setFromSpherical(spherical).add(controls.target);
+          camera.position.copy(newPos);
+          
+          // Check if zooming is complete
+          if (progress >= 1) {
+            focusTargetRef.current = null;
+            focusStartTimeRef.current = null;
+            focusStartPosRef.current = null;
+            focusStartTargetRef.current = null;
+            focusPhaseRef.current = 'orienting';
+          }
         }
       }
       
@@ -993,13 +1031,23 @@ const Starfield = () => {
     setSpectralFilter(filter);
   };
 
+  // Easing function for smooth camera transitions
+  const easeInOutCubic = (t) => {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  };
+
   const handleFocusOnStar = () => {
     if (selectedStar) {
       const selectedMesh = starMeshesRef.current.find(
         mesh => mesh.userData.star === selectedStar
       );
       if (selectedMesh) {
+        // Store starting positions for smooth transition
+        focusStartTimeRef.current = Date.now();
+        focusStartPosRef.current = cameraRef.current.position.clone();
+        focusStartTargetRef.current = controlsRef.current.target.clone();
         focusTargetRef.current = selectedMesh.position.clone();
+        focusPhaseRef.current = 'orienting';
       }
     }
   };
