@@ -92,6 +92,8 @@ const Starfield = () => {
   const tmpV3B = useRef(new THREE.Vector3());
   const tmpV2A = useRef(new THREE.Vector2());
   const tmpV2B = useRef(new THREE.Vector2());
+  const measureLineRef = useRef(null);
+  const measureTextRef = useRef(null);
 
   // State
   const [stars, setStars] = useState([]);
@@ -106,6 +108,9 @@ const Starfield = () => {
   });
   const [selectedStar, setSelectedStar] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [measureMode, setMeasureMode] = useState(false);
+  const [measurePoints, setMeasurePoints] = useState([]);
+  const [measureDistance, setMeasureDistance] = useState(null);
 
   // Load star data
   useEffect(() => {
@@ -288,6 +293,35 @@ const Starfield = () => {
     highlight.visible = false;
     scene.add(highlight);
     highlightRef.current = highlight;
+
+    // Create measure line
+    const measureLineGeometry = new THREE.BufferGeometry();
+    const measureLineMaterial = new THREE.LineBasicMaterial({
+      color: 0x00ff00,
+      linewidth: 2,
+      transparent: true,
+      opacity: 0.8
+    });
+    const measureLine = new THREE.Line(measureLineGeometry, measureLineMaterial);
+    measureLine.visible = false;
+    scene.add(measureLine);
+    measureLineRef.current = measureLine;
+
+    // Create measure text
+    const measureText = new Text();
+    measureText.text = '';
+    measureText.font = LABEL_CONFIG.font.path;
+    measureText.fontSize = LABEL_CONFIG.font.size * 0.8;
+    measureText.color = '#00ff00';
+    measureText.outlineWidth = LABEL_CONFIG.appearance.outlineWidth;
+    measureText.outlineColor = '#000000';
+    measureText.outlineOpacity = 0.8;
+    measureText.anchorX = 'center';
+    measureText.anchorY = 'middle';
+    measureText.textAlign = 'center';
+    measureText.visible = false;
+    scene.add(measureText);
+    measureTextRef.current = measureText;
 
     const starMeshes = [];
     stars.forEach(star => {
@@ -500,10 +534,12 @@ const Starfield = () => {
 
       if (intersects.length > 0) {
         const star = intersects[0].object;
-        highlight.position.copy(star.position);
-        highlight.visible = true;
+        if (!measureMode) {
+          highlight.position.copy(star.position);
+          highlight.visible = true;
+        }
       } else {
-        if (!selectedStarRef.current) {
+        if (!selectedStarRef.current && !measureMode) {
           highlight.visible = false;
         }
       }
@@ -518,18 +554,60 @@ const Starfield = () => {
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
       raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(starMeshesRef.current);
+      const visibleStars = starMeshesRef.current.filter(mesh => mesh.visible);
+      const intersects = raycaster.intersectObjects(visibleStars, false);
 
       if (intersects.length > 0) {
         const star = intersects[0].object;
-        selectedStarRef.current = star.userData.star;
-        setSelectedStar(star.userData.star);
-        highlight.position.copy(star.position);
-        highlight.visible = true;
+        const starData = star.userData.star;
+        
+        if (measureMode) {
+          // Handle measure mode
+          // Safari-specific fix: small delay to ensure state updates properly
+          if (isSafari) {
+            setTimeout(() => {
+              setMeasurePoints(prev => {
+                const newPoints = [...prev, starData];
+                if (newPoints.length === 2) {
+                  const distance = calculateDistance(newPoints[0], newPoints[1]);
+                  setMeasureDistance(distance);
+                  return newPoints;
+                } else if (newPoints.length > 2) {
+                  // Reset with new point
+                  return [starData];
+                }
+                return newPoints;
+              });
+            }, 10);
+          } else {
+            setMeasurePoints(prev => {
+              const newPoints = [...prev, starData];
+              if (newPoints.length === 2) {
+                const distance = calculateDistance(newPoints[0], newPoints[1]);
+                setMeasureDistance(distance);
+                return newPoints;
+              } else if (newPoints.length > 2) {
+                // Reset with new point
+                return [starData];
+              }
+              return newPoints;
+            });
+          }
+        } else {
+          // Normal star selection (only when not in measure mode)
+          selectedStarRef.current = starData;
+          setSelectedStar(starData);
+          highlight.position.copy(star.position);
+          highlight.visible = true;
+        }
       } else {
-        selectedStarRef.current = null;
-        setSelectedStar(null);
-        highlight.visible = false;
+        // No star clicked
+        if (!measureMode) {
+          // Only clear selection if not in measure mode
+          selectedStarRef.current = null;
+          setSelectedStar(null);
+          highlight.visible = false;
+        }
       }
     };
 
@@ -612,6 +690,7 @@ const Starfield = () => {
       
       controls.update();
       
+      
       // Camera distance animation - zoom from current position relative to controls target
       if (autoZoom && !focusTargetRef.current && shouldAutoZoomRef.current) {
         const targetDistance = targetCameraDistanceRef.current;
@@ -680,6 +759,7 @@ const Starfield = () => {
         const scale = 0.5 + pulse * 0.1;
         highlightRef.current.scale.set(scale, scale, 1);
       }
+
 
       // Depth-based fade for lines (reduce clutter)
       const cameraPos = camera.position;
@@ -771,6 +851,12 @@ const Starfield = () => {
             label.quaternion.copy(camera.quaternion);
             label.sync();
           });
+
+          // Update measure text to face camera
+          if (measureTextRef.current && measureTextRef.current.visible) {
+            measureTextRef.current.quaternion.copy(camera.quaternion);
+            measureTextRef.current.sync();
+          }
 
           // Distance-based fade only (no culling)
           const canvas = renderer.domElement;
@@ -980,6 +1066,33 @@ const Starfield = () => {
     });
   }, [viewDistance, spectralFilter, showLabels]);
 
+  // Handle measure line visualization
+  useEffect(() => {
+    if (!sceneRef.current || !measureLineRef.current || !measureTextRef.current) return;
+
+    if (measurePoints.length === 2 && measureDistance !== null) {
+      // Create line between the two measure points
+      const pos1 = raDecToXYZ(measurePoints[0].ra, measurePoints[0].dec, measurePoints[0].distance_ly);
+      const pos2 = raDecToXYZ(measurePoints[1].ra, measurePoints[1].dec, measurePoints[1].distance_ly);
+      
+      // Update line geometry
+      const lineGeometry = new THREE.BufferGeometry().setFromPoints([pos1, pos2]);
+      measureLineRef.current.geometry.dispose();
+      measureLineRef.current.geometry = lineGeometry;
+      measureLineRef.current.visible = true;
+
+      // Position text at midpoint
+      const midpoint = pos1.clone().add(pos2).multiplyScalar(0.5);
+      measureTextRef.current.position.copy(midpoint);
+      measureTextRef.current.text = `${measureDistance.toFixed(2)} LY`;
+      measureTextRef.current.visible = true;
+      measureTextRef.current.sync();
+    } else {
+      measureLineRef.current.visible = false;
+      measureTextRef.current.visible = false;
+    }
+  }, [measurePoints, measureDistance]);
+
   useEffect(() => {
     if (!sceneRef.current) return;
 
@@ -1053,6 +1166,23 @@ const Starfield = () => {
     setSpectralFilter(filter);
   };
 
+  const handleToggleMeasure = (enabled) => {
+    setMeasureMode(enabled);
+    if (!enabled) {
+      // Clear measure points when disabling measure mode
+      setMeasurePoints([]);
+      setMeasureDistance(null);
+    }
+  };
+
+
+
+  const calculateDistance = (star1, star2) => {
+    const pos1 = raDecToXYZ(star1.ra, star1.dec, star1.distance_ly);
+    const pos2 = raDecToXYZ(star2.ra, star2.dec, star2.distance_ly);
+    return pos1.distanceTo(pos2);
+  };
+
   // Easing function for smooth camera transitions
   const easeInOutCubic = (t) => {
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -1071,6 +1201,22 @@ const Starfield = () => {
         focusTargetRef.current = selectedMesh.position.clone();
         focusPhaseRef.current = 'orienting';
       }
+    }
+  };
+
+  const handleStarSelect = (star) => {
+    setSelectedStar(star);
+    // Focus on the selected star
+    const selectedMesh = starMeshesRef.current.find(
+      mesh => mesh.userData.star === star
+    );
+    if (selectedMesh) {
+      // Store starting positions for smooth transition
+      focusStartTimeRef.current = Date.now();
+      focusStartPosRef.current = cameraRef.current.position.clone();
+      focusStartTargetRef.current = controlsRef.current.target.clone();
+      focusTargetRef.current = selectedMesh.position.clone();
+      focusPhaseRef.current = 'orienting';
     }
   };
 
@@ -1244,6 +1390,8 @@ const Starfield = () => {
         onSpectralFilterChange={handleSpectralFilterChange}
         onOpenFilters={setSidebarOpen}
         isOpen={sidebarOpen}
+        stars={stars}
+        onStarSelect={handleStarSelect}
       />
       <ViewBar
         gridMode={gridMode}
@@ -1251,6 +1399,7 @@ const Starfield = () => {
         lineMode={lineMode}
         showLabels={showLabels}
         showAxes={axesHelperRef.current ? axesHelperRef.current.visible : false}
+        measureMode={measureMode}
         onGridChange={(mode) => {
           if (mode === 'none') {
             handleToggleGridVisibility(false);
@@ -1262,15 +1411,60 @@ const Starfield = () => {
         onLineModeChange={handleLineModeChange}
         onToggleLabels={handleToggleLabelsVisibility}
         onToggleAxes={handleToggleAxesHelper}
+        onToggleMeasure={handleToggleMeasure}
         onOpenFilters={() => setSidebarOpen(true)}
         onCloseFilters={() => setSidebarOpen(false)}
         filterOpen={sidebarOpen}
       />
-      <InfoPanel 
-        star={selectedStar}
-        onClose={() => setSelectedStar(null)}
-        onFocus={handleFocusOnStar}
-      />
+      {!measureMode && (
+        <InfoPanel 
+          star={selectedStar}
+          onClose={() => setSelectedStar(null)}
+          onFocus={handleFocusOnStar}
+        />
+      )}
+      
+      {/* Measure Mode Status Popup */}
+      {measureMode && (
+        <div style={{
+          position: 'fixed',
+          top: '80px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          backgroundColor: 'rgba(0, 255, 0, 0.1)',
+          border: '2px solid #00ff00',
+          borderRadius: '8px',
+          padding: '12px 20px',
+          color: '#00ff00',
+          fontFamily: 'monospace',
+          fontSize: '14px',
+          fontWeight: 'bold',
+          zIndex: 10000,
+          textAlign: 'center',
+          backdropFilter: 'blur(4px)'
+        }}>
+          {measurePoints.length === 0 && (
+            <div>📏 Measure Mode: Click first star</div>
+          )}
+          {measurePoints.length === 1 && (
+            <div>
+              <div>✅ Selected: {measurePoints[0].name}</div>
+              <div style={{ fontSize: '12px', marginTop: '4px', opacity: 0.8 }}>
+                Click another star to measure distance
+              </div>
+            </div>
+          )}
+          {measurePoints.length === 2 && measureDistance !== null && (
+            <div>
+              <div>📐 Distance: {measureDistance.toFixed(2)} LY</div>
+              <div style={{ fontSize: '12px', marginTop: '4px', opacity: 0.8 }}>
+                Click "M" to reset or click another star for new measurement
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+      
       <div 
         ref={mountRef} 
         style={{ 

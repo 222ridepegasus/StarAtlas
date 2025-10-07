@@ -74,10 +74,12 @@ const ViewBar = ({
   lineMode,
   showLabels,
   showAxes,
+  measureMode,
   onGridChange,
   onLineModeChange,
   onToggleLabels,
   onToggleAxes,
+  onToggleMeasure,
   onOpenFilters,
   onCloseFilters,
   filterOpen: externalFilterOpen
@@ -116,6 +118,8 @@ const ViewBar = ({
       <ToggleButton label="N" title="Stars only" selected={lineMode === 'none'} onClick={() => onLineModeChange('none')} />
     </div>
   );
+
+
 
   return (
     <>
@@ -179,6 +183,7 @@ const ViewBar = ({
               <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
                 <CheckboxButton label="Lbl" title="Labels" checked={showLabels} onClick={() => onToggleLabels(!showLabels)} />
                 <CheckboxButton label="Ax" title="Axes" checked={showAxes} onClick={() => onToggleAxes(!showAxes)} />
+                <CheckboxButton label="M" title="Measure" checked={measureMode} onClick={() => onToggleMeasure(!measureMode)} />
               </div>
             </div>
           )}
@@ -198,6 +203,7 @@ const ViewBar = ({
             <div style={{ display: 'flex', gap: '8px' }}>
               <CheckboxButton label="Lbl" title="Labels" checked={showLabels} onClick={() => onToggleLabels(!showLabels)} />
               <CheckboxButton label="Ax" title="Axes" checked={showAxes} onClick={() => onToggleAxes(!showAxes)} />
+              <CheckboxButton label="M" title="Measure" checked={measureMode} onClick={() => onToggleMeasure(!measureMode)} />
             </div>
           </div>
         )
