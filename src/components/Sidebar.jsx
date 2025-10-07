@@ -57,6 +57,7 @@ const Sidebar = ({
     onSpectralFilterChange(newFilter);
   };
 
+
   const shouldShowSidebar = !isMobile || sidebarIsOpen;
 
   return (
@@ -185,6 +186,7 @@ const Sidebar = ({
           ))}
         </div>
       </div>
+
 
       {/* Only filtering controls below */}
     </div>
