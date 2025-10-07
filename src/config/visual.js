@@ -9,7 +9,7 @@ export const COLORS = {
   background: 0x0f0f1a,
   
   // Grid - Square
-  gridSquare: 0x888888,
+  gridSquare: 0x444488, // was 0x888888
   gridSquareMinor: 0x444444,
   
   // Grid - Circular
