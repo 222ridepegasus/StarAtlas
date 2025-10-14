@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const InfoPanel = ({ star, onClose, onFocus }) => {
+const InfoPanel = ({ star, onClose, onFocus, onZoom, isFocused }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const InfoPanel = ({ star, onClose, onFocus }) => {
       color: 'white',
       fontFamily: 'monospace',
       fontSize: '14px',
-      zIndex: 9998,
+      zIndex: 40,
       overflowY: 'auto',
       boxSizing: 'border-box'
     }}>
@@ -137,7 +137,7 @@ const InfoPanel = ({ star, onClose, onFocus }) => {
         borderTop: '1px solid rgba(55, 65, 81, 1)'
       }}>
         <button
-          onClick={onFocus}
+          onClick={() => onFocus(star)}
           style={{
             flex: 1,
             padding: '10px',
@@ -156,21 +156,23 @@ const InfoPanel = ({ star, onClose, onFocus }) => {
           Focus Camera
         </button>
         <button
-          onClick={onClose}
+          onClick={() => onZoom(star)}
           style={{
-            padding: '10px 16px',
-            backgroundColor: '#374151',
+            flex: 1,
+            padding: '10px',
+            backgroundColor: '#dc2626',
             border: 'none',
             borderRadius: '4px',
             color: 'white',
             cursor: 'pointer',
             fontSize: '13px',
+            fontWeight: 'bold',
             transition: 'background-color 0.2s'
           }}
-          onMouseEnter={(e) => e.target.style.backgroundColor = '#4b5563'}
-          onMouseLeave={(e) => e.target.style.backgroundColor = '#374151'}
+          onMouseEnter={(e) => e.target.style.backgroundColor = '#b91c1c'}
+          onMouseLeave={(e) => e.target.style.backgroundColor = '#dc2626'}
         >
-          Close
+          Zoom Camera
         </button>
       </div>
     </div>

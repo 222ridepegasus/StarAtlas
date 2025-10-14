@@ -29,9 +29,18 @@ const dummyStars = [
 export default function TestSearch() {
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  
+  // Mock state for testing
+  const [gridMode, setGridMode] = useState('circular');
+  const [lineMode, setLineMode] = useState('connections');
+  const [showLabels, setShowLabels] = useState(true);
+  const [viewDistance, setViewDistance] = useState(20);
+  const [spectralFilter, setSpectralFilter] = useState({
+    O: true, B: true, A: true, F: true, G: true, K: true, M: true, L: true, T: true, Y: true, D: true
+  });
 
   const handleSearchChange = (searchTerm) => {
-    if (!searchTerm || searchTerm.trim() === '') {
+    if (!searchTerm || searchTerm.trim() === '' || searchTerm.length < 2) {
       setSearchResults([]);
       setShowSearchResults(false);
       return;
@@ -58,8 +67,30 @@ export default function TestSearch() {
     console.log('Export SVG clicked');
   };
 
-  const handleExportPNG = () => {
-    console.log('Export PNG clicked');
+  // Mock handlers for testing
+  const handleGridChange = (mode) => {
+    console.log('Grid changed to:', mode);
+    setGridMode(mode);
+  };
+
+  const handleLineModeChange = (mode) => {
+    console.log('Line mode changed to:', mode);
+    setLineMode(mode);
+  };
+
+  const handleToggleLabels = () => {
+    console.log('Labels toggled');
+    setShowLabels(!showLabels);
+  };
+
+  const handleViewDistanceChange = (distance) => {
+    console.log('View distance changed to:', distance);
+    setViewDistance(distance);
+  };
+
+  const handleSpectralFilterChange = (filter) => {
+    console.log('Spectral filter changed:', filter);
+    setSpectralFilter(filter);
   };
 
   return (
@@ -67,14 +98,22 @@ export default function TestSearch() {
       <Toolbar 
         onSearchChange={handleSearchChange}
         onExportSVG={handleExportSVG}
-        onExportPNG={handleExportPNG}
-      />
-      
-      <SearchResults
-        isVisible={showSearchResults}
-        results={searchResults}
-        onStarSelect={handleSearchResultSelect}
-        onClose={handleCloseSearchResults}
+        searchResults={searchResults}
+        showSearchResults={showSearchResults}
+        onSearchResultSelect={handleSearchResultSelect}
+        onCloseSearchResults={handleCloseSearchResults}
+        // State props
+        gridMode={gridMode}
+        lineMode={lineMode}
+        showLabels={showLabels}
+        viewDistance={viewDistance}
+        spectralFilter={spectralFilter}
+        // Callback props
+        onGridChange={handleGridChange}
+        onLineModeChange={handleLineModeChange}
+        onToggleLabels={handleToggleLabels}
+        onViewDistanceChange={handleViewDistanceChange}
+        onSpectralFilterChange={handleSpectralFilterChange}
       />
     </div>
   );

@@ -1,4 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import SectionHeader from './SectionHeader';
+import Separator from './Separator';
+import ButtonIconSmall from './ButtonIconSmall';
+import SearchResultsListItem from './SearchResultsListItem';
 
 export default function SearchResults({ 
   isVisible = false,
@@ -6,44 +10,56 @@ export default function SearchResults({
   onStarSelect = null,
   onClose = null
 }) {
+  const searchResultsRef = useRef(null);
+
+  // Handle click outside to close
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchResultsRef.current && !searchResultsRef.current.contains(event.target)) {
+        if (onClose) {
+          onClose();
+        }
+      }
+    };
+
+    if (isVisible) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isVisible, onClose]);
   if (!isVisible || results.length === 0) return null;
 
   return (
-    <div className="fixed top-20 left-4 w-80 bg-grey-700 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
+    <div ref={searchResultsRef} className="w-[180px] bg-grey-700 rounded-md z-50 max-h-96 overflow-y-auto pb-3 scrollbar-hide">
       {/* Header */}
-      <div className="flex justify-between items-center p-3 border-b border-grey-600">
-        <h3 className="text-sm font-inter font-medium text-grey-100">
-          Search Results ({results.length})
-        </h3>
-        <button
+      <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 h-8 relative gap-1 pl-2 pr-2">
+        <div className="flex justify-start items-center flex-grow relative gap-0.5">
+          <p className="flex-grow-0 flex-shrink-0 text-[11px] font-semibold text-left text-white">
+            Search Results
+          </p>
+          <p className="flex-grow-0 flex-shrink-0 text-[11px] font-semibold text-right text-white">
+            ({results.length})
+          </p>
+        </div>
+        <ButtonIconSmall
+          icon="/icons/ui/Icon_UI_Close_01.svg"
+          alt="Close"
           onClick={onClose}
-          className="text-grey-400 hover:text-grey-200 transition-colors"
-        >
-          ✕
-        </button>
+          size="small"
+        />
       </div>
 
       {/* Results List */}
-      <div className="p-2">
+      <div className="px-2 space-y-1">
         {results.map((star, index) => (
-          <div
+          <SearchResultsListItem
             key={index}
+            star={star}
             onClick={() => onStarSelect && onStarSelect(star)}
-            className="flex items-center gap-3 p-2 rounded-md hover:bg-grey-600 cursor-pointer transition-colors"
-          >
-            {/* Star Color Indicator */}
-            <div className="w-3 h-3 rounded-full bg-blue-400"></div>
-            
-            {/* Star Info */}
-            <div className="flex-1 min-w-0">
-              <div className="text-sm font-inter font-medium text-grey-100 truncate">
-                {star.name}
-              </div>
-              <div className="text-xs text-grey-400">
-                {star.distance_ly.toFixed(1)} LY • {star.ra} • {star.dec}
-              </div>
-            </div>
-          </div>
+          />
         ))}
       </div>
     </div>
