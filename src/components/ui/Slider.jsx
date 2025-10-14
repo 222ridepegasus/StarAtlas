@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Slider({ 
   value = 20, 
@@ -9,6 +9,11 @@ export default function Slider({
   width = "132px"
 }) {
   const [currentValue, setCurrentValue] = useState(value);
+
+  // Sync internal state with external value prop
+  useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
 
   const handleChange = (e) => {
     const newValue = parseInt(e.target.value);

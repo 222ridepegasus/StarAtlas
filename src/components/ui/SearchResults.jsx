@@ -35,7 +35,7 @@ export default function SearchResults({
   return (
     <div ref={searchResultsRef} className="w-[180px] bg-grey-700 rounded-md z-50 max-h-96 overflow-y-auto pb-3 scrollbar-hide">
       {/* Header */}
-      <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 h-8 relative gap-1 pl-2 pr-1.5">
+      <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 h-8 relative gap-1 pl-2 pr-2">
         <div className="flex justify-start items-center flex-grow relative gap-0.5">
           <p className="flex-grow-0 flex-shrink-0 text-[11px] font-semibold text-left text-white">
             Search Results
@@ -51,11 +51,9 @@ export default function SearchResults({
           size="small"
         />
       </div>
-      
-      <Separator />
 
       {/* Results List */}
-      <div className="p-2 space-y-1">
+      <div className="px-2 space-y-1">
         {results.map((star, index) => (
           <SearchResultsListItem
             key={index}
