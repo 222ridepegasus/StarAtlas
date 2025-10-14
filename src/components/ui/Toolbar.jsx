@@ -8,11 +8,27 @@ import CollapsibleHeader from './CollapsibleHeader';
 import StarClassItem from './StarClassItem';
 import ButtonTextSmall from './ButtonTextSmall';
 import SearchInput from './SearchInput';
+import SearchResults from './SearchResults';
 
 export default function Toolbar({ 
   onSearchChange = null,
   onExportSVG = null,
-  onExportPNG = null
+  searchResults = [],
+  showSearchResults = false,
+  onSearchResultSelect = null,
+  onCloseSearchResults = null,
+  // State props
+  gridMode = 'circular',
+  lineMode = 'connections',
+  showLabels = true,
+  viewDistance = 20,
+  spectralFilter = {},
+  // Callback props
+  onGridChange = null,
+  onLineModeChange = null,
+  onToggleLabels = null,
+  onViewDistanceChange = null,
+  onSpectralFilterChange = null
 }) {
   // View Options Grid tabs
   const viewGridTabs = [
@@ -23,9 +39,9 @@ export default function Toolbar({
 
   // View Options Display tabs
   const viewDisplayTabs = [
-    { id: 'starsOnly', icon: '/icons/ui/Icon_UI_StarsOnly_01.svg', alt: 'Stars Only' },
-    { id: 'stalks', icon: '/icons/ui/Icon_UI_Stalks_01.svg', alt: 'Stalks' },
     { id: 'connections', icon: '/icons/ui/Icon_UI_Connections_01.svg', alt: 'Connections' },
+    { id: 'stalks', icon: '/icons/ui/Icon_UI_Stalks_01.svg', alt: 'Stalks' },
+    { id: 'starsOnly', icon: '/icons/ui/Icon_UI_StarsOnly_01.svg', alt: 'Stars Only' },
   ];
 
   // Star Class collapse state
@@ -49,20 +65,36 @@ export default function Toolbar({
     { type: 'D', color: 'spectral-D' },
   ];
 
-  const handleGridChange = (gridId) => {
-    console.log('Grid changed to:', gridId);
+
+  const handleLabelsToggle = () => {
+    if (onToggleLabels) {
+      onToggleLabels();
+    }
   };
 
-  const handleDisplayChange = (displayId) => {
-    console.log('Display changed to:', displayId);
+  const handleGridChange = (mode) => {
+    if (onGridChange) {
+      onGridChange(mode);
+    }
+  };
+
+  const handleLineModeChange = (mode) => {
+    if (onLineModeChange) {
+      onLineModeChange(mode);
+    }
   };
 
   const handleDistanceChange = (distance) => {
-    console.log('Distance changed to:', distance);
+    if (onViewDistanceChange) {
+      onViewDistanceChange(distance);
+    }
   };
 
-  const handleLabelsToggle = () => {
-    console.log('Labels toggled');
+  const handleSpectralFilterChange = (spectralClass) => {
+    if (onSpectralFilterChange) {
+      const newFilter = { ...spectralFilter, [spectralClass]: !spectralFilter[spectralClass] };
+      onSpectralFilterChange(newFilter);
+    }
   };
 
   const handleStarClassToggle = () => {
@@ -85,13 +117,6 @@ export default function Toolbar({
     }
   };
 
-  const handleExportPNG = () => {
-    if (onExportPNG) {
-      onExportPNG();
-    } else {
-      console.log('Export PNG clicked');
-    }
-  };
 
   const handleSearchChange = (searchTerm) => {
     if (onSearchChange) {
@@ -100,7 +125,7 @@ export default function Toolbar({
   };
 
   return (
-    <div className="fixed top-4 left-4 font-sans">
+    <div className="fixed top-4 left-4 font-sans z-50">
       {/* Master Wrap - no styling, just positioning */}
       
       {/* Controls Block */}
@@ -130,10 +155,11 @@ export default function Toolbar({
 
           {/* Display Options - 16px bottom padding */}
           <div className="pb-4 px-2">
-            <TabGroup 
+            <TabGroup
               tabs={viewDisplayTabs}
-              defaultActive="starsOnly"
+              defaultActive="connections"
               columns={3}
+              onChange={handleLineModeChange}
             />
           </div>
         </section>
@@ -141,14 +167,15 @@ export default function Toolbar({
         <Separator />
 
         <section>
-          <SectionHeader title="Distance" value="16 LY" />
+          <SectionHeader title="Distance" value={`${viewDistance} LY`} />
           
           {/* Slider wrapper for manual padding control */}
           <div className="px-2 py-2 pb-5">
             <Slider 
-              value={16}
-              min={0}
-              max={50}
+              value={viewDistance}
+              min={4}
+              max={32}
+              step={4}
               onChange={handleDistanceChange}
               width="132px"
             />
@@ -166,7 +193,7 @@ export default function Toolbar({
               <ButtonIcon 
                 icon="/icons/ui/Icon_UI_Labels_01.svg"
                 alt="Toggle Labels"
-                isActive={true}
+                isActive={showLabels}
                 onClick={handleLabelsToggle}
                 width="32px"
               />
@@ -192,8 +219,8 @@ export default function Toolbar({
                   key={starClass.type}
                   type={starClass.type}
                   color={starClass.color}
-                  isChecked={true}
-                  onChange={handleStarClassChange}
+                  isChecked={spectralFilter[starClass.type] || false}
+                  onChange={() => handleSpectralFilterChange(starClass.type)}
                 />
               ))}
             </div>
@@ -212,17 +239,23 @@ export default function Toolbar({
           
           {!isExportCollapsed && (
             <div className="px-2 py-2 space-y-2">
-              <ButtonTextSmall 
-                text="Export SVG"
-                onClick={handleExportSVG}
-              />
-              <ButtonTextSmall 
-                text="Export PNG"
-                onClick={handleExportPNG}
-              />
+                <ButtonTextSmall
+                  text="Export SVG"
+                  onClick={handleExportSVG}
+                />
             </div>
           )}
         </section>
+      </div>
+      
+      {/* Search Results Panel - Positioned 8px to the right */}
+      <div className="absolute top-0 left-full ml-2">
+        <SearchResults
+          isVisible={showSearchResults}
+          results={searchResults}
+          onStarSelect={onSearchResultSelect}
+          onClose={onCloseSearchResults}
+        />
       </div>
 
     </div>

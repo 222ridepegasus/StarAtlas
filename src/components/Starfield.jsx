@@ -7,11 +7,8 @@ import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
 import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry.js';
 import { COLORS, SIZES, STROKE_WEIGHTS, getSpectralColor } from '../config/visual.js';
 import { LABEL_CONFIG, formatStarName } from '../config/labels.js';
-import Sidebar from './Sidebar.jsx';
 import InfoPanel from './InfoPanel.jsx';
-import ViewBar from './ViewBar.jsx';
 import Toolbar from './ui/Toolbar.jsx';
-import SearchResults from './ui/SearchResults.jsx';
 
 // Helper function to convert RA string to radians
 const raToRadians = (ra) => {
@@ -73,6 +70,7 @@ const Starfield = () => {
   const focusStartPosRef = useRef(null);
   const focusStartTargetRef = useRef(null);
   const focusPhaseRef = useRef('orienting'); // 'orienting' or 'zooming'
+  const isSearchResultFocusRef = useRef(false); // Flag to skip zoom for search results
   const isDraggingRef = useRef(false);
   const mouseDownPosRef = useRef(new THREE.Vector2());
   const selectedStarRef = useRef(null);
@@ -109,7 +107,6 @@ const Starfield = () => {
     O: true, B: true, A: true, F: true, G: true, K: true, M: true, L: true, T: true, Y: true, D: true
   });
   const [selectedStar, setSelectedStar] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [measureMode, setMeasureMode] = useState(false);
   const [measurePoints, setMeasurePoints] = useState([]);
   const [measureDistance, setMeasureDistance] = useState(null);
@@ -726,10 +723,20 @@ const Starfield = () => {
           const startTarget = focusStartTargetRef.current;
           controls.target.lerpVectors(startTarget, targetPos, easedProgress);
           
-          // When orienting is complete, start zooming
+          // When orienting is complete, start zooming (unless it's a search result)
           if (progress >= 1) {
-            focusPhaseRef.current = 'zooming';
-            focusStartTimeRef.current = Date.now(); // Reset timer for zoom phase
+            if (isSearchResultFocusRef.current) {
+              // Skip zoom phase for search results - just complete the animation
+              focusStartTimeRef.current = null;
+              focusStartPosRef.current = null;
+              focusStartTargetRef.current = null;
+              focusTargetRef.current = null;
+              focusPhaseRef.current = 'orienting';
+              isSearchResultFocusRef.current = false;
+            } else {
+              focusPhaseRef.current = 'zooming';
+              focusStartTimeRef.current = Date.now(); // Reset timer for zoom phase
+            }
           }
         } else if (focusPhaseRef.current === 'zooming') {
           // Phase 2: Zoom in to the target
@@ -1162,9 +1169,6 @@ const Starfield = () => {
     }
   };
 
-  const handleLineModeChange = (mode) => {
-    setLineMode(mode);
-  };
 
   const handleSpectralFilterChange = (filter) => {
     setSpectralFilter(filter);
@@ -1194,10 +1198,20 @@ const Starfield = () => {
 
   const handleFocusOnStar = () => {
     if (selectedStar) {
+      // Check if star is beyond view distance and expand if needed
+      if (selectedStar.distance_ly > viewDistance) {
+        const newDistance = Math.ceil(selectedStar.distance_ly / 4) * 4;
+        const cappedDistance = Math.min(newDistance, 32);
+        setViewDistance(cappedDistance);
+      }
+      
       const selectedMesh = starMeshesRef.current.find(
         mesh => mesh.userData.star === selectedStar
       );
       if (selectedMesh) {
+        // Set flag to skip zoom phase (Focus button only orients, no zoom)
+        isSearchResultFocusRef.current = true;
+        
         // Store starting positions for smooth transition
         focusStartTimeRef.current = Date.now();
         focusStartPosRef.current = cameraRef.current.position.clone();
@@ -1226,7 +1240,7 @@ const Starfield = () => {
 
   // Search functionality
   const handleSearchChange = (searchTerm) => {
-    if (!searchTerm || searchTerm.trim() === '') {
+    if (!searchTerm || searchTerm.trim() === '' || searchTerm.length < 2) {
       setSearchResults([]);
       setShowSearchResults(false);
       return;
@@ -1244,11 +1258,23 @@ const Starfield = () => {
     setSelectedStar(star);
     setShowSearchResults(false);
     
-    // Focus on the selected star
+    // If the star is beyond current view distance, expand the view to include it
+    if (star.distance_ly > viewDistance) {
+      // Calculate the next step up in our 4LY increments
+      const newDistance = Math.ceil(star.distance_ly / 4) * 4;
+      // Cap at 32 LY maximum
+      const cappedDistance = Math.min(newDistance, 32);
+      setViewDistance(cappedDistance);
+    }
+    
+    // Smoothly orient camera to the selected star (without zooming)
     const selectedMesh = starMeshesRef.current.find(
       mesh => mesh.userData.star === star
     );
     if (selectedMesh) {
+      // Set flag to skip zoom phase for search results
+      isSearchResultFocusRef.current = true;
+      
       // Store starting positions for smooth transition
       focusStartTimeRef.current = Date.now();
       focusStartPosRef.current = cameraRef.current.position.clone();
@@ -1262,10 +1288,92 @@ const Starfield = () => {
     setShowSearchResults(false);
   };
 
+  // Check if camera is already focused on a star
+  const isCameraFocusedOnStar = (star) => {
+    if (!star || !controlsRef.current || !cameraRef.current) return false;
+    
+    const starMesh = starMeshesRef.current.find(mesh => mesh.userData.star === star);
+    if (!starMesh) return false;
+    
+    const controls = controlsRef.current;
+    const starPosition = starMesh.position;
+    const targetPosition = controls.target;
+    
+    // Check if the camera target is very close to the star position
+    const distance = targetPosition.distanceTo(starPosition);
+    const threshold = 0.1; // Very small threshold for "focused"
+    
+    return distance < threshold;
+  };
+
+  // Handle zoom when already focused on a star
+  const handleZoomToStar = () => {
+    if (!selectedStar) return;
+    
+    const selectedMesh = starMeshesRef.current.find(
+      mesh => mesh.userData.star === selectedStar
+    );
+    if (selectedMesh) {
+      // Check if star is beyond view distance and expand if needed
+      if (selectedStar.distance_ly > viewDistance) {
+        const newDistance = Math.ceil(selectedStar.distance_ly / 4) * 4;
+        const cappedDistance = Math.min(newDistance, 32);
+        setViewDistance(cappedDistance);
+      }
+      
+      // Check if camera is already focused on this star
+      const controls = controlsRef.current;
+      const starPosition = selectedMesh.position;
+      const targetPosition = controls.target;
+      const distance = targetPosition.distanceTo(starPosition);
+      const alreadyFocused = distance < 0.1;
+      
+      if (alreadyFocused) {
+        // If already focused, skip orientation and go straight to zoom
+        focusStartTimeRef.current = Date.now();
+        focusStartPosRef.current = cameraRef.current.position.clone();
+        focusStartTargetRef.current = controlsRef.current.target.clone();
+        focusTargetRef.current = selectedMesh.position.clone();
+        focusPhaseRef.current = 'zooming'; // Skip straight to zoom
+        isSearchResultFocusRef.current = false;
+      } else {
+        // If not focused, do full orient + zoom animation
+        isSearchResultFocusRef.current = false;
+        focusStartTimeRef.current = Date.now();
+        focusStartPosRef.current = cameraRef.current.position.clone();
+        focusStartTargetRef.current = controlsRef.current.target.clone();
+        focusTargetRef.current = selectedMesh.position.clone();
+        focusPhaseRef.current = 'orienting';
+      }
+    }
+  };
+
   // Export handlers
-  const handleExportPNG = () => {
-    console.log('Export PNG clicked');
-    // TODO: Implement PNG export functionality
+  const handleGridChange = (mode) => {
+    if (mode === 'gridNone') {
+      setShowGrid(false);
+    } else {
+      setShowGrid(true);
+      if (mode === 'gridRadial') {
+        setGridMode('circular');
+      } else if (mode === 'gridSquare') {
+        setGridMode('square');
+      }
+    }
+  };
+
+  const handleLineModeChange = (mode) => {
+    if (mode === 'connections') {
+      setLineMode('connections');
+    } else if (mode === 'stalks') {
+      setLineMode('stalks');
+    } else if (mode === 'starsOnly') {
+      setLineMode('none');
+    }
+  };
+
+  const handleToggleLabels = () => {
+    setShowLabels(!showLabels);
   };
 
   // SVG Export function
@@ -1354,13 +1462,37 @@ const Starfield = () => {
     if (lineMode === 'connections') {
       connectionsRef.current.forEach(line => {
         if (!line.visible || !line.geometry) return;
-        const posAttr = line.geometry.getAttribute('position');
-        if (posAttr.count >= 2) {
-          const v1 = new THREE.Vector3(posAttr.getX(0), posAttr.getY(0), posAttr.getZ(0));
-          const v2 = new THREE.Vector3(posAttr.getX(1), posAttr.getY(1), posAttr.getZ(1));
-          const p1 = projectTo2D(v1);
-          const p2 = projectTo2D(v2);
-          svg.push(`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#${COLORS.connectionLine.toString(16).padStart(6, '0')}" stroke-width="0.5" opacity="${STROKE_WEIGHTS.connectionOpacity}"/>`);
+        
+        // Line2 objects use instanceStart and instanceEnd attributes
+        if (line.type === 'Line2') {
+          const instanceStart = line.geometry.getAttribute('instanceStart');
+          const instanceEnd = line.geometry.getAttribute('instanceEnd');
+          
+          if (instanceStart && instanceEnd && instanceStart.count > 0) {
+            const v1 = new THREE.Vector3(
+              instanceStart.getX(0),
+              instanceStart.getY(0),
+              instanceStart.getZ(0)
+            );
+            const v2 = new THREE.Vector3(
+              instanceEnd.getX(0),
+              instanceEnd.getY(0),
+              instanceEnd.getZ(0)
+            );
+            const p1 = projectTo2D(v1);
+            const p2 = projectTo2D(v2);
+            svg.push(`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#${COLORS.connectionLine.toString(16).padStart(6, '0')}" stroke-width="0.5" opacity="${STROKE_WEIGHTS.connectionOpacity}"/>`);
+          }
+        } else {
+          // Regular Line objects use position attribute
+          const posAttr = line.geometry.getAttribute('position');
+          if (posAttr && posAttr.count >= 2) {
+            const v1 = new THREE.Vector3(posAttr.getX(0), posAttr.getY(0), posAttr.getZ(0));
+            const v2 = new THREE.Vector3(posAttr.getX(1), posAttr.getY(1), posAttr.getZ(1));
+            const p1 = projectTo2D(v1);
+            const p2 = projectTo2D(v2);
+            svg.push(`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#${COLORS.connectionLine.toString(16).padStart(6, '0')}" stroke-width="0.5" opacity="${STROKE_WEIGHTS.connectionOpacity}"/>`);
+          }
         }
       });
     }
@@ -1369,14 +1501,37 @@ const Starfield = () => {
       stalksRef.current.forEach(stalk => {
         if (!stalk.visible) return;
         
-        if (stalk.type === 'Line' && stalk.geometry) {
-          const posAttr = stalk.geometry.getAttribute('position');
-          if (posAttr.count >= 2) {
-            const v1 = new THREE.Vector3(posAttr.getX(0), posAttr.getY(0), posAttr.getZ(0));
-            const v2 = new THREE.Vector3(posAttr.getX(1), posAttr.getY(1), posAttr.getZ(1));
-            const p1 = projectTo2D(v1);
-            const p2 = projectTo2D(v2);
-            svg.push(`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#${COLORS.stalkLine.toString(16).padStart(6, '0')}" stroke-width="1" opacity="${STROKE_WEIGHTS.stalkOpacity}"/>`);
+        if ((stalk.type === 'Line' || stalk.type === 'Line2') && stalk.geometry) {
+          // Handle Line2 objects
+          if (stalk.type === 'Line2') {
+            const instanceStart = stalk.geometry.getAttribute('instanceStart');
+            const instanceEnd = stalk.geometry.getAttribute('instanceEnd');
+            
+            if (instanceStart && instanceEnd && instanceStart.count > 0) {
+              const v1 = new THREE.Vector3(
+                instanceStart.getX(0),
+                instanceStart.getY(0),
+                instanceStart.getZ(0)
+              );
+              const v2 = new THREE.Vector3(
+                instanceEnd.getX(0),
+                instanceEnd.getY(0),
+                instanceEnd.getZ(0)
+              );
+              const p1 = projectTo2D(v1);
+              const p2 = projectTo2D(v2);
+              svg.push(`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#${COLORS.stalkLine.toString(16).padStart(6, '0')}" stroke-width="1" opacity="${STROKE_WEIGHTS.stalkOpacity}"/>`);
+            }
+          } else {
+            // Handle regular Line objects
+            const posAttr = stalk.geometry.getAttribute('position');
+            if (posAttr && posAttr.count >= 2) {
+              const v1 = new THREE.Vector3(posAttr.getX(0), posAttr.getY(0), posAttr.getZ(0));
+              const v2 = new THREE.Vector3(posAttr.getX(1), posAttr.getY(1), posAttr.getZ(1));
+              const p1 = projectTo2D(v1);
+              const p2 = projectTo2D(v2);
+              svg.push(`<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="#${COLORS.stalkLine.toString(16).padStart(6, '0')}" stroke-width="1" opacity="${STROKE_WEIGHTS.stalkOpacity}"/>`);
+            }
           }
         } else if (stalk.type === 'Mesh' && stalk.geometry.type === 'CircleGeometry') {
           const p = projectTo2D(stalk.position);
@@ -1436,53 +1591,33 @@ const Starfield = () => {
       <Toolbar 
         onSearchChange={handleSearchChange}
         onExportSVG={handleExportSVG}
-        onExportPNG={handleExportPNG}
-      />
-      <Sidebar 
-        onViewDistanceChange={handleViewDistanceChange}
-        onSpectralFilterChange={handleSpectralFilterChange}
-        onOpenFilters={setSidebarOpen}
-        isOpen={sidebarOpen}
-        stars={stars}
-        onStarSelect={handleStarSelect}
-      />
-      <ViewBar
+        searchResults={searchResults}
+        showSearchResults={showSearchResults}
+        onSearchResultSelect={handleSearchResultSelect}
+        onCloseSearchResults={handleCloseSearchResults}
+        // State props
         gridMode={gridMode}
-        showGrid={showGrid}
         lineMode={lineMode}
         showLabels={showLabels}
-        showAxes={axesHelperRef.current ? axesHelperRef.current.visible : false}
-        measureMode={measureMode}
-        onGridChange={(mode) => {
-          if (mode === 'none') {
-            handleToggleGridVisibility(false);
-          } else {
-            handleToggleGrid(mode);
-            handleToggleGridVisibility(true);
-          }
-        }}
+        viewDistance={viewDistance}
+        spectralFilter={spectralFilter}
+        // Callback props
+        onGridChange={handleGridChange}
         onLineModeChange={handleLineModeChange}
-        onToggleLabels={handleToggleLabelsVisibility}
-        onToggleAxes={handleToggleAxesHelper}
-        onToggleMeasure={handleToggleMeasure}
-        onOpenFilters={() => setSidebarOpen(true)}
-        onCloseFilters={() => setSidebarOpen(false)}
-        filterOpen={sidebarOpen}
+        onToggleLabels={handleToggleLabels}
+        onViewDistanceChange={handleViewDistanceChange}
+        onSpectralFilterChange={handleSpectralFilterChange}
       />
       {!measureMode && (
         <InfoPanel 
           star={selectedStar}
           onClose={() => setSelectedStar(null)}
           onFocus={handleFocusOnStar}
+          onZoom={handleZoomToStar}
+          isFocused={isCameraFocusedOnStar(selectedStar)}
         />
       )}
       
-      <SearchResults
-        isVisible={showSearchResults}
-        results={searchResults}
-        onStarSelect={handleSearchResultSelect}
-        onClose={handleCloseSearchResults}
-      />
       
       {/* Measure Mode Status Popup */}
       {measureMode && (
@@ -1532,7 +1667,8 @@ const Starfield = () => {
           height: '100vh',
           position: 'fixed',
           top: 0,
-          left: 0
+          left: 0,
+          zIndex: 1
         }} 
       />
     </>
