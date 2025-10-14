@@ -10,6 +10,8 @@ import { LABEL_CONFIG, formatStarName } from '../config/labels.js';
 import Sidebar from './Sidebar.jsx';
 import InfoPanel from './InfoPanel.jsx';
 import ViewBar from './ViewBar.jsx';
+import Toolbar from './ui/Toolbar.jsx';
+import SearchResults from './ui/SearchResults.jsx';
 
 // Helper function to convert RA string to radians
 const raToRadians = (ra) => {
@@ -111,6 +113,8 @@ const Starfield = () => {
   const [measureMode, setMeasureMode] = useState(false);
   const [measurePoints, setMeasurePoints] = useState([]);
   const [measureDistance, setMeasureDistance] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
+  const [showSearchResults, setShowSearchResults] = useState(false);
 
   // Load star data
   useEffect(() => {
@@ -1220,6 +1224,50 @@ const Starfield = () => {
     }
   };
 
+  // Search functionality
+  const handleSearchChange = (searchTerm) => {
+    if (!searchTerm || searchTerm.trim() === '') {
+      setSearchResults([]);
+      setShowSearchResults(false);
+      return;
+    }
+
+    const filteredStars = stars.filter(star => 
+      star.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ).slice(0, 10); // Limit to 10 results
+
+    setSearchResults(filteredStars);
+    setShowSearchResults(filteredStars.length > 0);
+  };
+
+  const handleSearchResultSelect = (star) => {
+    setSelectedStar(star);
+    setShowSearchResults(false);
+    
+    // Focus on the selected star
+    const selectedMesh = starMeshesRef.current.find(
+      mesh => mesh.userData.star === star
+    );
+    if (selectedMesh) {
+      // Store starting positions for smooth transition
+      focusStartTimeRef.current = Date.now();
+      focusStartPosRef.current = cameraRef.current.position.clone();
+      focusStartTargetRef.current = controlsRef.current.target.clone();
+      focusTargetRef.current = selectedMesh.position.clone();
+      focusPhaseRef.current = 'orienting';
+    }
+  };
+
+  const handleCloseSearchResults = () => {
+    setShowSearchResults(false);
+  };
+
+  // Export handlers
+  const handleExportPNG = () => {
+    console.log('Export PNG clicked');
+    // TODO: Implement PNG export functionality
+  };
+
   // SVG Export function
   const handleExportSVG = () => {
     if (!cameraRef.current || !rendererRef.current || !sceneRef.current) {
@@ -1385,6 +1433,11 @@ const Starfield = () => {
 
   return (
     <>
+      <Toolbar 
+        onSearchChange={handleSearchChange}
+        onExportSVG={handleExportSVG}
+        onExportPNG={handleExportPNG}
+      />
       <Sidebar 
         onViewDistanceChange={handleViewDistanceChange}
         onSpectralFilterChange={handleSpectralFilterChange}
@@ -1423,6 +1476,13 @@ const Starfield = () => {
           onFocus={handleFocusOnStar}
         />
       )}
+      
+      <SearchResults
+        isVisible={showSearchResults}
+        results={searchResults}
+        onStarSelect={handleSearchResultSelect}
+        onClose={handleCloseSearchResults}
+      />
       
       {/* Measure Mode Status Popup */}
       {measureMode && (
