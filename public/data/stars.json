@@ -13,10 +13,47 @@
       "distance_ly": 4.37,
       "ra": "14h39m36s",
       "dec": "−60°50′02″",
+      "description": "Alpha Centauri is the closest star system to Earth, consisting of three stars: Alpha Centauri A and B (a binary pair) and Proxima Centauri, a red dwarf that may be gravitationally bound to the system.",
       "components": [
-        { "name": "Alpha Centauri A", "spectral_type": "G2V" },
-        { "name": "Alpha Centauri B", "spectral_type": "K1V" },
-        { "name": "Proxima Centauri", "spectral_type": "M5.5V" }
+        { 
+          "name": "Alpha Centauri A", 
+          "spectral_type": "G2V",
+          "star_type": "G-type main sequence",
+          "size_compared_to_sun": "110% Mass",
+          "temperature": "5,790 K",
+          "colour": "Yellow-White",
+          "age": "6.5 Billion Years",
+          "habitable_zone": "1.1-1.3 AU",
+          "discovered": "Ancient times",
+          "visibility": "Naked eye (Mag -0.01)",
+          "alternate_names": "Rigil Kentaurus, Toliman"
+        },
+        { 
+          "name": "Alpha Centauri B", 
+          "spectral_type": "K1V",
+          "star_type": "K-type main sequence",
+          "size_compared_to_sun": "90% Mass",
+          "temperature": "5,260 K",
+          "colour": "Orange",
+          "age": "6.5 Billion Years",
+          "habitable_zone": "0.7-1.2 AU",
+          "discovered": "Ancient times",
+          "visibility": "Naked eye (Mag 1.33)",
+          "alternate_names": "Rigil Kentaurus B"
+        },
+        { 
+          "name": "Proxima Centauri", 
+          "spectral_type": "M5.5V",
+          "star_type": "Red dwarf",
+          "size_compared_to_sun": "12% Mass",
+          "temperature": "3,100 K",
+          "colour": "Red-Orange",
+          "age": "4.3 Billion Years",
+          "habitable_zone": "0.05-0.1 AU",
+          "discovered": "1915",
+          "visibility": "Telescope (Mag 11)",
+          "alternate_names": "Proxima, V645 Centauri"
+        }
       ]
     },
     {

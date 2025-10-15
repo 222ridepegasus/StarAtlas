@@ -1,7 +1,14 @@
 import { useState, useEffect } from 'react';
+import HeaderWindow from './ui/HeaderWindow';
+import ButtonTextSmall from './ui/ButtonTextSmall';
+import ButtonStar from './ui/ButtonStar';
+import InfoSnippet from './ui/InfoSnippet';
+import ListItemStarStats from './ui/ListItemStarStats';
+import Separator from '../components/ui/Separator';
 
-const InfoPanel = ({ star, onClose, onFocus, onZoom, isFocused }) => {
+const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [selectedComponent, setSelectedComponent] = useState(0);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
@@ -12,168 +19,119 @@ const InfoPanel = ({ star, onClose, onFocus, onZoom, isFocused }) => {
 
   if (!star) return null;
 
+  const currentComponent = star.components && star.components[selectedComponent] 
+    ? star.components[selectedComponent] 
+    : null;
+
+  const handleComponentSelect = (index) => {
+    setSelectedComponent(index);
+  };
+
+  const handleFocus = () => {
+    if (currentComponent) {
+      onFocus({ ...star, selectedComponent: currentComponent });
+    } else {
+      onFocus(star);
+    }
+  };
+
+  const handleZoom = () => {
+    if (currentComponent) {
+      onZoom({ ...star, selectedComponent: currentComponent });
+    } else {
+      onZoom(star);
+    }
+  };
+
   return (
-    <div style={{
-      position: 'fixed',
-      top: isMobile ? 'auto' : '16px',
-      bottom: isMobile ? '16px' : 'auto',
-      right: '16px',
-      left: isMobile ? '16px' : 'auto',
-      width: isMobile ? 'auto' : '320px',
-      maxHeight: isMobile ? '60vh' : 'calc(100vh - 32px)',
-      backgroundColor: 'rgba(17, 24, 39, 0.95)',
-      backdropFilter: 'blur(8px)',
-      border: '1px solid rgba(55, 65, 81, 1)',
-      borderRadius: '8px',
-      padding: '16px',
-      color: 'white',
-      fontFamily: 'monospace',
-      fontSize: '14px',
-      zIndex: 40,
-      overflowY: 'auto',
-      boxSizing: 'border-box'
-    }}>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '16px',
-        paddingBottom: '12px',
-        borderBottom: '1px solid rgba(55, 65, 81, 1)'
-      }}>
-        <h3 style={{
-          fontSize: '16px',
-          fontWeight: 'bold',
-          margin: 0,
-          color: '#d1d5db'
-        }}>
-          {star.name}
-        </h3>
-        <button
-          onClick={onClose}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: '#9ca3af',
-            fontSize: '20px',
-            cursor: 'pointer',
-            padding: '0',
-            width: '24px',
-            height: '24px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'color 0.2s'
-          }}
-          onMouseEnter={(e) => e.target.style.color = '#ffffff'}
-          onMouseLeave={(e) => e.target.style.color = '#9ca3af'}
-        >
-          ✕
-        </button>
+    <div className={`fixed ${isMobile ? 'bottom-4 left-4 right-4' : 'top-4 right-4'} w-[346px] max-h-[calc(100vh-32px)] bg-grey-700 rounded-lg text-grey-100 text-sm z-40 overflow-y-auto box-border font-sans`}>
+      {/* HeaderWindow */}
+      <HeaderWindow 
+        title={star.name} 
+        onClose={onClose} 
+      />
+
+      <Separator client:load />
+
+      {/* Camera Button Group */}
+      <div className="flex gap-1 px-3 pt-3">
+        <ButtonTextSmall 
+          text={isFocused ? "Focused" : "Focus"} 
+          onClick={handleFocus}
+          isActive={isFocused}
+        />
+        <ButtonTextSmall 
+          text="Zoom" 
+          onClick={handleZoom}
+          isActive={false}
+        />
+        <ButtonTextSmall 
+          text="Reset" 
+          onClick={onReset}
+          isActive={false}
+        />
       </div>
 
-      <div style={{ marginBottom: '12px' }}>
-        <div style={{
-          fontSize: '12px',
-          color: '#9ca3af',
-          marginBottom: '4px'
-        }}>
-          Distance
-        </div>
-        <div style={{ color: '#ffffff' }}>
-          {star.distance_ly.toFixed(2)} light-years
-        </div>
-      </div>
-
-      <div style={{ marginBottom: '12px' }}>
-        <div style={{
-          fontSize: '12px',
-          color: '#9ca3af',
-          marginBottom: '4px'
-        }}>
-          Coordinates
-        </div>
-        <div style={{ color: '#ffffff', fontSize: '12px' }}>
-          RA: {star.ra}<br/>
-          Dec: {star.dec}
-        </div>
-      </div>
-
+      {/* StarTab Group */}
       {star.components && star.components.length > 0 && (
-        <div style={{ marginBottom: '16px' }}>
-          <div style={{
-            fontSize: '12px',
-            color: '#9ca3af',
-            marginBottom: '8px'
-          }}>
-            Components ({star.components.length})
-          </div>
+        <div className={`px-3 pt-3 ${star.components.length === 1 ? 'grid grid-cols-2' : star.components.length === 2 ? 'grid grid-cols-2' : 'grid grid-cols-2'} gap-1`}>
           {star.components.map((component, index) => (
-            <div
+            <ButtonStar
               key={index}
-              style={{
-                backgroundColor: 'rgba(55, 65, 81, 0.5)',
-                padding: '8px',
-                borderRadius: '4px',
-                marginBottom: '6px',
-                fontSize: '12px'
-              }}
-            >
-              <div style={{ color: '#ffffff', marginBottom: '4px' }}>
-                {component.name || `Component ${index + 1}`}
-              </div>
-              <div style={{ color: '#9ca3af' }}>
-                Type: {component.spectral_type || 'Unknown'}
-              </div>
-            </div>
+              name={component.name}
+              spectralType={component.spectral_type}
+              isActive={selectedComponent === index}
+              onClick={() => handleComponentSelect(index)}
+            />
           ))}
         </div>
       )}
 
-      <div style={{
-        display: 'flex',
-        gap: '8px',
-        paddingTop: '12px',
-        borderTop: '1px solid rgba(55, 65, 81, 1)'
-      }}>
-        <button
-          onClick={() => onFocus(star)}
-          style={{
-            flex: 1,
-            padding: '10px',
-            backgroundColor: '#2563eb',
-            border: 'none',
-            borderRadius: '4px',
-            color: 'white',
-            cursor: 'pointer',
-            fontSize: '13px',
-            fontWeight: 'bold',
-            transition: 'background-color 0.2s'
-          }}
-          onMouseEnter={(e) => e.target.style.backgroundColor = '#1d4ed8'}
-          onMouseLeave={(e) => e.target.style.backgroundColor = '#2563eb'}
-        >
-          Focus Camera
-        </button>
-        <button
-          onClick={() => onZoom(star)}
-          style={{
-            flex: 1,
-            padding: '10px',
-            backgroundColor: '#dc2626',
-            border: 'none',
-            borderRadius: '4px',
-            color: 'white',
-            cursor: 'pointer',
-            fontSize: '13px',
-            fontWeight: 'bold',
-            transition: 'background-color 0.2s'
-          }}
-          onMouseEnter={(e) => e.target.style.backgroundColor = '#b91c1c'}
-          onMouseLeave={(e) => e.target.style.backgroundColor = '#dc2626'}
-        >
-          Zoom Camera
-        </button>
+      {/* InfoSnippet */}
+      <InfoSnippet text={star.description || "Coming soon..."} />
+
+      {/* Star Stats */}
+      <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-1.5 px-4 pt-2 pb-6">
+        <ListItemStarStats 
+          label="Distance (from Earth)" 
+          value={currentComponent?.distance_ly ? `${currentComponent.distance_ly} LY` : `${star.distance_ly.toFixed(2)} LY`}
+        />
+        <ListItemStarStats 
+          label="Star Type" 
+          value={currentComponent?.star_type || "--"}
+        />
+        <ListItemStarStats 
+          label="Size compared to Sun" 
+          value={currentComponent?.size_compared_to_sun || "--"}
+        />
+        <ListItemStarStats 
+          label="Temperature" 
+          value={currentComponent?.temperature || "--"}
+        />
+        <ListItemStarStats 
+          label="Colour" 
+          value={currentComponent?.colour || "--"}
+        />
+        <ListItemStarStats 
+          label="Age" 
+          value={currentComponent?.age || "--"}
+        />
+        <ListItemStarStats 
+          label="Habitable Zone" 
+          value={currentComponent?.habitable_zone || "--"}
+        />
+        <ListItemStarStats 
+          label="Discovered" 
+          value={currentComponent?.discovered || "--"}
+        />
+        <ListItemStarStats 
+          label="Visibility" 
+          value={currentComponent?.visibility || "--"}
+        />
+        <ListItemStarStats 
+          label="Alternate Names" 
+          value={currentComponent?.alternate_names || "--"}
+        />
       </div>
     </div>
   );
