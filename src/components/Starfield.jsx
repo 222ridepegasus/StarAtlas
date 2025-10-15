@@ -71,6 +71,7 @@ const Starfield = () => {
   const focusStartTargetRef = useRef(null);
   const focusPhaseRef = useRef('orienting'); // 'orienting' or 'zooming'
   const isSearchResultFocusRef = useRef(false); // Flag to skip zoom for search results
+  const isResetCameraRef = useRef(false); // Flag to indicate camera reset in progress
   const isDraggingRef = useRef(false);
   const mouseDownPosRef = useRef(new THREE.Vector2());
   const selectedStarRef = useRef(null);
@@ -112,6 +113,7 @@ const Starfield = () => {
   const [measureDistance, setMeasureDistance] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   // Load star data
   useEffect(() => {
@@ -371,6 +373,8 @@ const Starfield = () => {
       label.anchorY = 'middle';
       label.textAlign = LABEL_CONFIG.formatting.textAlign;
       label.maxWidth = LABEL_CONFIG.formatting.maxWidth;
+      label.fillOpacity = 1.0; // Use troika's fillOpacity property for transparency
+      label.depthOffset = -1; // Ensure labels render correctly with transparency
       
       label.userData.starRef = sphere;
       label.userData.pad = LABEL_CONFIG.position.pad;
@@ -598,6 +602,7 @@ const Starfield = () => {
           // Normal star selection (only when not in measure mode)
           selectedStarRef.current = starData;
           setSelectedStar(starData);
+          setIsFocused(false); // Clear focus state when clicking new star
           highlight.position.copy(star.position);
           highlight.visible = true;
         }
@@ -607,6 +612,7 @@ const Starfield = () => {
           // Only clear selection if not in measure mode
           selectedStarRef.current = null;
           setSelectedStar(null);
+          setIsFocused(false); // Clear focus state when deselecting
           highlight.visible = false;
         }
       }
@@ -733,6 +739,11 @@ const Starfield = () => {
               focusTargetRef.current = null;
               focusPhaseRef.current = 'orienting';
               isSearchResultFocusRef.current = false;
+              // Set focus state to true when orientation completes (but not during reset)
+              if (!isResetCameraRef.current) {
+                setIsFocused(true);
+              }
+              isResetCameraRef.current = false; // Clear reset flag
             } else {
               focusPhaseRef.current = 'zooming';
               focusStartTimeRef.current = Date.now(); // Reset timer for zoom phase
@@ -760,6 +771,8 @@ const Starfield = () => {
             focusStartPosRef.current = null;
             focusStartTargetRef.current = null;
             focusPhaseRef.current = 'orienting';
+            // Set focus state to true when zoom completes
+            setIsFocused(true);
           }
         }
       }
@@ -890,7 +903,7 @@ const Starfield = () => {
           // Gentle distance-based fade curve
           const near = 10;  // gentler distance fade (restored)
           const far = 80;   // reach minimum later (restored)
-          const minOpacity = 0.35; // minimum opacity for very far labels (restored)
+          const minOpacity = 0.15; // minimum opacity for very far labels (dimmer)
 
           projected.forEach(item => {
             const finalOpacity = item.distance <= near
@@ -899,10 +912,10 @@ const Starfield = () => {
                 ? minOpacity
                 : THREE.MathUtils.mapLinear(item.distance, near, far, 1, minOpacity);
 
-            if (item.label.material && item.label.material.opacity !== undefined) {
-              item.label.material.opacity = finalOpacity;
-            } else if (item.label.userData && item.label.userData.material) {
-              item.label.userData.material.opacity = finalOpacity;
+            // Use troika's fillOpacity property for cross-browser compatibility
+            if (Math.abs(item.label.fillOpacity - finalOpacity) > 0.01) {
+              item.label.fillOpacity = finalOpacity;
+              item.label.sync();
             }
           });
         }
@@ -1065,6 +1078,8 @@ const Starfield = () => {
   useEffect(() => {
     if (!sceneRef.current) return;
 
+    const camera = cameraRef.current;
+    
     labelsRef.current.forEach(label => {
       const withinDistance = label.userData.distance <= viewDistance;
       
@@ -1073,7 +1088,15 @@ const Starfield = () => {
         passesFilter = spectralFilter[label.userData.spectralClass];
       }
       
-      label.visible = showLabels && withinDistance && passesFilter;
+      const shouldBeVisible = showLabels && withinDistance && passesFilter;
+      
+      // If label is becoming visible, immediately update its orientation to face camera
+      if (shouldBeVisible && !label.visible && camera) {
+        label.quaternion.copy(camera.quaternion);
+        label.sync();
+      }
+      
+      label.visible = shouldBeVisible;
     });
   }, [viewDistance, spectralFilter, showLabels]);
 
@@ -1224,18 +1247,9 @@ const Starfield = () => {
 
   const handleStarSelect = (star) => {
     setSelectedStar(star);
-    // Focus on the selected star
-    const selectedMesh = starMeshesRef.current.find(
-      mesh => mesh.userData.star === star
-    );
-    if (selectedMesh) {
-      // Store starting positions for smooth transition
-      focusStartTimeRef.current = Date.now();
-      focusStartPosRef.current = cameraRef.current.position.clone();
-      focusStartTargetRef.current = controlsRef.current.target.clone();
-      focusTargetRef.current = selectedMesh.position.clone();
-      focusPhaseRef.current = 'orienting';
-    }
+    setIsFocused(false); // Clear focus state when selecting new star
+    // Don't automatically focus - just select the star
+    // User must click Focus button to focus on the star
   };
 
   // Search functionality
@@ -1267,12 +1281,12 @@ const Starfield = () => {
       setViewDistance(cappedDistance);
     }
     
-    // Smoothly orient camera to the selected star (without zooming)
+    // Automatically orient camera to the selected star from search (but don't zoom)
     const selectedMesh = starMeshesRef.current.find(
       mesh => mesh.userData.star === star
     );
     if (selectedMesh) {
-      // Set flag to skip zoom phase for search results
+      // Set flag to skip zoom phase for search results (only orient)
       isSearchResultFocusRef.current = true;
       
       // Store starting positions for smooth transition
@@ -1345,6 +1359,43 @@ const Starfield = () => {
         focusTargetRef.current = selectedMesh.position.clone();
         focusPhaseRef.current = 'orienting';
       }
+    }
+  };
+
+  // Handle camera reset - unlock from star and return to free movement
+  const handleResetCamera = () => {
+    // Clear any ongoing focus animations
+    focusTargetRef.current = null;
+    focusStartTimeRef.current = null;
+    focusStartPosRef.current = null;
+    focusStartTargetRef.current = null;
+    focusPhaseRef.current = 'orienting';
+    isSearchResultFocusRef.current = false;
+    isResetCameraRef.current = true; // Set reset flag to prevent focus state from being set
+    setIsFocused(false); // Clear focus state when resetting camera
+    
+    // Just reorient to center without changing position - like focus but no lock
+    const camera = cameraRef.current;
+    const controls = controlsRef.current;
+    
+    if (camera && controls) {
+      const centerTarget = new THREE.Vector3(0, 0, 0);
+      
+      // Smoothly transition to center orientation (like focus but no position change)
+      focusStartTimeRef.current = Date.now();
+      focusStartPosRef.current = camera.position.clone();
+      focusStartTargetRef.current = controls.target.clone();
+      focusTargetRef.current = centerTarget;
+      focusPhaseRef.current = 'orienting';
+      isSearchResultFocusRef.current = true; // Skip zoom phase
+      
+      // After orientation completes, just update the target - no position jump
+      setTimeout(() => {
+        if (camera && controls) {
+          controls.target.copy(centerTarget);
+          controls.update();
+        }
+      }, 800); // Wait for orientation to complete
     }
   };
 
@@ -1611,10 +1662,14 @@ const Starfield = () => {
       {!measureMode && (
         <InfoPanel 
           star={selectedStar}
-          onClose={() => setSelectedStar(null)}
+          onClose={() => {
+            setSelectedStar(null);
+            setIsFocused(false);
+          }}
           onFocus={handleFocusOnStar}
           onZoom={handleZoomToStar}
-          isFocused={isCameraFocusedOnStar(selectedStar)}
+          onReset={handleResetCamera}
+          isFocused={isFocused}
         />
       )}
       

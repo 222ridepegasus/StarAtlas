@@ -2,6 +2,12 @@
 // Test page for components
 import '../styles/global.css';
 import TestSearch from '../components/TestSearch';
+import HeaderWindow from '../components/ui/HeaderWindow';
+import ButtonStar from '../components/ui/ButtonStar';
+import InfoSnippet from '../components/ui/InfoSnippet';
+import ListItemStarStats from '../components/ui/ListItemStarStats';
+import ButtonTextSmall from '../components/ui/ButtonTextSmall';
+import Separator from '../components/ui/Separator';
 ---
 
 <!DOCTYPE html>
@@ -14,5 +20,117 @@ import TestSearch from '../components/TestSearch';
   <body class="bg-grey-900 text-grey-100 font-sans">
     <!-- Test Search Component with Dummy Data -->
     <TestSearch client:load />
+
+    <div class="h-16"></div> <!-- ignore this, just a spacer -->
+    
+    <!-- New InfoPanel Components Test -->
+    <div class="bg-grey-700 flex flex-col justify-start items-start w-96 relative overflow-hidden rounded-lg mx-auto">
+      <HeaderWindow 
+        title="Alpha Centauri" 
+        onClose={() => console.log('Close clicked')}
+        client:load 
+      />
+
+      <Separator client:load />
+
+      <!-- Camera Button Group Test -->
+      <div class="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 h-10 gap-1 px-3 pt-3">
+        <ButtonTextSmall 
+          text="Focus" 
+          onClick={() => console.log('Focus clicked')}
+          client:load 
+        />
+        <ButtonTextSmall 
+          text="Zoom" 
+          onClick={() => console.log('Zoom clicked')}
+          client:load 
+        />
+        <ButtonTextSmall 
+          text="Reset" 
+          onClick={() => console.log('Reset clicked')}
+          client:load 
+        />
+      </div>
+
+      <!-- StarTab Group Test -->
+      <div class="flex flex-wrap justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-1 px-3 pt-3">
+        <ButtonStar 
+          name="Alpha Centauri A" 
+          spectralType="G2V"
+          isActive={false}
+          onClick={() => console.log('Alpha Centauri A clicked')}
+          client:load 
+        />
+        <ButtonStar 
+          name="Alpha Centauri B" 
+          spectralType="K1V"
+          isActive={false}
+          onClick={() => console.log('Alpha Centauri B clicked')}
+          client:load 
+        />
+        <ButtonStar 
+          name="Proxima Centauri" 
+          spectralType="M5.5V"
+          isActive={true}
+          onClick={() => console.log('Proxima Centauri clicked')}
+          client:load 
+        />
+      </div>
+
+      <!-- InfoSnippet Test -->
+      <InfoSnippet 
+        text="Proxima Centauri is a red dwarf and the closest known star to Earth at just 4.2 light-years. Despite its proximity, it's too dim to see without a telescope. Read More"
+        client:load 
+      />
+      
+      <!-- ListItemStarStats Test -->
+      <div class="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-1.5 px-4 pt-2 pb-6">
+        <ListItemStarStats 
+          label="Distance (from Earth)" 
+          value="4.21 LY"
+          client:load 
+        />
+        <ListItemStarStats 
+          label="Star Type" 
+          value="Red Dwarf"
+          client:load 
+        />
+        <ListItemStarStats 
+          label="Size compared to Sun" 
+          value="12% Mass"
+          client:load 
+        />
+        <ListItemStarStats 
+          label="Temperature" 
+          value="3,100 K (cool)"
+          client:load 
+        />
+        <ListItemStarStats 
+          label="Colour" 
+          value="Red-Orange"
+          client:load 
+        />
+        <ListItemStarStats 
+          label="Age" 
+          value="4.3 Billion Years"
+          client:load 
+        />
+        <ListItemStarStats 
+          label="Discovered" 
+          value="1915"
+          client:load 
+        />
+        <ListItemStarStats 
+          label="Visibility" 
+          value="Telescope (Mag 11)"
+          client:load 
+        />
+        <ListItemStarStats 
+          label="Alternate Names" 
+          value="Proxima, V645 Centauri"
+          client:load 
+        />
+      </div>
+    </div>
   </body>
 </html>

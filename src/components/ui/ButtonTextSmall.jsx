@@ -3,7 +3,7 @@ export default function ButtonTextSmall({
   onClick,
   isActive = false
 }) {
-  const baseClasses = "w-[132px] h-7 rounded-md transition-all duration-200 flex items-center justify-center cursor-pointer border text-[11px] font-normal";
+  const baseClasses = "flex-1 h-7 rounded-md transition-all duration-200 flex items-center justify-center cursor-pointer border text-[11px] font-normal font-sans";
   
   const stateClasses = isActive
     ? "bg-grey-800 text-grey-100 border-grey-200"
