@@ -125,7 +125,7 @@ export default function Toolbar({
   };
 
   return (
-    <div className="fixed top-4 left-4 font-sans z-50">
+    <div className="fixed top-4 left-4 font-sans z-50 select-none">
       {/* Master Wrap - no styling, just positioning */}
       
       {/* Controls Block */}
@@ -188,7 +188,7 @@ export default function Toolbar({
           <SectionHeader title="Overlays" />
           
           {/* Labels button wrapper for manual padding control */}
-          <div className="px-2 pt-1 pb-4">
+          <div className="px-2 pt-1 pb-3">
             <div className="flex items-center gap-2">
               <ButtonIcon 
                 icon="/icons/ui/Icon_UI_Labels_01.svg"
@@ -201,10 +201,9 @@ export default function Toolbar({
             </div>
           </div>
         </section>
-      </div>
 
-      {/* Star Class Block */}
-      <div className="bg-grey-700 rounded-lg mb-2">
+        <Separator />
+      
         <section>
           <CollapsibleHeader 
             title="Star Class"
@@ -226,10 +225,9 @@ export default function Toolbar({
             </div>
           )}
         </section>
-      </div>
 
-      {/* Export Block */}
-      <div className="bg-grey-700 rounded-lg">
+        <Separator />
+      
         <section>
           <CollapsibleHeader 
             title="Export"
@@ -238,7 +236,7 @@ export default function Toolbar({
           />
           
           {!isExportCollapsed && (
-            <div className="px-2 py-2 space-y-2">
+            <div className="flex justify-center items-center flex-grow px-2 py-2 pb-3">
                 <ButtonTextSmall
                   text="Export SVG"
                   onClick={handleExportSVG}

@@ -44,7 +44,7 @@ const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused }) => {
   };
 
   return (
-    <div className={`fixed ${isMobile ? 'bottom-4 left-4 right-4' : 'top-4 right-4'} w-[346px] max-h-[calc(100vh-32px)] bg-grey-700 rounded-lg text-grey-100 text-sm z-40 overflow-y-auto box-border font-sans`}>
+    <div className={`fixed ${isMobile ? 'bottom-4 left-4 right-4' : 'top-4 right-4'} w-[346px] max-h-[calc(100vh-32px)] bg-grey-700 rounded-lg text-grey-100 text-sm z-40 overflow-y-auto box-border font-sans select-none`}>
       {/* HeaderWindow */}
       <HeaderWindow 
         title={star.name} 

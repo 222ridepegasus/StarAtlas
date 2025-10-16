@@ -75,3 +75,11 @@
 .scrollbar-hide::-webkit-scrollbar { 
   display: none;  /* Safari and Chrome */
 }
+
+/* Disable text selection for app-like UI */
+.select-none {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
