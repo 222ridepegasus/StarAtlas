@@ -79,7 +79,7 @@ const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused }) => {
             <ButtonStar
               key={index}
               name={component.name}
-              spectralType={component.spectral_type}
+              spectralType={component.star_type}
               isActive={selectedComponent === index}
               onClick={() => handleComponentSelect(index)}
             />
@@ -88,7 +88,7 @@ const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused }) => {
       )}
 
       {/* InfoSnippet */}
-      <InfoSnippet text={star.description || "Coming soon..."} />
+      <InfoSnippet text={currentComponent?.description || "Coming soon..."} />
 
       {/* Star Stats */}
       <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-1.5 px-4 pt-2 pb-6">
@@ -101,16 +101,12 @@ const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused }) => {
           value={currentComponent?.star_type || "--"}
         />
         <ListItemStarStats 
-          label="Size compared to Sun" 
-          value={currentComponent?.size_compared_to_sun || "--"}
+          label="Mass compared to Sun" 
+          value={currentComponent?.mass_compared_to_sun || "--"}
         />
         <ListItemStarStats 
-          label="Temperature" 
-          value={currentComponent?.temperature || "--"}
-        />
-        <ListItemStarStats 
-          label="Colour" 
-          value={currentComponent?.colour || "--"}
+          label="Life Span" 
+          value={currentComponent?.life_span || "--"}
         />
         <ListItemStarStats 
           label="Age" 

@@ -6,7 +6,7 @@ export default function InfoSnippet({
       {text?.split('\n\n').map((paragraph, i) => (
         <p 
           key={i} 
-          className="text-[12px] text-left font-normal text-grey-200 leading-relaxed font-sans"
+          className="text-[12px] text-left font-normal text-grey-200 opacity-90 leading-relaxed font-sans"
         >
           {paragraph}
         </p>

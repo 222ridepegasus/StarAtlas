@@ -26,7 +26,8 @@ const raToRadians = (ra) => {
 // Helper function to convert Dec string to radians
 const decToRadians = (dec) => {
   const decNormalized = dec.replace('−', '-');
-  const decRegex = /([+-]?\d+)°(\d+)′(\d+)″/;
+  // Updated regex to handle both Unicode (′″) and straight quotes ('")
+  const decRegex = /([+-]?\d+)°(\d+)[′'](\d+)[″"]/;
   const match = decNormalized.match(decRegex);
   if (!match) return 0;
   const degrees = parseInt(match[1], 10);
@@ -114,6 +115,7 @@ const Starfield = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [uiVisible, setUiVisible] = useState(true);
 
   // Load star data
   useEffect(() => {
@@ -331,10 +333,20 @@ const Starfield = () => {
       const starGroup = [];
 
       const primaryComponent = star.components[0];
-      const color = getSpectralColor(primaryComponent.spectral_type);
-      const spectralClass = primaryComponent.spectral_type.charAt(0).toUpperCase();
+      const spectralType = primaryComponent.spectral_type || primaryComponent.star_type || 'M';
+      const color = getSpectralColor(spectralType);
+      const spectralClass = spectralType.charAt(0).toUpperCase();
 
-      const pos = raDecToXYZ(star.ra, star.dec, star.distance_ly);
+      // Handle different property names for RA and Dec
+      const ra = star.ra || star.right_ascension;
+      const dec = star.dec || star.declination;
+      
+      // Skip stars with N/A or missing coordinates
+      if (!ra || !dec || ra === 'N/A' || dec === 'N/A') {
+        return;
+      }
+      
+      const pos = raDecToXYZ(ra, dec, star.distance_ly);
 
       const isSafariLocal = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
       const starGeomSegments = 16; // restore original polygon count
@@ -1106,8 +1118,13 @@ const Starfield = () => {
 
     if (measurePoints.length === 2 && measureDistance !== null) {
       // Create line between the two measure points
-      const pos1 = raDecToXYZ(measurePoints[0].ra, measurePoints[0].dec, measurePoints[0].distance_ly);
-      const pos2 = raDecToXYZ(measurePoints[1].ra, measurePoints[1].dec, measurePoints[1].distance_ly);
+      const ra1 = measurePoints[0].ra || measurePoints[0].right_ascension;
+      const dec1 = measurePoints[0].dec || measurePoints[0].declination;
+      const ra2 = measurePoints[1].ra || measurePoints[1].right_ascension;
+      const dec2 = measurePoints[1].dec || measurePoints[1].declination;
+      
+      const pos1 = raDecToXYZ(ra1, dec1, measurePoints[0].distance_ly);
+      const pos2 = raDecToXYZ(ra2, dec2, measurePoints[1].distance_ly);
       
       // Update line geometry
       const lineGeometry = new THREE.BufferGeometry().setFromPoints([pos1, pos2]);
@@ -1173,6 +1190,20 @@ const Starfield = () => {
     }
   }, [gridMode, showGrid]);
 
+  // Keyboard shortcut for hiding/showing UI (CMD+. on Mac, CTRL+. on Windows/Linux)
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      // Check for CMD+. (Mac) or CTRL+. (Windows/Linux)
+      if ((event.metaKey || event.ctrlKey) && event.key === '.') {
+        event.preventDefault();
+        setUiVisible(prev => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const handleToggleLabelsVisibility = (visible) => {
     setShowLabels(visible);
     // Directly update label visibility without triggering other useEffects
@@ -1209,8 +1240,13 @@ const Starfield = () => {
 
 
   const calculateDistance = (star1, star2) => {
-    const pos1 = raDecToXYZ(star1.ra, star1.dec, star1.distance_ly);
-    const pos2 = raDecToXYZ(star2.ra, star2.dec, star2.distance_ly);
+    const ra1 = star1.ra || star1.right_ascension;
+    const dec1 = star1.dec || star1.declination;
+    const ra2 = star2.ra || star2.right_ascension;
+    const dec2 = star2.dec || star2.declination;
+    
+    const pos1 = raDecToXYZ(ra1, dec1, star1.distance_ly);
+    const pos2 = raDecToXYZ(ra2, dec2, star2.distance_ly);
     return pos1.distanceTo(pos2);
   };
 
@@ -1639,27 +1675,29 @@ const Starfield = () => {
 
   return (
     <>
-      <Toolbar 
-        onSearchChange={handleSearchChange}
-        onExportSVG={handleExportSVG}
-        searchResults={searchResults}
-        showSearchResults={showSearchResults}
-        onSearchResultSelect={handleSearchResultSelect}
-        onCloseSearchResults={handleCloseSearchResults}
-        // State props
-        gridMode={gridMode}
-        lineMode={lineMode}
-        showLabels={showLabels}
-        viewDistance={viewDistance}
-        spectralFilter={spectralFilter}
-        // Callback props
-        onGridChange={handleGridChange}
-        onLineModeChange={handleLineModeChange}
-        onToggleLabels={handleToggleLabels}
-        onViewDistanceChange={handleViewDistanceChange}
-        onSpectralFilterChange={handleSpectralFilterChange}
-      />
-      {!measureMode && (
+      {uiVisible && (
+        <Toolbar 
+          onSearchChange={handleSearchChange}
+          onExportSVG={handleExportSVG}
+          searchResults={searchResults}
+          showSearchResults={showSearchResults}
+          onSearchResultSelect={handleSearchResultSelect}
+          onCloseSearchResults={handleCloseSearchResults}
+          // State props
+          gridMode={gridMode}
+          lineMode={lineMode}
+          showLabels={showLabels}
+          viewDistance={viewDistance}
+          spectralFilter={spectralFilter}
+          // Callback props
+          onGridChange={handleGridChange}
+          onLineModeChange={handleLineModeChange}
+          onToggleLabels={handleToggleLabels}
+          onViewDistanceChange={handleViewDistanceChange}
+          onSpectralFilterChange={handleSpectralFilterChange}
+        />
+      )}
+      {uiVisible && !measureMode && (
         <InfoPanel 
           star={selectedStar}
           onClose={() => {
@@ -1675,7 +1713,7 @@ const Starfield = () => {
       
       
       {/* Measure Mode Status Popup */}
-      {measureMode && (
+      {uiVisible && measureMode && (
         <div style={{
           position: 'fixed',
           top: '80px',
@@ -1712,6 +1750,26 @@ const Starfield = () => {
               </div>
             </div>
           )}
+        </div>
+      )}
+      
+      {/* UI Hidden Indicator */}
+      {!uiVisible && (
+        <div style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          color: '#ffffff',
+          padding: '8px 12px',
+          borderRadius: '6px',
+          fontSize: '12px',
+          fontFamily: 'monospace',
+          zIndex: 10001,
+          backdropFilter: 'blur(4px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)'
+        }}>
+          UI Hidden - Press {navigator.platform.toLowerCase().includes('mac') ? 'CMD' : 'CTRL'}+. to show
         </div>
       )}
       
