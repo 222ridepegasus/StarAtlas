@@ -33,6 +33,7 @@ export const LABEL_CONFIG = {
     fadeWithDistance: false,     // Fade labels when far from camera
     minDistance: 0,              // Min distance to show label
     maxDistance: 100,            // Max distance to show label
+    maxScreenFontSize: 20,       // Maximum font size in pixels (caps scaling when close)
   },
   
   // Text formatting

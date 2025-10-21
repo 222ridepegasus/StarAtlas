@@ -876,15 +876,54 @@ const Starfield = () => {
         up.copy(camera.up).normalize();
 
         if (!skipThisFrame) {
-          // First: update label positions
+          // First: update label positions and dynamic font sizing
+          const rendererCanvas = renderer.domElement;
+          const canvasHeight = rendererCanvas.height;
+          const fovY = THREE.MathUtils.degToRad(camera.fov);
+          const maxScreenFontSize = LABEL_CONFIG.behavior.maxScreenFontSize;
+          
           labelsRef.current.forEach(label => {
             const star = label.userData.starRef;
             if (!star || !label.visible) return;
+            
             const basePos = tmpV3A.current.copy(star.position);
             const offset = right.clone().multiplyScalar(label.userData.pad || 0.3)
               .add(up.clone().multiplyScalar(label.userData.vOffset || 0));
             label.position.copy(basePos.add(offset));
             label.quaternion.copy(camera.quaternion);
+            
+            // Direct screen-space size control based on camera distance to star
+            const distance = camera.position.distanceTo(star.position);
+            
+            // Define desired screen-space font size based on distance (in pixels)
+            const nearDistance = 2.5;   // Camera distance where labels are largest
+            const farDistance = 50;   // Camera distance where labels are smallest
+            const minScreenSize = 10;  // Minimum screen size in pixels (far)
+            const maxScreenSize = 60; // Maximum screen size in pixels (near)
+            
+            // Calculate desired screen-space size with smooth easing
+            let desiredScreenSize;
+            if (distance <= nearDistance) {
+              desiredScreenSize = maxScreenSize;
+            } else if (distance >= farDistance) {
+              desiredScreenSize = minScreenSize;
+            } else {
+              // Smooth ease-out cubic interpolation for gradual deceleration
+              const t = (distance - nearDistance) / (farDistance - nearDistance);
+              const easedT = 1 - Math.pow(1 - t, 3);
+              desiredScreenSize = maxScreenSize - (easedT * (maxScreenSize - minScreenSize));
+            }
+            
+            // Convert desired screen size to world-space font size
+            // This accounts for perspective: same screen size requires different world size at different distances
+            const pxPerUnit = canvasHeight / (2 * Math.tan(fovY / 2) * distance);
+            const worldFontSize = desiredScreenSize / pxPerUnit;
+            
+            // Smooth update with smaller threshold for more gradual changes
+            if (Math.abs(label.fontSize - worldFontSize) > 0.0001) {
+              label.fontSize = worldFontSize;
+            }
+            
             label.sync();
           });
 
