@@ -602,15 +602,6 @@ const Starfield = () => {
 
       raycaster.setFromCamera(mouse, camera);
       const visibleStars = starMeshesRef.current.filter(mesh => mesh.visible);
-      
-      // Mobile: increase raycasting threshold for easier touch targeting
-      const isMobile = window.innerWidth <= 640;
-      if (isMobile) {
-        raycaster.params.Points.threshold = 0.2; // Much larger touch tolerance for mobile
-      } else {
-        raycaster.params.Points.threshold = 0.01; // Default precision for desktop
-      }
-      
       const intersects = raycaster.intersectObjects(visibleStars, false);
 
       if (intersects.length > 0) {
