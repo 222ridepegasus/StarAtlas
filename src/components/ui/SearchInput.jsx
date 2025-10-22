@@ -3,7 +3,11 @@ import { useState } from 'react';
 export default function SearchInput({ 
   placeholder = "Search Stars",
   value = "",
-  onChange = null
+  onChange = null,
+  width = "132px", // Default desktop width, can be overridden for mobile
+  height = "30px", // Default desktop height, can be overridden for mobile
+  fontSize = "11px", // Default desktop font size, can be overridden for mobile
+  iconSize = 14 // Default desktop icon size, can be overridden for mobile
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const [inputValue, setInputValue] = useState(value);
@@ -25,19 +29,22 @@ export default function SearchInput({
   };
 
   return (
-    <div className={`flex justify-start items-center w-[132px] h-[30px] flex-grow-0 flex-shrink-0 relative gap-2 p-2 rounded-md transition-colors duration-200 ${
-      isFocused 
-        ? 'bg-grey-800 border border-grey-400' 
-        : 'bg-grey-600 border border-transparent'
-    }`}>
+    <div 
+      className={`flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2 p-2 rounded-md transition-colors duration-200 ${
+        isFocused 
+          ? 'bg-grey-800 border border-grey-400' 
+          : 'bg-grey-600 border border-transparent'
+      }`}
+      style={{ width, height }}
+    >
       {/* Search Icon */}
       <svg
-        width="14"
-        height="14"
+        width={iconSize}
+        height={iconSize}
         viewBox="0 0 14 14"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="flex-grow-0 flex-shrink-0 w-3.5 h-3.5 relative"
+        className="flex-grow-0 flex-shrink-0 relative"
         preserveAspectRatio="none"
       >
         <g clipPath="url(#clip0_91_2191)">
@@ -63,9 +70,10 @@ export default function SearchInput({
         onFocus={handleFocus}
         onBlur={handleBlur}
         placeholder={isFocused ? "" : placeholder}
-        className={`flex-grow w-[94px] text-[11px] font-inter font-normal text-left bg-transparent border-none outline-none ${
+        className={`flex-grow font-inter font-normal text-left bg-transparent border-none outline-none ${
           isFocused ? 'text-white' : 'text-grey-200'
         }`}
+        style={{ fontSize }}
       />
     </div>
   );

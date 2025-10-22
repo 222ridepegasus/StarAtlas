@@ -234,28 +234,35 @@ export default function MobileNav({
       {/* Search Panel (right side) */}
       <div
         className={`
-          absolute right-4 top-[68px] w-[160px]
+          absolute right-4 top-[68px] w-[192px]
           transition-all duration-300 ease-out pointer-events-auto
           ${activePanel === 'search' ? 'max-h-[70vh] opacity-100' : 'max-h-0 opacity-0'}
           overflow-hidden rounded-lg
         `}
       >
         {activePanel === 'search' && (
-          <div className="bg-grey-700 border border-grey-600 overflow-y-auto max-h-[70vh] rounded-lg">
+          <div className="bg-grey-700 overflow-y-auto max-h-[70vh] rounded-lg">
             <div className="p-3">
               <SearchInput
                 value={searchQuery}
                 onChange={onSearchChange}
-                placeholder="Search stars..."
+                placeholder="Search Stars..."
+                width="100%"
+                height="36px"
+                fontSize="12px"
+                iconSize={18}
               />
               {searchResults.length > 0 && (
                 <div className="mt-3">
                   <SearchResults
+                    isVisible={true}
                     results={searchResults}
-                    onStarClick={(star) => {
+                    onStarSelect={(star) => {
                       onStarClick(star);
                       closePanel();
                     }}
+                    onClose={closePanel}
+                    isMobile={true}
                   />
                 </div>
               )}
