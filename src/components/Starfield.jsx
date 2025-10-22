@@ -602,6 +602,15 @@ const Starfield = () => {
 
       raycaster.setFromCamera(mouse, camera);
       const visibleStars = starMeshesRef.current.filter(mesh => mesh.visible);
+      
+      // Mobile: increase raycasting tolerance for easier touch targeting
+      const isMobile = window.innerWidth <= 640;
+      if (isMobile) {
+        raycaster.params.Points.threshold = 0.1; // Increase touch tolerance
+      } else {
+        raycaster.params.Points.threshold = 0.01; // Default precision for desktop
+      }
+      
       const intersects = raycaster.intersectObjects(visibleStars, false);
 
       if (intersects.length > 0) {
@@ -692,10 +701,16 @@ const Starfield = () => {
       }
     };
 
+    // Mouse events
     renderer.domElement.addEventListener('mousedown', onMouseDown);
     renderer.domElement.addEventListener('mousemove', onMouseMove);
     renderer.domElement.addEventListener('mouseup', onMouseUp);
     renderer.domElement.addEventListener('contextmenu', onContextMenu);
+    
+    // Touch events for mobile
+    renderer.domElement.addEventListener('touchstart', onMouseDown, { passive: false });
+    renderer.domElement.addEventListener('touchmove', onMouseMove, { passive: false });
+    renderer.domElement.addEventListener('touchend', onMouseUp, { passive: false });
 
     const axesHelper = new THREE.AxesHelper(15);
     axesHelper.visible = false;
@@ -1081,10 +1096,16 @@ const Starfield = () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       
       window.removeEventListener('resize', handleResize);
+      // Mouse events
       renderer.domElement.removeEventListener('mousedown', onMouseDown);
       renderer.domElement.removeEventListener('mousemove', onMouseMove);
       renderer.domElement.removeEventListener('mouseup', onMouseUp);
       renderer.domElement.removeEventListener('contextmenu', onContextMenu);
+      
+      // Touch events
+      renderer.domElement.removeEventListener('touchstart', onMouseDown);
+      renderer.domElement.removeEventListener('touchmove', onMouseMove);
+      renderer.domElement.removeEventListener('touchend', onMouseUp);
       
       // Dispose all connections
       connectionsRef.current.forEach(line => {
