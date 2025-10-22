@@ -28,6 +28,7 @@ export default function SearchInput({
     setIsFocused(false);
   };
 
+
   return (
     <div 
       className={`flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2 p-2 rounded-md transition-colors duration-200 ${

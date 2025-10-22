@@ -68,8 +68,8 @@ export default function SearchResults({
         )}
       </div>
 
-      {/* Separator */}
-      <Separator />
+      {/* Separator - only show on desktop */}
+      {!isMobile && <Separator />}
 
       {/* Results List */}
       <div className={resultsClass}>

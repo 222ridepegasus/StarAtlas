@@ -57,6 +57,10 @@ export default function MobileNav({
     setActivePanel(null);
   };
 
+  const clearSearch = () => {
+    onSearchChange(''); // Clear the search query
+  };
+
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
@@ -242,7 +246,8 @@ export default function MobileNav({
       >
         {activePanel === 'search' && (
           <div className="bg-grey-700 overflow-y-auto max-h-[70vh] rounded-lg">
-            <div className="p-3">
+            <div className="">
+              <div className="px-2 py-2">
               <SearchInput
                 value={searchQuery}
                 onChange={onSearchChange}
@@ -252,20 +257,24 @@ export default function MobileNav({
                 fontSize="12px"
                 iconSize={18}
               />
-              {searchResults.length > 0 && (
-                <div className="mt-3">
-                  <SearchResults
-                    isVisible={true}
-                    results={searchResults}
-                    onStarSelect={(star) => {
-                      onStarClick(star);
-                      closePanel();
-                    }}
-                    onClose={closePanel}
-                    isMobile={true}
-                  />
-                </div>
-              )}
+              </div>
+                {searchResults.length > 0 && (
+                  <div className="pb-3">
+                    <Separator />
+                    <div className="px-2">
+                      <SearchResults
+                        isVisible={true}
+                        results={searchResults}
+                        onStarSelect={(star) => {
+                          onStarClick(star);
+                          closePanel();
+                        }}
+                        onClose={clearSearch}
+                        isMobile={true}
+                      />
+                    </div>
+                  </div>
+                )}
             </div>
           </div>
         )}
