@@ -138,27 +138,24 @@ export default function MobileNav({
                     icon="/icons/ui/Icon_UI_Connections_01.svg"
                     alt="Connections"
                     isActive={showConnections}
-                    onClick={() => {
-                      onShowConnectionsChange(true);
-                      onShowStalksChange(false);
-                    }}
+                    onClick={() => onShowConnectionsChange(true)}
                     width="48px"
                   />
                   <ButtonMobileIcon
                     icon="/icons/ui/Icon_UI_Stalks_01.svg"
                     alt="Stalks"
                     isActive={showStalks}
-                    onClick={() => {
-                      onShowConnectionsChange(false);
-                      onShowStalksChange(true);
-                    }}
+                    onClick={() => onShowStalksChange(true)}
                     width="48px"
                   />
                   <ButtonMobileIcon
                     icon="/icons/ui/Icon_UI_StarsOnly_01.svg"
                     alt="Stars Only"
                     isActive={!showConnections && !showStalks}
-                    onClick={() => onShowConnectionsChange(false)}
+                    onClick={() => {
+                      onShowConnectionsChange(false);
+                      onShowStalksChange(false);
+                    }}
                     width="48px"
                   />
                 </div>
@@ -254,7 +251,7 @@ export default function MobileNav({
                 placeholder="Search Stars..."
                 width="100%"
                 height="36px"
-                fontSize="12px"
+                fontSize="16px"
                 iconSize={18}
               />
               </div>
