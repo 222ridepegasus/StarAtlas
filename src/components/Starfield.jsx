@@ -9,6 +9,7 @@ import { COLORS, SIZES, STROKE_WEIGHTS, getSpectralColor } from '../config/visua
 import { LABEL_CONFIG, formatStarName } from '../config/labels.js';
 import InfoPanel from './InfoPanel.jsx';
 import Toolbar from './ui/Toolbar.jsx';
+import MobileNav from './MobileNav.jsx';
 
 // Helper function to convert RA string to radians
 const raToRadians = (ra) => {
@@ -26,13 +27,13 @@ const raToRadians = (ra) => {
 // Helper function to convert Dec string to radians
 const decToRadians = (dec) => {
   const decNormalized = dec.replace('−', '-');
-  // Updated regex to handle both Unicode (′″) and straight quotes ('")
-  const decRegex = /([+-]?\d+)°(\d+)[′'](\d+)[″"]/;
+  // Updated regex to handle both Unicode (′″) and straight quotes ('"), plus decimal seconds
+  const decRegex = /([+-]?\d+)°(\d+)[′']([\d.]+)[″"]/;
   const match = decNormalized.match(decRegex);
   if (!match) return 0;
   const degrees = parseInt(match[1], 10);
   const minutes = parseInt(match[2], 10);
-  const seconds = parseInt(match[3], 10);
+  const seconds = parseFloat(match[3]); // Changed to parseFloat for decimal seconds
   const totalDegrees = Math.abs(degrees) + minutes / 60 + seconds / 3600;
   const sign = degrees < 0 ? -1 : 1;
   const decDegreesSigned = sign * totalDegrees;
@@ -76,6 +77,7 @@ const Starfield = () => {
   const isDraggingRef = useRef(false);
   const mouseDownPosRef = useRef(new THREE.Vector2());
   const selectedStarRef = useRef(null);
+  const autoFocusOnClickRef = useRef(false);
   const rebuildConnectionsRef = useRef(null);
   const targetCameraDistanceRef = useRef(26);
   const shouldAutoZoomRef = useRef(false);
@@ -96,6 +98,14 @@ const Starfield = () => {
   const tmpV2B = useRef(new THREE.Vector2());
   const measureLineRef = useRef(null);
   const measureTextRef = useRef(null);
+  
+  // Keyboard state tracking
+  const keysPressed = useRef({
+    w: false, a: false, s: false, d: false,
+    q: false, e: false,
+    space: false, shift: false,
+    f: false, z: false, escape: false
+  });
 
   // State
   const [stars, setStars] = useState([]);
@@ -109,13 +119,16 @@ const Starfield = () => {
     O: true, B: true, A: true, F: true, G: true, K: true, M: true, L: true, T: true, Y: true, D: true
   });
   const [selectedStar, setSelectedStar] = useState(null);
+  const [autoFocusOnClick, setAutoFocusOnClick] = useState(false);
   const [measureMode, setMeasureMode] = useState(false);
   const [measurePoints, setMeasurePoints] = useState([]);
   const [measureDistance, setMeasureDistance] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [uiVisible, setUiVisible] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Load star data
   useEffect(() => {
@@ -123,6 +136,23 @@ const Starfield = () => {
       .then(res => res.json())
       .then(data => setStars(data))
       .catch(err => console.error('Error loading stars:', err));
+  }, []);
+
+  // Sync autoFocusOnClick to ref for use in event handlers
+  useEffect(() => {
+    autoFocusOnClickRef.current = autoFocusOnClick;
+  }, [autoFocusOnClick]);
+
+  // Detect mobile viewport (≤640px)
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+    
+    checkMobile(); // Initial check
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // Function to build/rebuild grids based on current view distance
@@ -614,9 +644,24 @@ const Starfield = () => {
           // Normal star selection (only when not in measure mode)
           selectedStarRef.current = starData;
           setSelectedStar(starData);
-          setIsFocused(false); // Clear focus state when clicking new star
           highlight.position.copy(star.position);
           highlight.visible = true;
+          
+          // Auto-focus if enabled
+          if (autoFocusOnClickRef.current) {
+            // Store starting positions for smooth transition
+            focusStartTimeRef.current = Date.now();
+            focusStartPosRef.current = cameraRef.current.position.clone();
+            focusStartTargetRef.current = controlsRef.current.target.clone();
+            focusTargetRef.current = star.position.clone();
+            focusPhaseRef.current = 'orienting';
+            shouldAutoZoomRef.current = false; // Don't auto-zoom on click, just focus
+            isSearchResultFocusRef.current = true; // Skip zoom phase - just orient the camera
+            isResetCameraRef.current = false;
+            // Don't set focused state immediately - let the animation complete
+          } else {
+            setIsFocused(false); // Clear focus state when clicking new star
+          }
         }
       } else {
         // No star clicked
@@ -705,7 +750,79 @@ const Starfield = () => {
       
       animationFrameIdRef.current = requestAnimationFrame(animate);
       
-      controls.update();
+      // Keyboard camera movement
+      const moveSpeed = 0.2; // Units per frame
+      const orbitSpeed = 0.01; // Radians per frame
+      
+      if (keysPressed.current.w || keysPressed.current.a || keysPressed.current.s || keysPressed.current.d ||
+          keysPressed.current.space || keysPressed.current.shift || keysPressed.current.q || keysPressed.current.e) {
+        
+        // Get camera direction vectors
+        const forward = new THREE.Vector3();
+        camera.getWorldDirection(forward);
+        forward.y = 0; // Keep movement on XZ plane
+        forward.normalize();
+        
+        const right = new THREE.Vector3();
+        right.crossVectors(forward, camera.up).normalize();
+        
+        const up = new THREE.Vector3(0, 1, 0);
+        
+        // Calculate movement
+        const movement = new THREE.Vector3();
+        const maxDistance = 30; // Maximum distance from origin in any direction
+        
+        if (keysPressed.current.w) movement.add(forward.clone().multiplyScalar(moveSpeed));
+        if (keysPressed.current.s) movement.add(forward.clone().multiplyScalar(-moveSpeed));
+        if (keysPressed.current.a) movement.add(right.clone().multiplyScalar(-moveSpeed));
+        if (keysPressed.current.d) movement.add(right.clone().multiplyScalar(moveSpeed));
+        if (keysPressed.current.space) movement.add(up.clone().multiplyScalar(moveSpeed));
+        if (keysPressed.current.shift) movement.add(up.clone().multiplyScalar(-moveSpeed));
+        
+        // Calculate new positions
+        const newCameraPos = camera.position.clone().add(movement);
+        const newTargetPos = controls.target.clone().add(movement);
+        
+        // Check if movement would exceed boundaries - if so, don't move at all
+        const wouldExceedBounds = 
+          Math.abs(newCameraPos.x) > maxDistance ||
+          Math.abs(newCameraPos.y) > maxDistance ||
+          Math.abs(newCameraPos.z) > maxDistance ||
+          Math.abs(newTargetPos.x) > maxDistance ||
+          Math.abs(newTargetPos.y) > maxDistance ||
+          Math.abs(newTargetPos.z) > maxDistance;
+        
+        // Only apply movement if it stays within bounds
+        if (!wouldExceedBounds) {
+          camera.position.copy(newCameraPos);
+          controls.target.copy(newTargetPos);
+        }
+        
+        // Orbit controls (Q/E) - only if not at extreme boundaries
+        if (keysPressed.current.q || keysPressed.current.e) {
+          const orbitAxis = new THREE.Vector3(0, 1, 0);
+          const offset = camera.position.clone().sub(controls.target);
+          
+          if (keysPressed.current.q) {
+            offset.applyAxisAngle(orbitAxis, orbitSpeed);
+          }
+          if (keysPressed.current.e) {
+            offset.applyAxisAngle(orbitAxis, -orbitSpeed);
+          }
+          
+          const newOrbitPos = controls.target.clone().add(offset);
+          
+          // Only apply orbit if it stays within bounds
+          const withinBounds = 
+            Math.abs(newOrbitPos.x) <= maxDistance &&
+            Math.abs(newOrbitPos.y) <= maxDistance &&
+            Math.abs(newOrbitPos.z) <= maxDistance;
+          
+          if (withinBounds) {
+            camera.position.copy(newOrbitPos);
+          }
+        }
+      }
       
       controls.update();
       
@@ -876,12 +993,7 @@ const Starfield = () => {
         up.copy(camera.up).normalize();
 
         if (!skipThisFrame) {
-          // First: update label positions and dynamic font sizing
-          const rendererCanvas = renderer.domElement;
-          const canvasHeight = rendererCanvas.height;
-          const fovY = THREE.MathUtils.degToRad(camera.fov);
-          const maxScreenFontSize = LABEL_CONFIG.behavior.maxScreenFontSize;
-          
+          // Update label positions
           labelsRef.current.forEach(label => {
             const star = label.userData.starRef;
             if (!star || !label.visible) return;
@@ -891,39 +1003,6 @@ const Starfield = () => {
               .add(up.clone().multiplyScalar(label.userData.vOffset || 0));
             label.position.copy(basePos.add(offset));
             label.quaternion.copy(camera.quaternion);
-            
-            // Direct screen-space size control based on camera distance to star
-            const distance = camera.position.distanceTo(star.position);
-            
-            // Define desired screen-space font size based on distance (in pixels)
-            const nearDistance = 2.5;   // Camera distance where labels are largest
-            const farDistance = 50;   // Camera distance where labels are smallest
-            const minScreenSize = 10;  // Minimum screen size in pixels (far)
-            const maxScreenSize = 60; // Maximum screen size in pixels (near)
-            
-            // Calculate desired screen-space size with smooth easing
-            let desiredScreenSize;
-            if (distance <= nearDistance) {
-              desiredScreenSize = maxScreenSize;
-            } else if (distance >= farDistance) {
-              desiredScreenSize = minScreenSize;
-            } else {
-              // Smooth ease-out cubic interpolation for gradual deceleration
-              const t = (distance - nearDistance) / (farDistance - nearDistance);
-              const easedT = 1 - Math.pow(1 - t, 3);
-              desiredScreenSize = maxScreenSize - (easedT * (maxScreenSize - minScreenSize));
-            }
-            
-            // Convert desired screen size to world-space font size
-            // This accounts for perspective: same screen size requires different world size at different distances
-            const pxPerUnit = canvasHeight / (2 * Math.tan(fovY / 2) * distance);
-            const worldFontSize = desiredScreenSize / pxPerUnit;
-            
-            // Smooth update with smaller threshold for more gradual changes
-            if (Math.abs(label.fontSize - worldFontSize) > 0.0001) {
-              label.fontSize = worldFontSize;
-            }
-            
             label.sync();
           });
 
@@ -1243,6 +1322,71 @@ const Starfield = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Keyboard controls for camera movement and star actions
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      // Don't handle keyboard controls if user is typing in an input/textarea
+      const activeElement = document.activeElement;
+      const isTyping = activeElement && (
+        activeElement.tagName === 'INPUT' || 
+        activeElement.tagName === 'TEXTAREA' ||
+        activeElement.isContentEditable
+      );
+      
+      if (isTyping) return;
+      
+      const key = event.key.toLowerCase();
+      
+      // Movement keys
+      if (key === 'w') keysPressed.current.w = true;
+      if (key === 'a') keysPressed.current.a = true;
+      if (key === 's') keysPressed.current.s = true;
+      if (key === 'd') keysPressed.current.d = true;
+      if (key === 'q') keysPressed.current.q = true;
+      if (key === 'e') keysPressed.current.e = true;
+      if (key === ' ') {
+        event.preventDefault(); // Prevent page scroll
+        keysPressed.current.space = true;
+      }
+      if (event.shiftKey) keysPressed.current.shift = true;
+      
+      // Action keys (trigger immediately)
+      if (key === 'f' && selectedStar) {
+        event.preventDefault();
+        handleFocusOnStar(selectedStar);
+      }
+      if (key === 'z' && selectedStar) {
+        event.preventDefault();
+        handleZoomToStar(selectedStar);
+      }
+      if (key === 'escape') {
+        event.preventDefault();
+        handleResetCamera();
+      }
+    };
+
+    const handleKeyUp = (event) => {
+      const key = event.key.toLowerCase();
+      
+      if (key === 'w') keysPressed.current.w = false;
+      if (key === 'a') keysPressed.current.a = false;
+      if (key === 's') keysPressed.current.s = false;
+      if (key === 'd') keysPressed.current.d = false;
+      if (key === 'q') keysPressed.current.q = false;
+      if (key === 'e') keysPressed.current.e = false;
+      if (key === ' ') keysPressed.current.space = false;
+      if (!event.shiftKey) keysPressed.current.shift = false;
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, [selectedStar]); // Depend on selectedStar so we can check if a star is selected
+
   const handleToggleLabelsVisibility = (visible) => {
     setShowLabels(visible);
     // Directly update label visibility without triggering other useEffects
@@ -1329,6 +1473,8 @@ const Starfield = () => {
 
   // Search functionality
   const handleSearchChange = (searchTerm) => {
+    setSearchQuery(searchTerm);
+    
     if (!searchTerm || searchTerm.trim() === '' || searchTerm.length < 2) {
       setSearchResults([]);
       setShowSearchResults(false);
@@ -1714,7 +1860,42 @@ const Starfield = () => {
 
   return (
     <>
-      {uiVisible && (
+      {uiVisible && isMobile && (
+        <MobileNav
+          // Search props
+          searchQuery={searchQuery}
+          onSearchChange={handleSearchChange}
+          searchResults={searchResults}
+          onStarClick={handleSearchResultSelect}
+          
+          // Filter props (convert spectralFilter to array format)
+          starClassFilters={Object.entries(spectralFilter).map(([type, enabled]) => ({
+            type,
+            enabled,
+            count: stars.filter(s => s.components?.[0]?.star_type?.startsWith(type)).length
+          }))}
+          onFilterToggle={(type) => {
+            handleSpectralFilterChange({
+              ...spectralFilter,
+              [type]: !spectralFilter[type]
+            });
+          }}
+          
+          // View/Distance/Overlays props
+          gridMode={gridMode}
+          showGrid={showGrid}
+          onGridModeChange={handleGridChange}
+          viewDistance={viewDistance}
+          onViewDistanceChange={handleViewDistanceChange}
+          showLabels={showLabels}
+          onShowLabelsChange={handleToggleLabels}
+          showConnections={lineMode === 'connections'}
+          onShowConnectionsChange={(enabled) => handleLineModeChange(enabled ? 'connections' : 'starsOnly')}
+          showStalks={lineMode === 'stalks'}
+          onShowStalksChange={(enabled) => handleLineModeChange(enabled ? 'stalks' : 'starsOnly')}
+        />
+      )}
+      {uiVisible && !isMobile && (
         <Toolbar 
           onSearchChange={handleSearchChange}
           onExportSVG={handleExportSVG}
@@ -1747,6 +1928,8 @@ const Starfield = () => {
           onZoom={handleZoomToStar}
           onReset={handleResetCamera}
           isFocused={isFocused}
+          autoFocusOnClick={autoFocusOnClick}
+          onAutoFocusChange={setAutoFocusOnClick}
         />
       )}
       

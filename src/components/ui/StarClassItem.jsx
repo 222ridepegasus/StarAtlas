@@ -5,7 +5,8 @@ export default function StarClassItem({
   type, // e.g., "O", "B", "A", etc.
   color, // e.g., "spectral-O", "spectral-B", etc.
   isChecked = true,
-  onChange = null
+  onChange = null,
+  size = "default" // "default" (16px) or "large" (24px for mobile)
 }) {
   const [checked, setChecked] = useState(isChecked);
 
@@ -17,14 +18,18 @@ export default function StarClassItem({
     }
   };
 
+  const iconSize = size === "large" ? "w-6 h-6" : "w-4 h-4";
+  const innerIconSize = size === "large" ? "w-4 h-4" : "w-2.5 h-2.5";
+  const textSize = size === "large" ? "text-xs" : "text-[11px]"; // 12px for mobile, 11px for desktop
+
   return (
     <div className="flex items-center justify-between py-1">
       <div className="flex items-center gap-2">
         {/* Colored circle with outer and inner ellipses */}
-        <div className="w-4 h-4 relative flex items-center justify-center">
-          {/* Outer ellipse - 16px x 16px at 50% opacity */}
+        <div className={`${iconSize} relative flex items-center justify-center`}>
+          {/* Outer ellipse - responsive size at 50% opacity */}
           <div 
-            className="w-4 h-4 rounded-full absolute"
+            className={`${iconSize} rounded-full absolute`}
             style={{ 
               backgroundColor: color === 'spectral-O' ? '#9bb0ff' :
                              color === 'spectral-B' ? '#aabfff' :
@@ -40,9 +45,9 @@ export default function StarClassItem({
               opacity: 0.5
             }}
           />
-          {/* Inner ellipse - 10px x 10px at 100% opacity, centered */}
+          {/* Inner ellipse - responsive size at 100% opacity, centered */}
           <div 
-            className="w-2.5 h-2.5 rounded-full absolute"
+            className={`${innerIconSize} rounded-full absolute`}
             style={{ 
               backgroundColor: color === 'spectral-O' ? '#9bb0ff' :
                              color === 'spectral-B' ? '#aabfff' :
@@ -60,7 +65,7 @@ export default function StarClassItem({
           />
         </div>
         {/* Star type label */}
-        <span className="text-[11px] text-grey-200">{type} Type</span>
+        <span className={`${textSize} text-grey-200`}>{type} Type</span>
       </div>
       
       {/* Checkbox */}
@@ -68,6 +73,7 @@ export default function StarClassItem({
         color={color}
         isChecked={checked}
         onClick={handleToggle}
+        size={size}
       />
     </div>
   );

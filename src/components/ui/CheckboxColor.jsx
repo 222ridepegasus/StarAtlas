@@ -1,7 +1,8 @@
 export default function CheckboxColor({ 
   color = "spectral-O", // spectral color or "neutral"
   isChecked = false,
-  onClick
+  onClick,
+  size = "default" // "default" (16px) or "large" (24px for mobile)
 }) {
   const getColorSuffix = () => {
     if (color === "neutral") return "Default";
@@ -24,6 +25,8 @@ export default function CheckboxColor({
     return colorMap[color] || "Default";
   };
 
+  const sizeClass = size === "large" ? "w-6 h-6" : "w-4 h-4";
+
   const colorSuffix = getColorSuffix();
   const iconPath = isChecked 
     ? `/icons/ui/Icon_UI_CheckboxOn_${colorSuffix}_01.svg`
@@ -31,7 +34,7 @@ export default function CheckboxColor({
 
   return (
     <button
-      className="w-4 h-4 transition-all duration-200 cursor-pointer"
+      className={`${sizeClass} transition-all duration-200 cursor-pointer`}
       onClick={onClick}
       aria-label={`Toggle ${color}`}
     >

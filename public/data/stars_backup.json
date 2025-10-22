@@ -1,0 +1,1037 @@
+[
+    {
+        "name": "Sol",
+        "distance_ly": 0,
+        "ra": "00h00m00s",
+        "dec": "+00°00′00″",
+        "components": [
+          {
+            "name": "Sol",
+            "description": "Our home star, a middle-aged yellow dwarf that has been shining for 4.6 billion years. It makes up 99.86% of the Solar System's mass and provides the energy that sustains life on Earth. Sol is currently in the main sequence phase of its life cycle and will continue fusing hydrogen for another 5 billion years before evolving into a red giant.",
+            "spectral_type": "G2V",
+            "star_type": "G-type main sequence",
+            "size_compared_to_sun": "1.0 Solar masses",
+            "temperature": "5,778 K",
+            "colour": "Yellow-white",
+            "age": "4.6 Billion Years",
+            "habitable_zone": "0.95-1.37 AU",
+            "discovered": "Ancient times",
+            "visibility": "Naked eye (Mag -26.74)",
+            "alternate_names": [
+              "Sol",
+              "Sun",
+              "Helios"
+            ]
+          }
+        ]
+      },
+    {
+      "name": "Alpha Centauri",
+      "distance_ly": 4.344,
+      "ra": "14h39m36.5s",
+      "dec": "-60°50'02\"",
+      "star_system_alternate_names": ["α Cen", "Rigil Kentaurus", "Rigil Kent", "Toliman", "FK5 538", "GJ 559"],
+      "confirmed_exoplanets": 2,
+      "components": [
+        {
+          "name": "Alpha Centauri A",
+          "description": "Primary star; G-type main sequence star, Sun-like",
+          "star_type": "G2V - yellow dwarf",
+          "mass_compared_to_sun": "7.88% larger (1.0788 ± 0.0029 M☉)",
+          "age": "5-6 Gyr (range: 4.85-6.52 Gyr)",
+          "life_span": "10-12 Gyr",
+          "habitable_zone": "1.2-2.1 AU",
+          "discovered": "Known since antiquity; recognized as closest star system in 1830s",
+          "alternate_names": ["Rigil Kentaurus", "HD 128620", "HIP 71683", "HR 5459", "GJ 559 A", "LHS 50", "SAO 252838", "GCTP 3309.00", "TYC 9007-5849-1"]
+        },
+        {
+          "name": "Alpha Centauri B",
+          "description": "Secondary star; K-type main sequence star, orange dwarf",
+          "star_type": "K1V - orange dwarf",
+          "mass_compared_to_sun": "9.08% smaller (0.9092 ± 0.0025 M☉)",
+          "age": "5-6 Gyr (range: 4.85-6.52 Gyr)",
+          "life_span": "15-20 Gyr",
+          "habitable_zone": "0.7-1.2 AU",
+          "discovered": "Known since antiquity; binary nature discovered 1689",
+          "alternate_names": ["Toliman", "HD 128621", "HIP 71681", "HR 5460", "GJ 559 B", "LHS 51", "TYC 9007-5848-1"]
+        },
+        {
+          "name": "Proxima Centauri (Alpha Centauri C)",
+          "description": "Tertiary component; M-type red dwarf, flare star, closest star to Sun",
+          "star_type": "M5.5Ve - red dwarf, flare star",
+          "mass_compared_to_sun": "87.79% smaller (0.1221 ± 0.0022 M☉)",
+          "age": "4.85 ± 1.0 Gyr",
+          "life_span": "~4,000 Gyr (4 trillion years)",
+          "habitable_zone": "0.038-0.053 AU (conservative)",
+          "discovered": "1915 by Robert T. A. Innes",
+          "alternate_names": ["Proxima", "GJ 551", "HIP 70890", "V645 Centauri", "LHS 49", "LFT 1110", "LTT 5721", "GCTP 3278.00"]
+        }
+      ]
+    },
+    {
+      "name": "Barnard's Star",
+      "distance_ly": 5.9629,
+      "ra": "17h57m48.5s",
+      "dec": "+04°41'36\"",
+      "star_system_alternate_names": ["GJ 699", "V2500 Ophiuchi", "HIP 87937", "BD+04°3561", "LHS 57", "Barnard's Runaway Star", "Proxima Ophiuchi"],
+      "confirmed_exoplanets": 4,
+      "components": [
+        {
+          "name": "Barnard's Star",
+          "description": "Single red dwarf star; second closest star system to Sun; fourth closest individual star",
+          "star_type": "M4.0V - red dwarf",
+          "mass_compared_to_sun": "85.6% smaller (0.144 M☉)",
+          "age": "10 ± 1 Gyr",
+          "life_span": "Several trillion years",
+          "habitable_zone": "0.034-0.082 AU (conservative)",
+          "discovered": "1888 observed; high proper motion discovered 1916 by E.E. Barnard",
+          "alternate_names": ["Gliese 699", "GJ 699", "HIP 87937", "BD+04°3561", "V2500 Ophiuchi", "LHS 57", "LFT 1385", "LTT 15309", "GCTP 4098.00", "Munich 15040"]
+        }
+      ]
+    },
+    {
+      "name": "Luhman 16",
+      "distance_ly": 6.5029,
+      "ra": "10h49m18.723s",
+      "dec": "-53°19'09.86\"",
+      "star_system_alternate_names": ["WISE 1049-5319", "WISE J104915.57-531906.1", "LUH 16", "Luhman-WISE 1", "DENIS-P J104919.0-531910"],
+      "confirmed_exoplanets": 0,
+      "components": [
+        {
+          "name": "Luhman 16A",
+          "description": "L-type brown dwarf at the L/T transition, showing banded cloud structures similar to Jupiter/Saturn",
+          "star_type": "L7.5 - brown dwarf",
+          "mass_compared_to_sun": "96.65% smaller (0.0335 M☉ / 35.2 Jupiter masses)",
+          "age": "0.4-0.8 Gyr (0.510±0.095 Gyr)",
+          "life_span": "Brown dwarfs cool over trillions of years without nuclear fusion",
+          "habitable_zone": "~0.001-0.003 AU (theoretical)",
+          "discovered": "March 11, 2013",
+          "alternate_names": ["WISE 1049-5319A", "Luhman 16A"]
+        },
+        {
+          "name": "Luhman 16B",
+          "description": "T-type brown dwarf showing rapid atmospheric variability and patchy cloud coverage",
+          "star_type": "T0.5±1 - brown dwarf",
+          "mass_compared_to_sun": "97.2% smaller (0.0280 M☉ / 29.4 Jupiter masses)",
+          "age": "0.4-0.8 Gyr (0.510±0.095 Gyr)",
+          "life_span": "Brown dwarfs cool over trillions of years without nuclear fusion",
+          "habitable_zone": "~0.001-0.003 AU (theoretical)",
+          "discovered": "March 11, 2013",
+          "alternate_names": ["WISE 1049-5319B", "Luhman 16B"]
+        }
+      ]
+    },
+    {
+      "name": "WISE 0855-0714",
+      "distance_ly": 7.43,
+      "ra": "08h55m10.83s",
+      "dec": "-07°14'42.5\"",
+      "star_system_alternate_names": ["WISE J085510.83-071442.5", "WISEA J085510.74-071442.5", "W0855"],
+      "confirmed_exoplanets": 0,
+      "components": [
+        {
+          "name": "WISE 0855-0714",
+          "description": "Sub-brown dwarf (Y dwarf) - the coldest known brown dwarf; mass below deuterium-burning limit; roughly room temperature",
+          "star_type": "Y4V - sub-brown dwarf (Y dwarf)",
+          "mass_compared_to_sun": "99.2-99.7% smaller (0.003-0.010 M☉ / 3-10 Jupiter masses, likely 5-8)",
+          "age": "1-10 Gyr (estimated)",
+          "life_span": "Sub-brown dwarfs cool continuously over tens of trillions of years",
+          "habitable_zone": "0.0001-0.0005 AU (essentially theoretical)",
+          "discovered": "April 2014 (announced); first imaged May 4, 2010 by WISE",
+          "alternate_names": ["WISE J085510.83-071442.5", "W0855"]
+        }
+      ]
+    },
+    {
+      "name": "Wolf 359",
+      "distance_ly": 7.8558,
+      "ra": "10h56m28.99s",
+      "dec": "+07°00'52.0\"",
+      "star_system_alternate_names": ["CN Leonis", "GJ 406", "LHS 36", "LTT 12923", "LFT 750", "GCTP 2553", "G 045-020"],
+      "confirmed_exoplanets": 0,
+      "components": [
+        {
+          "name": "Wolf 359",
+          "description": "Extremely faint red dwarf flare star (UV Ceti-type); one of the least massive and least luminous stars known",
+          "star_type": "M6.5Ve - red dwarf, flare star",
+          "mass_compared_to_sun": "90-91% smaller (0.09-0.11 M☉)",
+          "age": "<1 Gyr (relatively young; >100 Myr based on lithium depletion)",
+          "life_span": "~8 trillion years",
+          "habitable_zone": "0.022-0.054 AU",
+          "discovered": "1917 (proper motion measured by Max Wolf); 1928 (first parallax)",
+          "alternate_names": ["CN Leonis", "CN Leo", "GJ 406", "Gliese 406", "LHS 36", "LTT 12923", "LFT 750", "GCTP 2553", "G 045-020", "Gaia DR3 3864972938605115520"]
+        }
+      ]
+    },
+    {
+      "name": "Lalande 21185",
+      "distance_ly": 8.3044,
+      "ra": "11h03m20.19s",
+      "dec": "+35°58'11.55\"",
+      "star_system_alternate_names": ["Gliese 411", "GJ 411", "HD 95735", "BD+36 2147", "HIP 54035", "LHS 37"],
+      "confirmed_exoplanets": 2,
+      "components": [
+        {
+          "name": "Lalande 21185",
+          "description": "Red dwarf main-sequence star, brightest red dwarf visible in northern hemisphere; known flare star",
+          "star_type": "M2V - red dwarf",
+          "mass_compared_to_sun": "54-61% smaller (0.39-0.46 M☉)",
+          "age": "~7.5 Gyr",
+          "life_span": "~200+ billion years",
+          "habitable_zone": "0.11-0.24 AU",
+          "discovered": "1801 by Jérôme Lalande; high proper motion discovered May 1857",
+          "alternate_names": ["Gliese 411", "GJ 411", "HD 95735", "BD+36 2147", "HIP 54035", "LHS 37", "LFT 756", "LTT 12960", "SAO 62377", "G 119-052"]
+        }
+      ]
+    },
+    {
+      "name": "Sirius",
+      "distance_ly": 8.7094,
+      "ra": "06h45m08.917s",
+      "dec": "-16°42'58.02\"",
+      "star_system_alternate_names": ["Alpha Canis Majoris", "α CMa", "HD 48915", "HR 2491", "HIP 32349", "Gliese 244", "The Dog Star"],
+      "confirmed_exoplanets": 0,
+      "components": [
+        {
+          "name": "Sirius A",
+          "description": "Main-sequence A-type star, the brightest star in Earth's night sky; white-blue star with metallic line characteristics",
+          "star_type": "A0mA1 Va - A-type main sequence (Am star)",
+          "mass_compared_to_sun": "106.3% larger (2.063 ± 0.023 M☉)",
+          "age": "200-300 Myr (best value ~228-237 Myr)",
+          "life_span": "~1 billion years total",
+          "habitable_zone": "~2-3 AU (approximate for A-type stars)",
+          "discovered": "Known since ancient times; binary nature discovered August 10, 1844 by Friedrich Wilhelm Bessel",
+          "alternate_names": ["α CMa A", "HD 48915", "HR 2491", "HIP 32349", "Gliese 244 A", "FK5 257"]
+        },
+        {
+          "name": "Sirius B",
+          "description": "White dwarf star, one of the most massive white dwarfs known; Earth-sized remnant core",
+          "star_type": "DA2 - white dwarf",
+          "mass_compared_to_sun": "1.8% larger (1.018 ± 0.011 M☉)",
+          "age": "~120-228 Myr (became white dwarf ~120 Myr ago)",
+          "life_span": "Will cool over next ~2+ billion years; already in final evolutionary stage",
+          "habitable_zone": "0.01-0.02 AU (based on current 0.024 L☉)",
+          "discovered": "January 31, 1862 by Alvan Graham Clark; confirmed March 8, 1862",
+          "alternate_names": ["The Pup", "α CMa B", "HD 48915B", "Gliese 244 B", "WD 0642-166"]
+        }
+      ]
+    },
+    {
+      "name": "Gliese 65 (Luyten 726-8)",
+      "distance_ly": 8.724,
+      "ra": "01h39m01.2s",
+      "dec": "-17°57'02.6\"",
+      "star_system_alternate_names": ["Luyten 726-8", "BL Ceti / UV Ceti", "GJ 65", "LHS 9/10", "G 272-61"],
+      "confirmed_exoplanets": 0,
+      "components": [
+        {
+          "name": "BL Ceti (Gliese 65 A)",
+          "description": "Red dwarf flare star, slightly brighter component of binary pair; spectral standard star for M5.5V class",
+          "star_type": "M5.5V - red dwarf, flare star",
+          "mass_compared_to_sun": "87.8% smaller (0.122 M☉)",
+          "age": "Several billion years (estimated 3-8 Gyr)",
+          "life_span": "Trillions of years",
+          "habitable_zone": "~0.02-0.04 AU",
+          "discovered": "1948 by Willem Jacob Luyten",
+          "alternate_names": ["BL Ceti", "GJ 65 A", "LHS 9", "G 272-61A", "Gaia DR3 5140693571158739840"]
+        },
+        {
+          "name": "UV Ceti (Gliese 65 B)",
+          "description": "Red dwarf flare star, archetypal UV Ceti-type variable after which the entire class is named; spectral standard for M6V",
+          "star_type": "M6V / M6.0e - red dwarf, extreme flare star",
+          "mass_compared_to_sun": "87.8% smaller (0.122 M☉)",
+          "age": "Several billion years (same as component A)",
+          "life_span": "Trillions of years",
+          "habitable_zone": "~0.02-0.04 AU",
+          "discovered": "1948 (companion to BL Ceti); became archetype for UV Ceti-type flare stars",
+          "alternate_names": ["UV Ceti", "GJ 65 B", "LHS 10", "G 272-61B", "Gaia DR3 5140693571158946048"]
+        }
+      ]
+    },
+    {
+      "name": "Ross 154",
+      "distance_ly": 9.7063,
+      "ra": "18h49m49.36s",
+      "dec": "-23°50'10.4\"",
+      "star_system_alternate_names": ["V1216 Sagittarii", "Gliese 729", "GJ 729", "HIP 92403", "LHS 3414", "CD-23°14742"],
+      "confirmed_exoplanets": 0,
+      "components": [
+        {
+          "name": "Ross 154",
+          "description": "UV Ceti-type flare star, one of the nearest red dwarfs to the Sun",
+          "star_type": "M3.5V - red dwarf, flare star",
+          "mass_compared_to_sun": "82-83% smaller (0.17-0.18 M☉)",
+          "age": "<1 Gyr (estimated ~0.7-1.0 Gyr; relatively young)",
+          "life_span": "~1,187 billion years",
+          "habitable_zone": "0.065-0.126 AU",
+          "discovered": "1925 (catalogued by Frank Elmore Ross)",
+          "alternate_names": ["V1216 Sagittarii", "Gliese 729", "GJ 729", "HIP 92403", "LHS 3414", "GCTP 4338", "Gaia EDR3 4075141768785646848"]
+        }
+      ]
+    },
+    {
+      "name": "Ross 248",
+      "distance_ly": 10.3057,
+      "ra": "23h41m54.99s",
+      "dec": "+44°10'40.8\"",
+      "star_system_alternate_names": ["HH Andromedae", "Gliese 905", "GJ 905", "HIP 57548", "LHS 549", "G 171-10"],
+      "confirmed_exoplanets": 0,
+      "components": [
+        {
+          "name": "Ross 248",
+          "description": "BY Draconis variable and flare star; will become closest star to the Sun in ~36,500 years",
+          "star_type": "M6V - red dwarf, flare star",
+          "mass_compared_to_sun": "85.5-88% smaller (0.12-0.145 M☉)",
+          "age": "2-4 Gyr (moderate age for M-dwarf)",
+          "life_span": ">2,000 billion years",
+          "habitable_zone": "0.022-0.064 AU",
+          "discovered": "1926 (catalogued by Frank Elmore Ross)",
+          "alternate_names": ["HH Andromedae", "Gliese 905", "GJ 905", "LHS 549", "LTT 16985", "LFT 1816", "G 171-10", "Gaia EDR3 1926461164913660160"]
+        }
+      ]
+    },
+    {
+      "name": "Epsilon Eridani",
+      "distance_ly": 10.4749,
+      "ra": "03h32m55.84s",
+      "dec": "-09°27'29.7\"",
+      "star_system_alternate_names": ["Ran", "ε Eridani", "18 Eridani", "HD 22049", "HR 1084", "Gliese 144", "HIP 16537"],
+      "confirmed_exoplanets": 1,
+      "components": [
+        {
+          "name": "Epsilon Eridani",
+          "description": "Young, Sun-like K-type orange dwarf with active chromosphere and debris disk system; third-closest naked-eye star",
+          "star_type": "K2V - orange dwarf",
+          "mass_compared_to_sun": "18% smaller (0.82 M☉)",
+          "age": "0.4-0.8 Gyr (very young star, often cited as ~0.8 Gyr)",
+          "life_span": "15-20 billion years",
+          "habitable_zone": "0.5-1.0 AU (current); will expand to 0.6-1.4 AU over 20 Gyr",
+          "discovered": "Known since antiquity (included in Ptolemy's Almagest, 2nd century AD)",
+          "alternate_names": ["Ran", "ε Eridani", "18 Eridani", "HD 22049", "HR 1084", "Gliese 144", "GJ 144", "HIP 16537", "SAO 130564", "LHS 1557", "BD-09°697"]
+        }
+      ]
+    },
+    {
+      "name": "Lacaille 9352",
+      "distance_ly": 10.7241,
+      "ra": "23h05m52.0s",
+      "dec": "-35°51'11\"",
+      "star_system_alternate_names": ["GJ 887", "Gliese 887", "HD 217987", "HIP 114046", "LHS 70", "CD-36°15693"],
+      "confirmed_exoplanets": 2,
+      "components": [
+        {
+          "name": "Lacaille 9352",
+          "description": "Nearby red dwarf, closest star in constellation Piscis Austrinus; relatively quiet with low flare activity",
+          "star_type": "M0.5V to M2V - red dwarf",
+          "mass_compared_to_sun": "49.7-51.1% smaller (0.489-0.503 M☉)",
+          "age": "~4.57 Gyr",
+          "life_span": "~30-50 billion years",
+          "habitable_zone": "0.183-0.358 AU (optimal: 0.22-0.27 AU)",
+          "discovered": "1750s by Nicolas Louis de Lacaille; high proper motion noticed 1881",
+          "alternate_names": ["Gliese 887", "GJ 887", "HD 217987", "HIP 114046", "LHS 70", "LTT 9348", "SAO 214301", "Gaia DR3 6553614253923452800"]
+        }
+      ]
+    },
+    {
+      "name": "Ross 128",
+      "distance_ly": 11.0074,
+      "ra": "11h47m45.02s",
+      "dec": "+00°47'57.44\"",
+      "star_system_alternate_names": ["FI Virginis", "Gliese 447", "GJ 447", "HIP 57548", "LHS 315", "Vyssotsky 286"],
+      "confirmed_exoplanets": 1,
+      "components": [
+        {
+          "name": "Ross 128",
+          "description": "Quiet red dwarf with unusually low flare activity; magnetically evolved star with 4.1-year magnetic cycle",
+          "star_type": "M4V - red dwarf",
+          "mass_compared_to_sun": "82-83% smaller (0.168-0.18 M☉)",
+          "age": "~9.45 Gyr (more than twice the age of the Sun)",
+          "life_span": "~2.0-2.5 trillion years",
+          "habitable_zone": "0.04-0.10 AU (optimal: 0.055-0.07 AU)",
+          "discovered": "1926 by Frank Elmore Ross; flare detected 1972",
+          "alternate_names": ["FI Virginis", "Gliese 447", "GJ 447", "HIP 57548", "LHS 315", "LTT 13240", "LFT 852", "G 010-050", "Gaia DR3 3796072592206250624"]
+        }
+      ]
+    },
+    {
+      "name": "EZ Aquarii",
+      "distance_ly": 11.109,
+      "ra": "22h38m33.73s",
+      "dec": "-15°17'57.3\"",
+      "star_system_alternate_names": ["Gliese 866", "GJ 866", "Luyten 789-6", "L 789-6", "LHS 68", "GCTP 5475.00"],
+      "confirmed_exoplanets": 0,
+      "components": [
+        {
+          "name": "EZ Aquarii A",
+          "description": "Brightest component of triple system, part of tight spectroscopic binary with Component C",
+          "star_type": "M5V - red dwarf, flare star",
+          "mass_compared_to_sun": "88.13% smaller (0.1187 ± 0.0011 M☉)",
+          "age": "Several billion years (estimated)",
+          "life_span": "~6-10 trillion years",
+          "habitable_zone": "~0.03-0.08 AU (for AC binary combined)",
+          "discovered": "High proper motion discovered by Willem Luyten; identified as flare star 1972",
+          "alternate_names": ["Gl 866A", "L 789-6 A", "EZ Aqr A"]
+        },
+        {
+          "name": "EZ Aquarii B",
+          "description": "Third and most distant component, orbiting the AC pair in an eccentric orbit",
+          "star_type": "MV (likely M5-M6V) - red dwarf, flare star",
+          "mass_compared_to_sun": "88.55% smaller (0.1145 ± 0.0012 M☉)",
+          "age": "Several billion years (same as other components)",
+          "life_span": "~6-10 trillion years",
+          "habitable_zone": "~0.03-0.08 AU",
+          "discovered": "Part of system discovery; variable nature recognized 1978",
+          "alternate_names": ["Gl 866B", "L 789-6 B", "EZ Aqr B"]
+        },
+        {
+          "name": "EZ Aquarii C",
+          "description": "Dimmest component, orbiting tightly with Component A in a spectroscopic binary",
+          "star_type": "MV (likely M5-M6V) - red dwarf, flare star",
+          "mass_compared_to_sun": "90.7% smaller (0.0930 ± 0.0008 M☉)",
+          "age": "Several billion years (same as other components)",
+          "life_span": "~10-12 trillion years (lowest mass = longest lifespan)",
+          "habitable_zone": "~0.03-0.08 AU (part of tight binary with A)",
+          "discovered": "Part of system discovery; variable designation 1978",
+          "alternate_names": ["Gl 866C", "EZ Aqr C"]
+        }
+      ]
+    },
+    [
+        {
+          "name": "61 Cygni",
+          "distance_ly": 11.4039,
+          "ra": "21h06m53.94s",
+          "dec": "+38°44'57.9\"",
+          "star_system_alternate_names": ["Bessel's Star", "Flying Star", "Piazzi's Flying Star", "GJ 820", "HR 8085/8086"],
+          "confirmed_exoplanets": 0,
+          "components": [
+            {
+              "name": "61 Cygni A",
+              "description": "K-type orange dwarf, fourth-nearest naked-eye visible star, first star to have parallax measured (1838)",
+              "star_type": "K5V - orange dwarf",
+              "mass_compared_to_sun": "30% smaller (0.70 M☉)",
+              "age": "6.0 ± 1.0 Gyr",
+              "life_span": "~15-20 billion years",
+              "habitable_zone": "0.39-0.76 AU",
+              "discovered": "Known since antiquity; parallax first measured by Friedrich Bessel in 1838",
+              "alternate_names": ["61 Cyg A", "HD 201091", "HIP 104214", "HR 8085", "GJ 820 A", "BD+38°4343", "SAO 71111", "V1803 Cygni"]
+            },
+            {
+              "name": "61 Cygni B",
+              "description": "K-type orange dwarf, companion star in historic binary system",
+              "star_type": "K7V - orange dwarf",
+              "mass_compared_to_sun": "37% smaller (0.63 M☉)",
+              "age": "6.0 ± 1.0 Gyr",
+              "life_span": "~20-30 billion years",
+              "habitable_zone": "0.25-0.55 AU",
+              "discovered": "Binary nature confirmed 1830s",
+              "alternate_names": ["61 Cyg B", "HD 201092", "HIP 104217", "HR 8086", "GJ 820 B", "BD+38°4344"]
+            }
+          ]
+        },
+        {
+          "name": "Procyon (Alpha Canis Minoris)",
+          "distance_ly": 11.463,
+          "ra": "07h39m18.54s",
+          "dec": "+05°13'39.0\"",
+          "star_system_alternate_names": ["α CMi", "Elgomaisa", "Gliese 280", "HD 61421"],
+          "confirmed_exoplanets": 0,
+          "components": [
+            {
+              "name": "Procyon A",
+              "description": "F-type subgiant, 8th brightest star in night sky, evolving off main sequence",
+              "star_type": "F5 IV-V - yellow-white subgiant",
+              "mass_compared_to_sun": "50% larger (1.499 M☉)",
+              "age": "1.87 ± 0.13 Gyr",
+              "life_span": "~2.5-3 billion years total (currently evolving into red giant phase)",
+              "habitable_zone": "1.6-2.7 AU (expanding)",
+              "discovered": "Known since antiquity",
+              "alternate_names": ["α CMi A", "10 Canis Minoris", "HD 61421", "HIP 37279", "HR 2943", "GJ 280 A"]
+            },
+            {
+              "name": "Procyon B",
+              "description": "White dwarf companion, cooling remnant of former red giant",
+              "star_type": "DQZ - white dwarf with carbon and heavy elements",
+              "mass_compared_to_sun": "60% of Sun's mass in Earth-sized remnant (0.602 M☉)",
+              "age": "1.37 Gyr (cooling age; became white dwarf ~1.19 Gyr ago)",
+              "life_span": "Will cool over next 2+ billion years; already in final stage",
+              "habitable_zone": "0.01-0.02 AU (theoretical based on current low luminosity)",
+              "discovered": "1840 (orbital perturbation); directly observed 1896",
+              "alternate_names": ["α CMi B", "HD 61421B", "GJ 280 B", "WD 0736+053"]
+            }
+          ]
+        },
+        {
+          "name": "Struve 2398",
+          "distance_ly": 11.5,
+          "ra": "18h42m46.7s",
+          "dec": "+59°37'49\"",
+          "star_system_alternate_names": ["Gliese 725", "HD 173739/173740", "LHS 58/59", "GJ 725 AB"],
+          "confirmed_exoplanets": 2,
+          "components": [
+            {
+              "name": "Struve 2398 A",
+              "description": "Red dwarf flare star, chromospherically active",
+              "star_type": "M3.0V - red dwarf",
+              "mass_compared_to_sun": "65-66% smaller (0.34-0.35 M☉)",
+              "age": "~2-4 Gyr",
+              "life_span": "~100-200 billion years",
+              "habitable_zone": "0.08-0.18 AU",
+              "discovered": "Binary nature discovered by Friedrich Struve in 1830",
+              "alternate_names": ["GJ 725 A", "HD 173739", "HIP 91768", "LHS 58", "NSV 11288"]
+            },
+            {
+              "name": "Struve 2398 B",
+              "description": "Red dwarf companion, flare star",
+              "star_type": "M3.4V - red dwarf",
+              "mass_compared_to_sun": "66% smaller (0.33-0.34 M☉)",
+              "age": "~2-4 Gyr",
+              "life_span": "~100-200 billion years",
+              "habitable_zone": "0.07-0.17 AU",
+              "discovered": "1830",
+              "alternate_names": ["GJ 725 B", "HD 173740", "HIP 91772", "LHS 59"]
+            }
+          ]
+        },
+        {
+          "name": "Groombridge 34",
+          "distance_ly": 11.6191,
+          "ra": "00h18m22.88s",
+          "dec": "+44°01'22.6\"",
+          "star_system_alternate_names": ["GX Andromedae / GQ Andromedae", "GJ 15", "LHS 7/8"],
+          "confirmed_exoplanets": 1,
+          "components": [
+            {
+              "name": "Groombridge 34 A",
+              "description": "Red dwarf flare star (GX Andromedae), hosts confirmed super-Earth planet",
+              "star_type": "M1.5V - red dwarf",
+              "mass_compared_to_sun": "62% smaller (0.38 M☉)",
+              "age": "~2-5 Gyr",
+              "life_span": "~40-80 billion years",
+              "habitable_zone": "0.10-0.22 AU",
+              "discovered": "Catalogued 1838 by Stephen Groombridge",
+              "alternate_names": ["GX And", "GJ 15 A", "HIP 1475", "LHS 7", "G 172-10 A"]
+            },
+            {
+              "name": "Groombridge 34 B",
+              "description": "Red dwarf flare star (GQ Andromedae), fainter companion",
+              "star_type": "M3.5V - red dwarf",
+              "mass_compared_to_sun": "70% smaller (0.30 M☉)",
+              "age": "~2-5 Gyr",
+              "life_span": "~100-150 billion years",
+              "habitable_zone": "0.06-0.15 AU",
+              "discovered": "Binary companion identified",
+              "alternate_names": ["GQ And", "GJ 15 B", "LHS 8", "G 172-10 B"]
+            }
+          ]
+        },
+        {
+          "name": "DX Cancri (Gliese 1111)",
+          "distance_ly": 11.8797,
+          "ra": "08h29m49.5s",
+          "dec": "+26°46'36\"",
+          "star_system_alternate_names": ["G 51-15", "GJ 1111", "LHS 248", "Proxima Cancri"],
+          "confirmed_exoplanets": 0,
+          "components": [
+            {
+              "name": "DX Cancri",
+              "description": "Red dwarf flare star; spectacular flare detected in 2006; possible Castor Moving Group member",
+              "star_type": "M6.5Ve - red dwarf, flare star",
+              "mass_compared_to_sun": "91% smaller (0.09 M☉)",
+              "age": "~0.2-0.5 Gyr (young, if Castor Moving Group member)",
+              "life_span": "~8-10 trillion years",
+              "habitable_zone": "0.015-0.045 AU",
+              "discovered": "High proper motion first noted by Willem Luyten",
+              "alternate_names": ["G 51-15", "GJ 1111", "LHS 248", "LFT 594", "LP 372-22"]
+            }
+          ]
+        },
+        {
+          "name": "Epsilon Indi",
+          "distance_ly": 11.8191,
+          "ra": "22h03m21.66s",
+          "dec": "-56°47'09.5\"",
+          "star_system_alternate_names": ["ε Ind", "HD 209100", "Gliese 845", "HR 8387"],
+          "confirmed_exoplanets": 1,
+          "components": [
+            {
+              "name": "Epsilon Indi A",
+              "description": "K-type orange dwarf with brown dwarf binary companions; top target for biosignature searches",
+              "star_type": "K5V - orange dwarf",
+              "mass_compared_to_sun": "24-25% smaller (0.75-0.76 M☉)",
+              "age": "3.7-6.0 Gyr (age estimates vary)",
+              "life_span": "~15-25 billion years",
+              "habitable_zone": "0.4-0.8 AU",
+              "discovered": "Known since antiquity; brown dwarf companions discovered 2003",
+              "alternate_names": ["ε Ind A", "HD 209100", "HIP 108870", "HR 8387", "GJ 845 A", "LHS 67"]
+            },
+            {
+              "name": "Epsilon Indi Ba",
+              "description": "Early T-type brown dwarf, nearest brown dwarf system after Luhman 16; surprisingly high mass challenges models",
+              "star_type": "T1 - brown dwarf",
+              "mass_compared_to_sun": "92.5% smaller (0.075 M☉ / 75.0 ± 0.82 M_Jup)",
+              "age": "3.7-4.3 Gyr",
+              "life_span": "Brown dwarfs cool over trillions of years without fusion",
+              "habitable_zone": "~0.001-0.005 AU (theoretical)",
+              "discovered": "January 13, 2003",
+              "alternate_names": ["ε Ind Ba", "2MASS J22031509-5651338", "DENIS J220315.0-565138"]
+            },
+            {
+              "name": "Epsilon Indi Bb",
+              "description": "Late T-type brown dwarf in binary with Ba, cooler companion",
+              "star_type": "T6 - brown dwarf",
+              "mass_compared_to_sun": "93.3% smaller (0.067 M☉ / 70.1 ± 0.68 M_Jup)",
+              "age": "3.7-4.3 Gyr",
+              "life_span": "Brown dwarfs cool over trillions of years without fusion",
+              "habitable_zone": "~0.001-0.003 AU (theoretical)",
+              "discovered": "August 2003 (resolved from Ba)",
+              "alternate_names": ["ε Ind Bb", "2MASS J22031475-5651406"]
+            }
+          ]
+        },
+        {
+          "name": "Tau Ceti",
+          "distance_ly": 11.9118,
+          "ra": "01h44m04.08s",
+          "dec": "-15°56'14.9\"",
+          "star_system_alternate_names": ["τ Ceti", "52 Ceti", "Gliese 71", "HD 10700"],
+          "confirmed_exoplanets": 0,
+          "components": [
+            {
+              "name": "Tau Ceti",
+              "description": "Sun-like G-type star, nearest single G-class star; massive debris disk; planet candidates remain unconfirmed as of 2025",
+              "star_type": "G8V - yellow dwarf",
+              "mass_compared_to_sun": "22% smaller (0.78 M☉)",
+              "age": "~8.2 Gyr (older than Sun)",
+              "life_span": "~15-20 billion years total",
+              "habitable_zone": "0.55-1.0 AU",
+              "discovered": "Known since antiquity",
+              "alternate_names": ["τ Ceti", "52 Ceti", "Gliese 71", "GJ 71", "HD 10700", "HIP 8102", "HR 509"]
+            }
+          ]
+        },
+        {
+          "name": "GJ 1061",
+          "distance_ly": 11.9839,
+          "ra": "03h35m59.6s",
+          "dec": "-44°30'45\"",
+          "star_system_alternate_names": ["Gliese 1061", "LHS 1565", "LFT 295"],
+          "confirmed_exoplanets": 3,
+          "components": [
+            {
+              "name": "GJ 1061",
+              "description": "Tiny red dwarf near lower mass limit; non-variable, no flares; hosts potentially habitable planets",
+              "star_type": "M5.5V - red dwarf",
+              "mass_compared_to_sun": "88% smaller (0.113-0.125 M☉)",
+              "age": "≥7 Gyr (old, slowly rotating)",
+              "life_span": "~5-10 trillion years",
+              "habitable_zone": "0.027-0.070 AU",
+              "discovered": "Distance accurately determined 1997 by RECONS",
+              "alternate_names": ["Gliese 1061", "LHS 1565", "LFT 295", "LTT 1702", "LP 995-46"]
+            }
+          ]
+        },
+        {
+          "name": "YZ Ceti",
+          "distance_ly": 12.1229,
+          "ra": "01h12m30.65s",
+          "dec": "-16°59'56.4\"",
+          "star_system_alternate_names": ["GJ 54.1", "LHS 138", "Gliese 54.1"],
+          "confirmed_exoplanets": 3,
+          "components": [
+            {
+              "name": "YZ Ceti",
+              "description": "Red dwarf, closest multiplanetary system; three Earth-mass planets in ultra-compact configuration",
+              "star_type": "M4.5V - red dwarf",
+              "mass_compared_to_sun": "86% smaller (0.142 ± 0.010 M☉)",
+              "age": "~2-5 Gyr",
+              "life_span": "~2-3 trillion years",
+              "habitable_zone": "0.03-0.08 AU",
+              "discovered": "Known star; planets announced 2017",
+              "alternate_names": ["GJ 54.1", "LHS 138", "HIP 5643", "LTT 523", "LP 768-30"]
+            }
+          ]
+        },
+        {
+          "name": "Luyten's Star",
+          "distance_ly": 12.3485,
+          "ra": "07h27m24.50s",
+          "dec": "+05°13'32.8\"",
+          "star_system_alternate_names": ["GJ 273", "BD+05 1668", "LHS 33"],
+          "confirmed_exoplanets": 2,
+          "components": [
+            {
+              "name": "Luyten's Star",
+              "description": "Red dwarf with inactive chromosphere; Luyten b is potentially habitable super-Earth; target of METI message",
+              "star_type": "M3.5V - red dwarf",
+              "mass_compared_to_sun": "71% smaller (0.29 M☉)",
+              "age": "~5-8 Gyr (older, inactive star)",
+              "life_span": "~100-150 billion years",
+              "habitable_zone": "0.06-0.14 AU",
+              "discovered": "High proper motion determined 1935 by Willem Luyten and Edwin Ebbighausen",
+              "alternate_names": ["GJ 273", "HD 57367", "HIP 36208", "LHS 33", "BD+05 1668"]
+            }
+          ]
+        },
+        {
+          "name": "Teegarden's Star",
+          "distance_ly": 12.497,
+          "ra": "02h53m00.9s",
+          "dec": "+16°52'53\"",
+          "star_system_alternate_names": ["SO J025300.5+165258", "2MASS J02530084+1652532"],
+          "confirmed_exoplanets": 3,
+          "components": [
+            {
+              "name": "Teegarden's Star",
+              "description": "Ultra-cool M dwarf; Teegarden b and c are potentially habitable Earth-mass planets",
+              "star_type": "M7V - red dwarf",
+              "mass_compared_to_sun": "92% smaller (0.08 M☉)",
+              "age": "~8 Gyr (old M dwarf)",
+              "life_span": "~10+ trillion years",
+              "habitable_zone": "0.015-0.045 AU",
+              "discovered": "May 2003 by Bonnard Teegarden",
+              "alternate_names": ["SO J025300.5+165258", "2MASS J02530084+1652532", "LSPM J0253+1652"]
+            }
+          ]
+        },
+        {
+          "name": "Kapteyn's Star",
+          "distance_ly": 12.8308,
+          "ra": "05h11m40.58s",
+          "dec": "-45°01'06.3\"",
+          "star_system_alternate_names": ["Gliese 191", "CD-45 1841", "Kapteyn's Runaway Star"],
+          "confirmed_exoplanets": 2,
+          "components": [
+            {
+              "name": "Kapteyn's Star",
+              "description": "Ancient red subdwarf, second-highest proper motion star; halo population member from disrupted dwarf galaxy",
+              "star_type": "M1.5V (sdM1) - red subdwarf",
+              "mass_compared_to_sun": "72% smaller (0.281 M☉)",
+              "age": "~11.5 Gyr (one of oldest known stars)",
+              "life_span": "~200-300 billion years total",
+              "habitable_zone": "0.08-0.18 AU",
+              "discovered": "1898 by Jacobus Kapteyn (high proper motion)",
+              "alternate_names": ["Gliese 191", "GJ 191", "CD-45 1841", "HIP 24186", "LHS 29"]
+            }
+          ]
+        },
+        {
+          "name": "Lacaille 8760",
+          "distance_ly": 12.8472,
+          "ra": "21h17m15.27s",
+          "dec": "-38°52'03.0\"",
+          "star_system_alternate_names": ["Gliese 825", "AX Microscopii", "HD 202560"],
+          "confirmed_exoplanets": 0,
+          "components": [
+            {
+              "name": "Lacaille 8760",
+              "description": "Nearby red dwarf in constellation Microscopium; variable star AX Microscopii",
+              "star_type": "M0.5Ve - red dwarf",
+              "mass_compared_to_sun": "48-50% smaller (0.50-0.52 M☉)",
+              "age": "~5-8 Gyr",
+              "life_span": "~30-50 billion years",
+              "habitable_zone": "0.18-0.38 AU",
+              "discovered": "1750s by Nicolas Louis de Lacaille",
+              "alternate_names": ["Gliese 825", "GJ 825", "HD 202560", "HIP 104659", "AX Mic", "LHS 509"]
+            }
+          ]
+        },
+        {
+          "name": "SCR 1845-6357",
+          "distance_ly": 13.0508,
+          "ra": "18h45m05.2s",
+          "dec": "-63°57'48\"",
+          "star_system_alternate_names": ["2MASS J18450541-6357474", "SCR J1845-6357"],
+          "confirmed_exoplanets": 0,
+          "components": [
+            {
+              "name": "SCR 1845-6357 A",
+              "description": "Ultra-cool red dwarf, one of smallest known stars; hosts T-dwarf brown dwarf companion",
+              "star_type": "M8.5V - ultra-cool red dwarf",
+              "mass_compared_to_sun": "93% smaller (0.07 M☉)",
+              "age": "~1-5 Gyr",
+              "life_span": "~10+ trillion years",
+              "habitable_zone": "0.008-0.025 AU",
+              "discovered": "2004 by Hambly et al. (SuperCOSMOS)",
+              "alternate_names": ["SCR J1845-6357 A", "2MASS J18450541-6357474"]
+            },
+            {
+              "name": "SCR 1845-6357 B",
+              "description": "T-dwarf brown dwarf companion at 4.1 AU; first T-dwarf discovered around low-mass star",
+              "star_type": "T5.5±1 - brown dwarf",
+              "mass_compared_to_sun": "95.5% smaller (0.040-0.050 M☉ / 40-50 M_Jup)",
+              "age": "~1-5 Gyr (coeval with primary)",
+              "life_span": "Brown dwarfs cool over trillions of years",
+              "habitable_zone": "~0.001-0.003 AU (theoretical)",
+              "discovered": "2006 by Biller et al. (VLT/NACO)",
+              "alternate_names": ["SCR J1845-6357 B", "2MASS J18450407-6357474"]
+            }
+          ]
+        },
+        {
+          "name": "Kruger 60",
+          "distance_ly": 13.0724,
+          "ra": "22h27m59.5s",
+          "dec": "+57°41'45\"",
+          "star_system_alternate_names": ["Gliese 860", "BD+56 2783", "DO Cephei / DH Cephei"],
+          "confirmed_exoplanets": 0,
+          "components": [
+            {
+              "name": "Kruger 60 A",
+              "description": "Red dwarf flare star (DO Cephei), brighter component",
+              "star_type": "M3V - red dwarf",
+              "mass_compared_to_sun": "73% smaller (0.27 M☉)",
+              "age": "~2-5 Gyr",
+              "life_span": "~100-150 billion years",
+              "habitable_zone": "0.06-0.14 AU",
+              "discovered": "Identified as binary system",
+              "alternate_names": ["Kruger 60 A", "GJ 860 A", "DO Cep", "BD+56 2783A", "HIP 110893"]
+            },
+            {
+              "name": "Kruger 60 B",
+              "description": "Red dwarf flare star (DH Cephei), fainter companion",
+              "star_type": "M4V - red dwarf",
+              "mass_compared_to_sun": "82% smaller (0.18 M☉)",
+              "age": "~2-5 Gyr",
+              "life_span": "~500-800 billion years",
+              "habitable_zone": "0.03-0.08 AU",
+              "discovered": "Binary companion",
+              "alternate_names": ["Kruger 60 B", "GJ 860 B", "DH Cep", "BD+56 2783B"]
+            }
+          ]
+        },
+        {
+          "name": "DENIS 1048-3956",
+          "distance_ly": 13.1932,
+          "ra": "10h48h14.7s",
+          "dec": "-39°56'06\"",
+          "star_system_alternate_names": ["DENIS-P J104814.7-395606.1", "2MASS J10481463-3956062"],
+          "confirmed_exoplanets": 0,
+          "components": [
+            {
+              "name": "DENIS 1048-3956",
+              "description": "Very low-mass red dwarf, among faintest nearby stars",
+              "star_type": "M8.5V - ultra-cool red dwarf",
+              "mass_compared_to_sun": "~94% smaller (0.06 M☉)",
+              "age": "~1-5 Gyr",
+              "life_span": "~10+ trillion years",
+              "habitable_zone": "0.005-0.020 AU",
+              "discovered": "DENIS survey",
+              "alternate_names": ["DENIS-P J104814.7-395606.1", "2MASS J10481463-3956062"]
+            }
+          ]
+        },
+        {
+          "name": "Ross 614",
+          "distance_ly": 13.363,
+          "ra": "06h29m23.4s",
+          "dec": "-02°48'50\"",
+          "star_system_alternate_names": ["Gliese 234", "V577 Monocerotis", "LHS 1849/1850"],
+          "confirmed_exoplanets": 0,
+          "components": [
+            {
+              "name": "Ross 614 A",
+              "description": "Red dwarf flare star, primary component",
+              "star_type": "M4.5V - red dwarf",
+              "mass_compared_to_sun": "86% smaller (0.14 M☉)",
+              "age": "~2-5 Gyr",
+              "life_span": "~2 trillion years",
+              "habitable_zone": "0.025-0.065 AU",
+              "discovered": "Identified as binary",
+              "alternate_names": ["GJ 234 A", "LHS 1849", "V577 Mon A"]
+            },
+            {
+              "name": "Ross 614 B",
+              "description": "Red dwarf companion, fainter component",
+              "star_type": "M5.5-M8V - red dwarf",
+              "mass_compared_to_sun": "~88% smaller (0.11-0.12 M☉)",
+              "age": "~2-5 Gyr",
+              "life_span": "~4-6 trillion years",
+              "habitable_zone": "0.015-0.045 AU",
+              "discovered": "Binary companion",
+              "alternate_names": ["GJ 234 B", "LHS 1850", "V577 Mon B"]
+            }
+          ]
+        },
+        {
+          "name": "Van Maanen's Star",
+          "distance_ly": 14.0718,
+          "ra": "00h49m09.90s",
+          "dec": "+05°23'19.0\"",
+          "star_system_alternate_names": ["Gliese 35", "Wolf 28", "vMA 2"],
+          "confirmed_exoplanets": 0,
+          "components": [
+            {
+              "name": "Van Maanen's Star",
+              "description": "White dwarf, third-nearest white dwarf to Sun; solo stellar remnant with debris disk",
+              "star_type": "DZ8 - white dwarf with metals",
+              "mass_compared_to_sun": "~33% smaller in tiny remnant (0.67 M☉)",
+              "age": "~3 Gyr (cooling age; became white dwarf ~3 Gyr ago)",
+              "life_span": "Will cool over next 5+ billion years; in final evolutionary stage",
+              "habitable_zone": "0.003-0.008 AU (theoretical)",
+              "discovered": "1917 by Adriaan van Maanen (high proper motion)",
+              "alternate_names": ["Gliese 35", "GJ 35", "LHS 7", "Wolf 28", "EGGR 29", "WD 0046+051"]
+            }
+          ]
+        },
+        {
+          "name": "Gliese 1 (CD-37 15492)",
+          "distance_ly": 14.1747,
+          "ra": "00h05m24.4s",
+          "dec": "-37°21'27\"",
+          "star_system_alternate_names": ["GJ 1", "CD-37 15492", "LHS 1", "NN 3001"],
+          "confirmed_exoplanets": 0,
+          "components": [
+            {
+              "name": "Gliese 1",
+              "description": "Red dwarf, first entry in Gliese Catalogue of Nearby Stars",
+              "star_type": "M1.5V - red dwarf",
+              "mass_compared_to_sun": "~45% smaller (0.55 M☉)",
+              "age": "~3-7 Gyr",
+              "life_span": "~30-40 billion years",
+              "habitable_zone": "0.12-0.25 AU",
+              "discovered": "First entry in Gliese Catalogue",
+              "alternate_names": ["GJ 1", "CD-37 15492", "LHS 1", "NN 3001", "HIP 439"]
+            }
+          ]
+        },
+        {
+          "name": "TZ Arietis (Gliese 83.1)",
+          "distance_ly": 14.5780,
+          "ra": "02h00m13.2s",
+          "dec": "+13°03'08\"",
+          "star_system_alternate_names": ["Gliese 83.1", "LHS 1163", "G 080-021"],
+          "confirmed_exoplanets": 0,
+          "components": [
+            {
+              "name": "TZ Arietis",
+              "description": "Red dwarf flare star, very low mass M dwarf",
+              "star_type": "M8e - red dwarf, emission-line flare star",
+              "mass_compared_to_sun": "~92% smaller (0.08 M☉)",
+              "age": "~1-3 Gyr (young flare star)",
+              "life_span": "~10+ trillion years",
+              "habitable_zone": "0.008-0.025 AU",
+              "discovered": "Variable star designation assigned",
+              "alternate_names": ["TZ Ari", "GJ 83.1", "LHS 1163", "G 080-021"]
+            }
+          ]
+        },
+        {
+          "name": "Wolf 424",
+          "distance_ly": 14.395,
+          "ra": "12h33m17.4s",
+          "dec": "+09°01'15\"",
+          "star_system_alternate_names": ["Gliese 473", "FL Virginis", "LHS 333/334"],
+          "confirmed_exoplanets": 0,
+          "components": [
+            {
+              "name": "Wolf 424 A",
+              "description": "Red dwarf flare star, primary component of close binary",
+              "star_type": "M5.5eJ - red dwarf, emission-line flare star",
+              "mass_compared_to_sun": "~88% smaller (0.11-0.14 M☉)",
+              "age": "~2-4 Gyr",
+              "life_span": "~4-8 trillion years",
+              "habitable_zone": "0.015-0.045 AU",
+              "discovered": "Binary nature identified",
+              "alternate_names": ["GJ 473 A", "FL Vir A", "LHS 333"]
+            },
+            {
+              "name": "Wolf 424 B",
+              "description": "Red dwarf companion, fainter component",
+              "star_type": "M7V - red dwarf",
+              "mass_compared_to_sun": "~90% smaller (0.10 M☉)",
+              "age": "~2-4 Gyr",
+              "life_span": "~6-10 trillion years",
+              "habitable_zone": "0.010-0.035 AU",
+              "discovered": "Binary companion",
+              "alternate_names": ["GJ 473 B", "FL Vir B", "LHS 334"]
+            }
+          ]
+        },
+        {
+          "name": "Gliese 687",
+          "distance_ly": 14.8365,
+          "ra": "17h36m25.9s",
+          "dec": "+68°20'21\"",
+          "star_system_alternate_names": ["BD+68 946", "GJ 687", "LHS 450", "HIP 86162"],
+          "confirmed_exoplanets": 0,
+          "components": [
+            {
+              "name": "Gliese 687",
+              "description": "Nearby red dwarf in Draco, metal-rich for M dwarf",
+              "star_type": "M3V - red dwarf",
+              "mass_compared_to_sun": "60% smaller (0.40 M☉)",
+              "age": "~3-8 Gyr",
+              "life_span": "~40-80 billion years",
+              "habitable_zone": "0.09-0.20 AU",
+              "discovered": "Catalogued in Gliese surveys",
+              "alternate_names": ["GJ 687", "BD+68 946", "HIP 86162", "LHS 450", "LFT 1321"]
+            }
+          ]
+        },
+        {
+          "name": "Gliese 674",
+          "distance_ly": 14.8462,
+          "ra": "17h28m39.9s",
+          "dec": "-46°53'43\"",
+          "star_system_alternate_names": ["CD-46 11540", "GJ 674", "LHS 449"],
+          "confirmed_exoplanets": 1,
+          "components": [
+            {
+              "name": "Gliese 674",
+              "description": "Red dwarf with confirmed super-Earth planet; weakly active with occasional flares",
+              "star_type": "M2.5V - red dwarf",
+              "mass_compared_to_sun": "~63-67% smaller (0.33-0.37 M☉)",
+              "age": "~2-4 Gyr (intermediate spin-down stage)",
+              "life_span": "~80-120 billion years",
+              "habitable_zone": "0.08-0.18 AU",
+              "discovered": "Catalogued; planet discovered via radial velocity",
+              "alternate_names": ["GJ 674", "CD-46 11540", "HIP 85523", "LHS 449"]
+            }
+          ]
+        },
+        {
+          "name": "Gliese 1245 (LHS 1950)",
+          "distance_ly": 14.8706,
+          "ra": "19h53m55.2s",
+          "dec": "+44°24'55\"",
+          "star_system_alternate_names": ["G 208-044/045", "V1581 Cygni", "LHS 3494/3495/3496"],
+          "confirmed_exoplanets": 0,
+          "components": [
+            {
+              "name": "Gliese 1245 A",
+              "description": "Red dwarf flare star, primary of triple system",
+              "star_type": "M5.5Ve - red dwarf, flare star",
+              "mass_compared_to_sun": "~88% smaller (0.12 M☉)",
+              "age": "~2-5 Gyr",
+              "life_span": "~5-8 trillion years",
+              "habitable_zone": "0.020-0.055 AU",
+              "discovered": "Triple nature identified",
+              "alternate_names": ["GJ 1245 A", "G 208-044 A", "V1581 Cyg A", "LHS 3494"]
+            },
+            {
+              "name": "Gliese 1245 B",
+              "description": "Red dwarf companion in close pair with C",
+              "star_type": "M6V - red dwarf",
+              "mass_compared_to_sun": "~90% smaller (0.10 M☉)",
+              "age": "~2-5 Gyr",
+              "life_span": "~6-10 trillion years",
+              "habitable_zone": "0.015-0.040 AU",
+              "discovered": "Close binary companion to A",
+              "alternate_names": ["GJ 1245 B", "G 208-044 B", "LHS 3495"]
+            },
+            {
+              "name": "Gliese 1245 C",
+              "description": "Red dwarf, faintest component of triple system",
+              "star_type": "M6V - red dwarf",
+              "mass_compared_to_sun": "~90% smaller (0.10 M☉)",
+              "age": "~2-5 Gyr",
+              "life_span": "~6-10 trillion years",
+              "habitable_zone": "0.015-0.040 AU",
+              "discovered": "Triple companion",
+              "alternate_names": ["GJ 1245 C", "G 208-045", "LHS 3496"]
+            }
+          ]
+        }
+      ]
+  ]

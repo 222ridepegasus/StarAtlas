@@ -5,8 +5,9 @@ import ButtonStar from './ui/ButtonStar';
 import InfoSnippet from './ui/InfoSnippet';
 import ListItemStarStats from './ui/ListItemStarStats';
 import Separator from '../components/ui/Separator';
+import CheckboxColor from './ui/CheckboxColor';
 
-const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused }) => {
+const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused, autoFocusOnClick, onAutoFocusChange }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState(0);
 
@@ -66,10 +67,22 @@ const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused }) => {
           isActive={false}
         />
         <ButtonTextSmall 
-          text="Reset" 
+          text="Free Camera" 
           onClick={onReset}
           isActive={false}
         />
+      </div>
+
+      {/* Auto Focus on Click Checkbox */}
+      <div className="flex items-center gap-2 px-4 pt-3.5 pb-1">
+        <CheckboxColor 
+          color="neutral"
+          isChecked={autoFocusOnClick}
+          onClick={() => onAutoFocusChange && onAutoFocusChange(!autoFocusOnClick)}
+        />
+        <p className="text-[11px] text-grey-200">
+          Auto Focus on Click
+        </p>
       </div>
 
       {/* StarTab Group */}
@@ -120,14 +133,14 @@ const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused }) => {
           label="Discovered" 
           value={currentComponent?.discovered || "--"}
         />
-        <ListItemStarStats 
+        {/* <ListItemStarStats 
           label="Visibility" 
           value={currentComponent?.visibility || "--"}
-        />
-        <ListItemStarStats 
+        /> */}
+        {/* <ListItemStarStats 
           label="Alternate Names" 
           value={currentComponent?.alternate_names || "--"}
-        />
+        /> */}
       </div>
     </div>
   );

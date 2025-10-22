@@ -6,7 +6,8 @@ export default function Slider({
   max = 32, 
   step = 4,
   onChange = null,
-  width = "132px"
+  width = "132px",
+  thumbSize = 16 // 16px for desktop, 20px for mobile
 }) {
   const [currentValue, setCurrentValue] = useState(value);
 
@@ -25,31 +26,28 @@ export default function Slider({
 
   const percentage = ((currentValue - min) / (max - min)) * 100;
   
-  // Calculate thumb position to keep it within track boundaries
-  // The thumb is 16px (w-4 h-4) wide, so we need to account for half that (8px) on each side
-  const thumbRadius = 8; // 16px / 2
-  const trackWidth = parseInt(width.replace('px', '')); // Convert width to number
-  const maxLeft = trackWidth - thumbRadius;
-  const minLeft = thumbRadius;
+  const thumbSizeClass = thumbSize === 20 ? 'w-5 h-5' : 'w-4 h-4';
+  const containerHeight = thumbSize === 20 ? 'h-5' : 'h-4';
   
-  // Clamp the thumb position between the track edges
-  const thumbLeft = Math.max(minLeft, Math.min(maxLeft, (percentage / 100) * trackWidth));
+  // Clamp thumb position to stay within bounds
+  // At 0%, thumb left edge at 0. At 100%, thumb right edge at 100%
+  const clampedPercentage = Math.min(Math.max(percentage, 0), 100);
 
   return (
-    <div className="relative" style={{ width }}>
+    <div className={`relative ${containerHeight}`} style={{ width }}>
       {/* Track */}
       <div className="absolute top-1/2 left-0 right-0 h-1.5 bg-grey-600 rounded-full transform -translate-y-1/2"></div>
       
       {/* Fill */}
       <div 
         className="absolute top-1/2 left-0 h-1.5 bg-grey-500 rounded-full transform -translate-y-1/2"
-        style={{ width: `${percentage}%` }}
+        style={{ width: `${clampedPercentage}%` }}
       ></div>
       
-      {/* Thumb */}
+      {/* Thumb - use calc to keep within bounds */}
       <div 
-        className="absolute top-1/2 w-4 h-4 bg-grey-800 border border-grey-400 rounded-full transform -translate-y-1/2 -translate-x-1/2"
-        style={{ left: `${thumbLeft}px` }}
+        className={`absolute top-1/2 ${thumbSizeClass} bg-grey-800 border border-grey-400 rounded-full transform -translate-y-1/2`}
+        style={{ left: `calc(${clampedPercentage}% - ${(clampedPercentage / 100) * thumbSize}px)` }}
       ></div>
       
       {/* Hidden input for accessibility */}
@@ -60,7 +58,7 @@ export default function Slider({
         step={step}
         value={currentValue}
         onChange={handleChange}
-        className="absolute inset-0 w-full h-4 opacity-0 cursor-pointer"
+        className={`absolute inset-0 w-full ${containerHeight} opacity-0 cursor-pointer`}
       />
     </div>
   );

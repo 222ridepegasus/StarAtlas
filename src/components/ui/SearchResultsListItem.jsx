@@ -19,7 +19,7 @@ export default function SearchResultsListItem({
   };
 
   // Get spectral type from components array if it exists
-  const spectralType = star.spectral_type || star.components?.[0]?.spectral_type || 'O';
+  const spectralType = star.spectral_type || star.components?.[0]?.star_type || 'O';
   const spectralColor = getSpectralColor(spectralType);
 
   return (
