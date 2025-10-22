@@ -244,14 +244,14 @@ export default function MobileNav({
         {activePanel === 'search' && (
           <div className="bg-grey-700 overflow-y-auto max-h-[70vh] rounded-lg">
             <div className="">
-              <div className="px-2 py-2">
+              <div className="px-2 py-2 overflow-hidden">
               <SearchInput
                 value={searchQuery}
                 onChange={onSearchChange}
                 placeholder="Search Stars..."
                 width="100%"
                 height="36px"
-                fontSize="16px"
+                fontSize="12px"
                 iconSize={18}
               />
               </div>

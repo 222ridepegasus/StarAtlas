@@ -74,7 +74,12 @@ export default function SearchInput({
         className={`flex-grow font-inter font-normal text-left bg-transparent border-none outline-none ${
           isFocused ? 'text-white' : 'text-grey-200'
         }`}
-        style={{ fontSize }}
+        style={{ 
+          fontSize,
+          textSizeAdjust: 'none',
+          transform: 'scale(1)',
+          WebkitTextSizeAdjust: 'none'
+        }}
       />
     </div>
   );
