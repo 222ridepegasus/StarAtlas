@@ -75,10 +75,13 @@ export default function SearchInput({
           isFocused ? 'text-white' : 'text-grey-200'
         }`}
         style={{ 
-          fontSize,
+          fontSize: '16px', // Use 16px to prevent zoom
+          transform: `scale(${parseInt(fontSize) / 16})`, // Scale down to desired size
+          transformOrigin: 'left center',
           textSizeAdjust: 'none',
-          transform: 'scale(1)',
-          WebkitTextSizeAdjust: 'none'
+          WebkitTextSizeAdjust: 'none',
+          WebkitTransform: `scale(${parseInt(fontSize) / 16})`,
+          WebkitTransformOrigin: 'left center'
         }}
       />
     </div>
