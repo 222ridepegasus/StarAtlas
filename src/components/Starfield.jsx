@@ -130,6 +130,7 @@ const Starfield = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [uiVisible, setUiVisible] = useState(true);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 640);
+  const [keyboardControlsEnabled, setKeyboardControlsEnabled] = useState(false); // Disabled by default
 
   // Load star data
   useEffect(() => {
@@ -1410,6 +1411,9 @@ const Starfield = () => {
   // Keyboard controls for camera movement and star actions
   useEffect(() => {
     const handleKeyDown = (event) => {
+      // Don't handle keyboard controls if they're disabled
+      if (!keyboardControlsEnabled) return;
+      
       // Don't handle keyboard controls if user is typing in an input/textarea
       const activeElement = document.activeElement;
       const isTyping = activeElement && (
@@ -1470,7 +1474,7 @@ const Starfield = () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [selectedStar]); // Depend on selectedStar so we can check if a star is selected
+  }, [selectedStar, keyboardControlsEnabled]); // Depend on selectedStar and keyboardControlsEnabled
 
   const handleToggleLabelsVisibility = (visible) => {
     setShowLabels(visible);
@@ -1731,6 +1735,10 @@ const Starfield = () => {
 
   const handleToggleLabels = () => {
     setShowLabels(!showLabels);
+  };
+
+  const handleToggleKeyboardControls = () => {
+    setKeyboardControlsEnabled(!keyboardControlsEnabled);
   };
 
   // SVG Export function
@@ -1998,6 +2006,8 @@ const Starfield = () => {
           onGridChange={handleGridChange}
           onLineModeChange={handleLineModeChange}
           onToggleLabels={handleToggleLabels}
+          onToggleKeyboardControls={handleToggleKeyboardControls}
+          keyboardControlsEnabled={keyboardControlsEnabled}
           onViewDistanceChange={handleViewDistanceChange}
           onSpectralFilterChange={handleSpectralFilterChange}
         />

@@ -21,12 +21,14 @@ export default function Toolbar({
   gridMode = 'circular',
   lineMode = 'connections',
   showLabels = true,
+  keyboardControlsEnabled = false,
   viewDistance = 20,
   spectralFilter = {},
   // Callback props
   onGridChange = null,
   onLineModeChange = null,
   onToggleLabels = null,
+  onToggleKeyboardControls = null,
   onViewDistanceChange = null,
   onSpectralFilterChange = null
 }) {
@@ -69,6 +71,12 @@ export default function Toolbar({
   const handleLabelsToggle = () => {
     if (onToggleLabels) {
       onToggleLabels();
+    }
+  };
+
+  const handleKeyboardControlsToggle = () => {
+    if (onToggleKeyboardControls) {
+      onToggleKeyboardControls();
     }
   };
 
@@ -185,19 +193,32 @@ export default function Toolbar({
         <Separator />
 
         <section>
-          <SectionHeader title="Overlays" />
-          
-          {/* Labels button wrapper for manual padding control */}
+          {/* Labels and Keyboard Controls buttons wrapper for manual padding control */}
           <div className="px-2 pt-1 pb-3">
-            <div className="flex items-center gap-2">
-              <ButtonIcon 
-                icon="/icons/ui/Icon_UI_Labels_01.svg"
-                alt="Toggle Labels"
-                isActive={showLabels}
-                onClick={handleLabelsToggle}
-                width="32px"
-              />
-              <span className="text-[11px] font-normal text-grey-200">Labels</span>
+            <div className="flex flex-col gap-2">
+              {/* Labels button */}
+              <div className="flex items-center gap-2">
+                <ButtonIcon 
+                  icon="/icons/ui/Icon_UI_Labels_01.svg"
+                  alt="Toggle Labels"
+                  isActive={showLabels}
+                  onClick={handleLabelsToggle}
+                  width="32px"
+                />
+                <span className="text-[11px] font-normal text-grey-200">Labels</span>
+              </div>
+              
+              {/* Keyboard Controls button */}
+              <div className="flex items-center gap-2">
+                <ButtonIcon 
+                  icon="/icons/ui/Icon_UI_Keyboard_01.svg"
+                  alt="Toggle Keyboard Controls"
+                  isActive={keyboardControlsEnabled}
+                  onClick={handleKeyboardControlsToggle}
+                  width="32px"
+                />
+                <span className="text-[11px] font-normal text-grey-200">Keyboard Ctrl</span>
+              </div>
             </div>
           </div>
         </section>
