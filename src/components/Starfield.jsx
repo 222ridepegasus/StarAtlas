@@ -620,10 +620,18 @@ const Starfield = () => {
         if (!measureMode) {
           highlight.position.copy(star.position);
           highlight.visible = true;
+          // Set pointer cursor when hovering over a star (desktop only)
+          if (!isMobile) {
+            renderer.domElement.style.cursor = 'pointer';
+          }
         }
       } else {
         if (!selectedStarRef.current && !measureMode) {
           highlight.visible = false;
+          // Reset cursor to default when not hovering over a star (desktop only)
+          if (!isMobile) {
+            renderer.domElement.style.cursor = 'default';
+          }
         }
       }
     };
