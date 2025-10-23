@@ -2146,7 +2146,7 @@ const Starfield = () => {
         </div>
       )}
       
-      {/* About Starscape Button - only show when onboarding is closed and on desktop */}
+      {/* About 20LY Button - only show when onboarding is closed and on desktop */}
       {uiVisible && !showOnboarding && !isMobile && (
         <div 
           className="fixed z-40 flex"
@@ -2158,7 +2158,7 @@ const Starfield = () => {
           }}
         >
           <ButtonTextSmall
-            text="About Starscape"
+            text="About 20LY"
             onClick={handleOpenOnboarding}
             height="28px"
             bgColor="bg-grey-900"

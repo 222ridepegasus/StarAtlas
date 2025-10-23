@@ -38,19 +38,19 @@ const PanelOnboarding = ({ onClose, isMobile }) => {
         return (
           <div className="px-1 space-y-2.5 pb-2">
             <div>
-              <p className="text-grey-100 text-xs font-medium leading-relaxed ">About Starscape</p>
-              <p className="text-grey-300 text-xs leading-relaxed">Starscape is an interactive 3D visualisation of our stellar neighbourhood, showing the nearest stars within 20 light years of Earth based on actual astronomical data.</p>
+              <p className="text-grey-100 text-xs font-medium leading-relaxed ">About 20LY</p>
+              <p className="text-grey-300 text-xs leading-relaxed">20LY is an interactive 3D visualisation of our stellar neighbourhood, showing the nearest stars within 20 light years of Earth based on actual astronomical data.</p>
             </div>
             
             <div>
               <p className="text-grey-100 text-xs font-medium leading-relaxed ">Tech Stack</p>
               <p className="text-grey-300 text-xs leading-relaxed">Built with AI-assisted development - Cursor AI was used to write the JavaScript while I focused on designing the interface and user experience.</p>
-              <p className="text-grey-300 text-xs leading-relaxed mt-1">Starscape is built with Three.js for 3D rendering, React for interactivity, Tailwind for styling, and Astro as the framework.</p>
+              <p className="text-grey-300 text-xs leading-relaxed mt-1">20LY is built with Three.js for 3D rendering, React for interactivity, Tailwind for styling, and Astro as the framework.</p>
             </div>
             
             <div>
               <p className="text-grey-100 text-xs font-medium leading-relaxed ">About Me</p>
-              <p className="text-grey-300 text-xs leading-relaxed">I'm Kieran Kelly, a UX/UI designer exploring the intersection of AI-assisted development and creative coding. Starscape is entirely non-commercial and created for educational purposes.</p>
+              <p className="text-grey-300 text-xs leading-relaxed">I'm Kieran Kelly, a UX/UI designer exploring the intersection of AI-assisted development and creative coding. 20LY is entirely non-commercial and created for educational purposes.</p>
             </div>
           </div>
         );
@@ -59,8 +59,8 @@ const PanelOnboarding = ({ onClose, isMobile }) => {
         return (
           <div className="px-1 space-y-2.5 pb-2">
             <div>
-              <p className="text-grey-100 text-xs font-medium leading-relaxed ">Help Shape Starscape:</p>
-              <p className="text-grey-300 text-xs leading-relaxed">This is a learning project and your feedback helps me improve Starscape. Whether it's a bug, a feature idea, or just a thought, please feel free to leave a comment.</p>
+              <p className="text-grey-100 text-xs font-medium leading-relaxed ">Help Shape 20LY:</p>
+              <p className="text-grey-300 text-xs leading-relaxed">This is a learning project and your feedback helps me improve 20LY. Whether it's a bug, a feature idea, or just a thought, please feel free to leave a comment.</p>
             </div>
             
               <div className="pt-1">
@@ -89,7 +89,7 @@ const PanelOnboarding = ({ onClose, isMobile }) => {
     >
       {/* HeaderWindow */}
       <HeaderWindow 
-        title="Welcome to Starscape" 
+        title="Welcome to 20LY" 
         onClose={onClose}
         showClose={!isMobile}
       />

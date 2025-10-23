@@ -88,7 +88,7 @@ export default function MobileNav({
         <div className="flex items-center gap-3">
           <ButtonMobileIcon
             icon={showOnboarding ? '/icons/ui/Icon_UI_Close_01.svg' : '/icons/ui/Icon_UI_Info_01.svg'}
-            alt={showOnboarding ? 'Close info' : 'About Starscape'}
+            alt={showOnboarding ? 'Close info' : 'About 20LY'}
             isActive={showOnboarding}
             onClick={() => togglePanel('info')}
           />
