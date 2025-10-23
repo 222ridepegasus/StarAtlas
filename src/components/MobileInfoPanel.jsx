@@ -40,12 +40,15 @@ const MobileInfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused })
   return (
     <div 
       ref={panelRef}
-      className="fixed bottom-4 left-4 right-4 w-auto max-h-[calc(100vh-32px)] bg-grey-700 rounded-lg text-grey-100 text-sm z-40 overflow-y-auto box-border font-sans select-none"
+      className="fixed bottom-4 left-4 right-4 max-h-[calc(100vh-32px)] bg-grey-700 rounded-lg text-grey-100 text-sm z-40 overflow-y-auto box-border font-sans select-none"
       style={{
+        width: 'calc(100vw - 32px)',
         textSizeAdjust: 'none',
         WebkitTextSizeAdjust: 'none',
         WebkitFontSmoothing: 'antialiased',
-        MozOsxFontSmoothing: 'grayscale'
+        MozOsxFontSmoothing: 'grayscale',
+        willChange: 'auto',
+        contain: 'layout style'
       }}
     >
       {/* HeaderWindow */}
