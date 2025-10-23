@@ -8,14 +8,13 @@ import Separator from '../components/ui/Separator';
 import CheckboxColor from './ui/CheckboxColor';
 
 const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused, autoFocusOnClick, onAutoFocusChange }) => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
   const [selectedComponent, setSelectedComponent] = useState(0);
   
   const panelRef = useRef(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
@@ -52,6 +51,12 @@ const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused, autoFoc
     <div 
       ref={panelRef}
       className={`fixed ${isMobile ? 'bottom-4 left-4 right-4' : 'top-4 right-4'} ${isMobile ? 'w-auto' : 'w-[346px]'} max-h-[calc(100vh-32px)] bg-grey-700 rounded-lg text-grey-100 text-sm z-40 overflow-y-auto box-border font-sans select-none`}
+      style={{
+        textSizeAdjust: 'none',
+        WebkitTextSizeAdjust: 'none',
+        WebkitFontSmoothing: 'antialiased',
+        MozOsxFontSmoothing: 'grayscale'
+      }}
     >
       {/* HeaderWindow */}
       <HeaderWindow 
