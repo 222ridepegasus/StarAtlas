@@ -577,7 +577,36 @@ const Starfield = () => {
 
       raycaster.setFromCamera(mouse, camera);
       const visibleStars = starMeshesRef.current.filter(mesh => mesh.visible);
-      const intersects = raycaster.intersectObjects(visibleStars, false);
+      let intersects = raycaster.intersectObjects(visibleStars, false);
+
+      // MOBILE: More forgiving touch targeting - check for near-misses
+      if (isMobile && intersects.length === 0) {
+        const tolerance = 0.4; // Allow hits within 0.4 units of the star center
+        const ray = raycaster.ray;
+        
+        // Find the closest star to the ray
+        let closestStar = null;
+        let closestDistance = Infinity;
+        
+        visibleStars.forEach(starMesh => {
+          // Calculate distance from ray to star center
+          const starPos = starMesh.position;
+          const distanceToRay = ray.distanceToPoint(starPos);
+          
+          if (distanceToRay < tolerance && distanceToRay < closestDistance) {
+            closestDistance = distanceToRay;
+            closestStar = starMesh;
+          }
+        });
+        
+        // If we found a nearby star, create a fake intersection result
+        if (closestStar) {
+          intersects = [{
+            object: closestStar,
+            distance: closestStar.position.distanceTo(camera.position)
+          }];
+        }
+      }
 
       if (intersects.length > 0) {
         const star = intersects[0].object;
@@ -602,7 +631,36 @@ const Starfield = () => {
 
       raycaster.setFromCamera(mouse, camera);
       const visibleStars = starMeshesRef.current.filter(mesh => mesh.visible);
-      const intersects = raycaster.intersectObjects(visibleStars, false);
+      let intersects = raycaster.intersectObjects(visibleStars, false);
+
+      // MOBILE: More forgiving touch targeting - check for near-misses
+      if (isMobile && intersects.length === 0) {
+        const tolerance = 0.4; // Allow hits within 0.4 units of the star center
+        const ray = raycaster.ray;
+        
+        // Find the closest star to the ray
+        let closestStar = null;
+        let closestDistance = Infinity;
+        
+        visibleStars.forEach(starMesh => {
+          // Calculate distance from ray to star center
+          const starPos = starMesh.position;
+          const distanceToRay = ray.distanceToPoint(starPos);
+          
+          if (distanceToRay < tolerance && distanceToRay < closestDistance) {
+            closestDistance = distanceToRay;
+            closestStar = starMesh;
+          }
+        });
+        
+        // If we found a nearby star, create a fake intersection result
+        if (closestStar) {
+          intersects = [{
+            object: closestStar,
+            distance: closestStar.position.distanceTo(camera.position)
+          }];
+        }
+      }
 
       if (intersects.length > 0) {
         const star = intersects[0].object;
