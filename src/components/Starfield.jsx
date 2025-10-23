@@ -9,6 +9,7 @@ import { COLORS, SIZES, STROKE_WEIGHTS, getSpectralColor } from '../config/visua
 import { LABEL_CONFIG, formatStarName } from '../config/labels.js';
 import InfoPanel from './InfoPanel.jsx';
 import MobileInfoPanel from './MobileInfoPanel.jsx';
+import PanelOnboarding from './PanelOnboarding.jsx';
 import Toolbar from './ui/Toolbar.jsx';
 import MobileNav from './MobileNav.jsx';
 
@@ -131,6 +132,7 @@ const Starfield = () => {
   const [uiVisible, setUiVisible] = useState(true);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 640);
   const [keyboardControlsEnabled, setKeyboardControlsEnabled] = useState(false); // Disabled by default
+  const [showOnboarding, setShowOnboarding] = useState(true); // Show on initial load
 
   // Load star data
   useEffect(() => {
@@ -720,6 +722,11 @@ const Starfield = () => {
           setSelectedStar(starData);
           highlight.position.copy(star.position);
           highlight.visible = true;
+          
+          // Close onboarding panel when a star is clicked
+          if (showOnboarding) {
+            setShowOnboarding(false);
+          }
           
           // Auto-focus if enabled
           if (autoFocusOnClickRef.current) {
@@ -1741,6 +1748,17 @@ const Starfield = () => {
     setKeyboardControlsEnabled(!keyboardControlsEnabled);
   };
 
+  const handleCloseOnboarding = () => {
+    setShowOnboarding(false);
+  };
+
+  const handleOpenOnboarding = () => {
+    setShowOnboarding(true);
+    // Close any other panels when opening onboarding
+    setSelectedStar(null);
+    setIsFocused(false);
+  };
+
   // SVG Export function
   const handleExportSVG = () => {
     if (!cameraRef.current || !rendererRef.current || !sceneRef.current) {
@@ -2012,7 +2030,16 @@ const Starfield = () => {
           onSpectralFilterChange={handleSpectralFilterChange}
         />
       )}
-      {uiVisible && !measureMode && (
+      {/* Onboarding Panel - shows on initial load */}
+      {uiVisible && showOnboarding && (
+        <PanelOnboarding 
+          onClose={handleCloseOnboarding}
+          isMobile={isMobile}
+        />
+      )}
+      
+      {/* Info Panels - only show when onboarding is closed and a star is selected */}
+      {uiVisible && !measureMode && !showOnboarding && (
         isMobile ? (
           <MobileInfoPanel 
             star={selectedStar}
@@ -2102,6 +2129,20 @@ const Starfield = () => {
         }}>
           UI Hidden - Press {navigator.platform.toLowerCase().includes('mac') ? 'CMD' : 'CTRL'}+. to show
         </div>
+      )}
+      
+      {/* About Starscape Button - only show when onboarding is closed */}
+      {uiVisible && !showOnboarding && (
+        <button
+          onClick={handleOpenOnboarding}
+          className={`fixed z-40 bg-grey-700 hover:bg-grey-600 text-grey-100 px-4 py-2 rounded text-sm font-medium transition-colors ${
+            isMobile 
+              ? 'bottom-4 right-4' 
+              : 'bottom-4 right-4'
+          }`}
+        >
+          About Starscape
+        </button>
       )}
       
       <div 
