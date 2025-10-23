@@ -10,7 +10,7 @@ export default function ButtonIcon({
   
   const stateClasses = isActive
     ? "bg-grey-800 border border-grey-400"
-    : "bg-transparent border border-grey-600";
+    : "bg-grey-600 border border-transparent";
 
   return (
     <button

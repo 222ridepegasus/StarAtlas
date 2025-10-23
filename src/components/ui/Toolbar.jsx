@@ -194,7 +194,7 @@ export default function Toolbar({
 
         <section>
           {/* Labels and Keyboard Controls buttons wrapper for manual padding control */}
-          <div className="px-2 pt-1 pb-3">
+          <div className="px-2 pt-3 pb-3">
             <div className="flex flex-col gap-2">
               {/* Labels button */}
               <div className="flex items-center gap-2">
@@ -217,7 +217,7 @@ export default function Toolbar({
                   onClick={handleKeyboardControlsToggle}
                   width="32px"
                 />
-                <span className="text-[11px] font-normal text-grey-200">Keyboard Ctrl</span>
+                <span className="text-[11px] font-normal text-grey-200">Controls</span>
               </div>
             </div>
           </div>
@@ -247,7 +247,7 @@ export default function Toolbar({
           )}
         </section>
 
-        <Separator />
+        {/* <Separator />
       
         <section>
           <CollapsibleHeader 
@@ -264,7 +264,7 @@ export default function Toolbar({
                 />
             </div>
           )}
-        </section>
+        </section> */}
       </div>
       
       {/* Search Results Panel - Positioned 8px to the right */}

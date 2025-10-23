@@ -12,6 +12,7 @@ import MobileInfoPanel from './MobileInfoPanel.jsx';
 import PanelOnboarding from './PanelOnboarding.jsx';
 import Toolbar from './ui/Toolbar.jsx';
 import MobileNav from './MobileNav.jsx';
+import ButtonTextSmall from './ui/ButtonTextSmall.jsx';
 
 // Helper function to convert RA string to radians
 const raToRadians = (ra) => {
@@ -2133,16 +2134,22 @@ const Starfield = () => {
       
       {/* About Starscape Button - only show when onboarding is closed */}
       {uiVisible && !showOnboarding && (
-        <button
-          onClick={handleOpenOnboarding}
-          className={`fixed z-40 bg-grey-700 hover:bg-grey-600 text-grey-100 px-4 py-2 rounded text-sm font-medium transition-colors ${
-            isMobile 
-              ? 'bottom-4 right-4' 
-              : 'bottom-4 right-4'
-          }`}
+        <div 
+          className="fixed z-40 flex"
+          style={{ 
+            width: '128px', 
+            height: '28px',
+            right: '16px',
+            bottom: '16px'
+          }}
         >
-          About Starscape
-        </button>
+          <ButtonTextSmall
+            text="About Starscape"
+            onClick={handleOpenOnboarding}
+            height="28px"
+            bgColor="bg-grey-900"
+          />
+        </div>
       )}
       
       <div 

@@ -186,8 +186,8 @@ export default function MobileNav({
 
               {/* Overlays Section */}
               <div>
-                <div className="text-white text-[11px] font-medium h-8 px-2 flex items-center tracking-wider">Overlays</div>
-                <div className="flex items-center gap-2 px-2 mt-2 mb-4">
+               
+                <div className="flex items-center gap-2 px-2 mt-3 mb-3">
                   <ButtonMobileIcon
                     icon="/icons/ui/Icon_UI_Labels_01.svg"
                     alt="Labels"
