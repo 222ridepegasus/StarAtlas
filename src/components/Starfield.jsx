@@ -13,6 +13,7 @@ import PanelOnboarding from './PanelOnboarding.jsx';
 import Toolbar from './ui/Toolbar.jsx';
 import MobileNav from './MobileNav.jsx';
 import ButtonTextSmall from './ui/ButtonTextSmall.jsx';
+import ButtonMobileIcon from './ui/ButtonMobileIcon.jsx';
 
 // Helper function to convert RA string to radians
 const raToRadians = (ra) => {
@@ -1760,6 +1761,15 @@ const Starfield = () => {
     setIsFocused(false);
   };
 
+  const handleToggleOnboarding = () => {
+    setShowOnboarding(!showOnboarding);
+    // Close any other panels when opening onboarding
+    if (!showOnboarding) {
+      setSelectedStar(null);
+      setIsFocused(false);
+    }
+  };
+
   // SVG Export function
   const handleExportSVG = () => {
     if (!cameraRef.current || !rendererRef.current || !sceneRef.current) {
@@ -2005,6 +2015,10 @@ const Starfield = () => {
           onShowConnectionsChange={(enabled) => handleLineModeChange(enabled ? 'connections' : 'starsOnly')}
           showStalks={lineMode === 'stalks'}
           onShowStalksChange={(enabled) => handleLineModeChange(enabled ? 'stalks' : 'starsOnly')}
+          
+          // Onboarding props
+          showOnboarding={showOnboarding}
+          onToggleOnboarding={handleToggleOnboarding}
         />
       )}
       {uiVisible && !isMobile && (
@@ -2132,8 +2146,8 @@ const Starfield = () => {
         </div>
       )}
       
-      {/* About Starscape Button - only show when onboarding is closed */}
-      {uiVisible && !showOnboarding && (
+      {/* About Starscape Button - only show when onboarding is closed and on desktop */}
+      {uiVisible && !showOnboarding && !isMobile && (
         <div 
           className="fixed z-40 flex"
           style={{ 
@@ -2151,6 +2165,7 @@ const Starfield = () => {
           />
         </div>
       )}
+      
       
       <div 
         ref={mountRef} 

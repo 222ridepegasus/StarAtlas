@@ -30,7 +30,11 @@ export default function MobileNav({
   showConnections,
   onShowConnectionsChange,
   showStalks,
-  onShowStalksChange
+  onShowStalksChange,
+  
+  // Onboarding props
+  showOnboarding,
+  onToggleOnboarding
 }) {
   const [activePanel, setActivePanel] = useState(null); // 'menu', 'filter', 'search', or null
 
@@ -50,7 +54,13 @@ export default function MobileNav({
   ];
 
   const togglePanel = (panelName) => {
-    setActivePanel(activePanel === panelName ? null : panelName);
+    if (panelName === 'info') {
+      // Info button opens the onboarding panel
+      onToggleOnboarding();
+      setActivePanel(null); // Close any other panels
+    } else {
+      setActivePanel(activePanel === panelName ? null : panelName);
+    }
   };
 
   const closePanel = () => {
@@ -74,8 +84,14 @@ export default function MobileNav({
           onClick={() => togglePanel('menu')}
         />
 
-        {/* Center-Right: Filter and Search */}
+        {/* Center-Right: Info, Filter, and Search */}
         <div className="flex items-center gap-3">
+          <ButtonMobileIcon
+            icon={showOnboarding ? '/icons/ui/Icon_UI_Close_01.svg' : '/icons/ui/Icon_UI_Info_01.svg'}
+            alt={showOnboarding ? 'Close info' : 'About Starscape'}
+            isActive={showOnboarding}
+            onClick={() => togglePanel('info')}
+          />
           <ButtonMobileIcon
             icon={activePanel === 'filter' ? '/icons/ui/Icon_UI_Close_01.svg' : '/icons/ui/Icon_UI_Filter_01.svg'}
             alt={activePanel === 'filter' ? 'Close filter' : 'Open filter'}
@@ -276,6 +292,7 @@ export default function MobileNav({
           </div>
         )}
       </div>
+
 
     </div>
   );

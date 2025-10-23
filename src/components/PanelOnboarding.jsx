@@ -91,6 +91,7 @@ const PanelOnboarding = ({ onClose, isMobile }) => {
       <HeaderWindow 
         title="Welcome to Starscape" 
         onClose={onClose}
+        showClose={!isMobile}
       />
       
       <Separator />
