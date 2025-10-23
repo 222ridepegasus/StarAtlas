@@ -63,6 +63,7 @@ const Starfield = () => {
   const axesHelperRef = useRef(null);
   const starObjectsRef = useRef([]);
   const starMeshesRef = useRef([]);
+  const starHitboxesRef = useRef([]); // MOBILE TOUCH TARGET: Invisible larger hitboxes for mobile
   const stalksRef = useRef([]);
   const connectionsRef = useRef([]);
   const highlightRef = useRef(null);
@@ -359,6 +360,7 @@ const Starfield = () => {
     measureTextRef.current = measureText;
 
     const starMeshes = [];
+    const starHitboxes = []; // MOBILE TOUCH TARGET: Array to store hitbox meshes
     stars.forEach(star => {
       const starGroup = [];
 
@@ -389,6 +391,30 @@ const Starfield = () => {
       scene.add(sphere);
       starGroup.push(sphere);
       starMeshes.push(sphere);
+
+      // MOBILE TOUCH TARGET: Create invisible hitbox for mobile devices
+      if (isMobile) {
+        const hitboxRadius = 22; // 44px diameter minimum touch target
+        const hitboxGeometry = new THREE.SphereGeometry(hitboxRadius, 8, 8); // Lower segments for performance
+        const hitboxMaterial = new THREE.MeshBasicMaterial({ 
+          transparent: true, 
+          opacity: 0, 
+          visible: false 
+        });
+        const hitbox = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
+        hitbox.position.copy(pos);
+        hitbox.userData = { 
+          isTouchTarget: true, 
+          starRef: sphere, // Reference to the actual visual star mesh
+          distance: star.distance_ly, 
+          spectralClass 
+        };
+        hitbox.visible = star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass];
+        hitbox.renderOrder = -1; // Ensure it doesn't interfere with rendering
+        scene.add(hitbox);
+        starGroup.push(hitbox);
+        starHitboxes.push(hitbox);
+      }
 
       const glowGeometry = new THREE.SphereGeometry(SIZES.starGlowRadius, starGeomSegments, starGeomSegments);
       const glowMaterial = new THREE.MeshBasicMaterial({
@@ -479,6 +505,7 @@ const Starfield = () => {
     });
     
     starMeshesRef.current = starMeshes;
+    starHitboxesRef.current = starHitboxes; // MOBILE TOUCH TARGET: Store hitbox references
 
     // Function to rebuild connections based on visible stars
     const rebuildConnections = () => {
@@ -576,11 +603,27 @@ const Starfield = () => {
       }
 
       raycaster.setFromCamera(mouse, camera);
-      const visibleStars = starMeshesRef.current.filter(mesh => mesh.visible);
-      const intersects = raycaster.intersectObjects(visibleStars, false);
+      
+      // MOBILE TOUCH TARGET: Use hitboxes for mobile, star meshes for desktop
+      let intersects;
+      let targetStar;
+      if (isMobile && starHitboxesRef.current.length > 0) {
+        const visibleHitboxes = starHitboxesRef.current.filter(mesh => mesh.visible);
+        intersects = raycaster.intersectObjects(visibleHitboxes, false);
+        if (intersects.length > 0) {
+          // Get the actual star mesh from the hitbox reference
+          targetStar = intersects[0].object.userData.starRef;
+        }
+      } else {
+        const visibleStars = starMeshesRef.current.filter(mesh => mesh.visible);
+        intersects = raycaster.intersectObjects(visibleStars, false);
+        if (intersects.length > 0) {
+          targetStar = intersects[0].object;
+        }
+      }
 
-      if (intersects.length > 0) {
-        const star = intersects[0].object;
+      if (intersects.length > 0 && targetStar) {
+        const star = targetStar;
         if (!measureMode) {
           highlight.position.copy(star.position);
           highlight.visible = true;
@@ -601,11 +644,27 @@ const Starfield = () => {
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
       raycaster.setFromCamera(mouse, camera);
-      const visibleStars = starMeshesRef.current.filter(mesh => mesh.visible);
-      const intersects = raycaster.intersectObjects(visibleStars, false);
+      
+      // MOBILE TOUCH TARGET: Use hitboxes for mobile, star meshes for desktop
+      let intersects;
+      let targetStar;
+      if (isMobile && starHitboxesRef.current.length > 0) {
+        const visibleHitboxes = starHitboxesRef.current.filter(mesh => mesh.visible);
+        intersects = raycaster.intersectObjects(visibleHitboxes, false);
+        if (intersects.length > 0) {
+          // Get the actual star mesh from the hitbox reference
+          targetStar = intersects[0].object.userData.starRef;
+        }
+      } else {
+        const visibleStars = starMeshesRef.current.filter(mesh => mesh.visible);
+        intersects = raycaster.intersectObjects(visibleStars, false);
+        if (intersects.length > 0) {
+          targetStar = intersects[0].object;
+        }
+      }
 
-      if (intersects.length > 0) {
-        const star = intersects[0].object;
+      if (intersects.length > 0 && targetStar) {
+        const star = targetStar;
         const starData = star.userData.star;
         
         if (measureMode) {
@@ -1112,6 +1171,9 @@ const Starfield = () => {
       });
       labelsRef.current = [];
       
+      // MOBILE TOUCH TARGET: Clear hitboxes ref
+      starHitboxesRef.current = [];
+      
       // Dispose scene objects
       scene.traverse((object) => {
         if (object instanceof Text) {
@@ -1136,6 +1198,54 @@ const Starfield = () => {
       controls.dispose();
     };
   }, [stars]);
+
+  // MOBILE TOUCH TARGET: Manage hitbox visibility when mobile state changes
+  useEffect(() => {
+    if (!sceneRef.current) return;
+    
+    const scene = sceneRef.current;
+    const hitboxes = starHitboxesRef.current;
+    
+    // When switching to mobile, hitboxes should already exist from initialization
+    // When switching to desktop, hitboxes will be empty array or should be hidden
+    // This effect mainly handles edge cases of window resizing
+    
+    if (isMobile && hitboxes.length === 0 && starMeshesRef.current.length > 0) {
+      // Rebuild hitboxes if they don't exist but we're on mobile
+      // This handles the case where the component was initialized on desktop then resized to mobile
+      const newHitboxes = [];
+      starMeshesRef.current.forEach((starMesh) => {
+        const hitboxRadius = 22; // 44px diameter minimum touch target
+        const hitboxGeometry = new THREE.SphereGeometry(hitboxRadius, 8, 8);
+        const hitboxMaterial = new THREE.MeshBasicMaterial({ 
+          transparent: true, 
+          opacity: 0, 
+          visible: false 
+        });
+        const hitbox = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
+        hitbox.position.copy(starMesh.position);
+        hitbox.userData = { 
+          isTouchTarget: true, 
+          starRef: starMesh,
+          distance: starMesh.userData.distance,
+          spectralClass: starMesh.userData.spectralClass
+        };
+        hitbox.visible = starMesh.visible;
+        hitbox.renderOrder = -1;
+        scene.add(hitbox);
+        newHitboxes.push(hitbox);
+      });
+      starHitboxesRef.current = newHitboxes;
+    } else if (!isMobile && hitboxes.length > 0) {
+      // Remove hitboxes when switching to desktop
+      hitboxes.forEach((hitbox) => {
+        scene.remove(hitbox);
+        hitbox.geometry.dispose();
+        hitbox.material.dispose();
+      });
+      starHitboxesRef.current = [];
+    }
+  }, [isMobile]);
 
   useEffect(() => {
     if (!sceneRef.current) return;
@@ -1164,6 +1274,22 @@ const Starfield = () => {
         }
       });
     });
+
+    // MOBILE TOUCH TARGET: Update hitbox visibility to match star visibility
+    if (isMobile && starHitboxesRef.current.length > 0) {
+      starHitboxesRef.current.forEach(hitbox => {
+        if (hitbox.userData && hitbox.userData.distance !== undefined) {
+          const withinDistance = hitbox.userData.distance <= viewDistance;
+          
+          let passesFilter = true;
+          if (hitbox.userData.spectralClass) {
+            passesFilter = spectralFilter[hitbox.userData.spectralClass];
+          }
+          
+          hitbox.visible = withinDistance && passesFilter;
+        }
+      });
+    }
 
     // Labels are handled in a separate useEffect to avoid interfering with stalks/connections
 
