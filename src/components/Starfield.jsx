@@ -8,6 +8,7 @@ import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry.js';
 import { COLORS, SIZES, STROKE_WEIGHTS, getSpectralColor } from '../config/visual.js';
 import { LABEL_CONFIG, formatStarName } from '../config/labels.js';
 import InfoPanel from './InfoPanel.jsx';
+import MobileInfoPanel from './MobileInfoPanel.jsx';
 import Toolbar from './ui/Toolbar.jsx';
 import MobileNav from './MobileNav.jsx';
 
@@ -1929,19 +1930,33 @@ const Starfield = () => {
         />
       )}
       {uiVisible && !measureMode && (
-        <InfoPanel 
-          star={selectedStar}
-          onClose={() => {
-            setSelectedStar(null);
-            setIsFocused(false);
-          }}
-          onFocus={handleFocusOnStar}
-          onZoom={handleZoomToStar}
-          onReset={handleResetCamera}
-          isFocused={isFocused}
-          autoFocusOnClick={autoFocusOnClick}
-          onAutoFocusChange={setAutoFocusOnClick}
-        />
+        isMobile ? (
+          <MobileInfoPanel 
+            star={selectedStar}
+            onClose={() => {
+              setSelectedStar(null);
+              setIsFocused(false);
+            }}
+            onFocus={handleFocusOnStar}
+            onZoom={handleZoomToStar}
+            onReset={handleResetCamera}
+            isFocused={isFocused}
+          />
+        ) : (
+          <InfoPanel 
+            star={selectedStar}
+            onClose={() => {
+              setSelectedStar(null);
+              setIsFocused(false);
+            }}
+            onFocus={handleFocusOnStar}
+            onZoom={handleZoomToStar}
+            onReset={handleResetCamera}
+            isFocused={isFocused}
+            autoFocusOnClick={autoFocusOnClick}
+            onAutoFocusChange={setAutoFocusOnClick}
+          />
+        )
       )}
       
       

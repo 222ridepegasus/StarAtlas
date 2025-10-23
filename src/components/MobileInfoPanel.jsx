@@ -5,13 +5,11 @@ import ButtonStar from './ui/ButtonStar';
 import InfoSnippet from './ui/InfoSnippet';
 import ListItemStarStats from './ui/ListItemStarStats';
 import Separator from '../components/ui/Separator';
-import CheckboxColor from './ui/CheckboxColor';
 
-const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused, autoFocusOnClick, onAutoFocusChange }) => {
+const MobileInfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused }) => {
   const [selectedComponent, setSelectedComponent] = useState(0);
   
   const panelRef = useRef(null);
-
 
   if (!star) return null;
 
@@ -39,11 +37,16 @@ const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused, autoFoc
     }
   };
 
-
   return (
     <div 
       ref={panelRef}
-      className="fixed top-4 right-4 w-[346px] max-h-[calc(100vh-32px)] bg-grey-700 rounded-lg text-grey-100 text-sm z-40 overflow-y-auto box-border font-sans select-none"
+      className="fixed bottom-4 left-4 right-4 w-auto max-h-[calc(100vh-32px)] bg-grey-700 rounded-lg text-grey-100 text-sm z-40 overflow-y-auto box-border font-sans select-none"
+      style={{
+        textSizeAdjust: 'none',
+        WebkitTextSizeAdjust: 'none',
+        WebkitFontSmoothing: 'antialiased',
+        MozOsxFontSmoothing: 'grayscale'
+      }}
     >
       {/* HeaderWindow */}
       <HeaderWindow 
@@ -70,18 +73,6 @@ const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused, autoFoc
           onClick={onReset}
           isActive={false}
         />
-      </div>
-
-      {/* Auto Focus on Click Checkbox */}
-      <div className="flex items-center gap-2 px-4 pt-3.5 pb-1">
-        <CheckboxColor 
-          color="neutral"
-          isChecked={autoFocusOnClick}
-          onClick={() => onAutoFocusChange && onAutoFocusChange(!autoFocusOnClick)}
-        />
-        <p className="text-[11px] text-grey-200">
-          Auto Focus on Click
-        </p>
       </div>
 
       {/* StarTab Group */}
@@ -132,17 +123,10 @@ const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused, autoFoc
           label="Discovered" 
           value={currentComponent?.discovered || "--"}
         />
-        {/* <ListItemStarStats 
-          label="Visibility" 
-          value={currentComponent?.visibility || "--"}
-        /> */}
-        {/* <ListItemStarStats 
-          label="Alternate Names" 
-          value={currentComponent?.alternate_names || "--"}
-        /> */}
       </div>
     </div>
   );
 };
 
-export default InfoPanel;
+export default MobileInfoPanel;
+
