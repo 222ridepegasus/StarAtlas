@@ -84,8 +84,8 @@ const ViewBar = ({
   onCloseFilters,
   filterOpen: externalFilterOpen
 }) => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [open, setOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
+  const [open, setOpen] = useState(() => typeof window !== 'undefined' && window.innerWidth > 768);
   const [panelOpen, setPanelOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
   
@@ -98,7 +98,6 @@ const ViewBar = ({
       setIsMobile(mobile);
       setOpen(!mobile);
     };
-    onResize();
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);

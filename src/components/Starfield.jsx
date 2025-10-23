@@ -128,7 +128,7 @@ const Starfield = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [uiVisible, setUiVisible] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 640);
 
   // Load star data
   useEffect(() => {
@@ -149,7 +149,6 @@ const Starfield = () => {
       setIsMobile(window.innerWidth <= 640);
     };
     
-    checkMobile(); // Initial check
     window.addEventListener('resize', checkMobile);
     
     return () => window.removeEventListener('resize', checkMobile);
