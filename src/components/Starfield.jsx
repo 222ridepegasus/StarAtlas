@@ -277,6 +277,13 @@ const Starfield = () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(isSafari ? Math.min(window.devicePixelRatio, 1.5) : Math.min(window.devicePixelRatio, 2));
     renderer.sortObjects = false;
+    
+    // Prevent text selection and context menu on canvas
+    renderer.domElement.style.userSelect = 'none';
+    renderer.domElement.style.webkitUserSelect = 'none';
+    renderer.domElement.style.webkitTouchCallout = 'none'; // iOS specific
+    renderer.domElement.style.webkitTapHighlightColor = 'transparent'; // Remove tap highlight
+    
     mountRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
