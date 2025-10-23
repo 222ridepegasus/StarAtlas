@@ -1,9 +1,10 @@
 export default function ButtonTextSmall({ 
   text,
   onClick,
-  isActive = false
+  isActive = false,
+  height = "28px"
 }) {
-  const baseClasses = "flex-1 h-7 rounded-md transition-all duration-200 flex items-center justify-center cursor-pointer border text-[11px] font-normal font-sans";
+  const baseClasses = "flex-1 rounded-md transition-all duration-200 flex items-center justify-center cursor-pointer border text-[11px] font-normal font-sans";
   
   const stateClasses = isActive
     ? "bg-grey-800 text-grey-100 border-grey-200"
@@ -12,6 +13,7 @@ export default function ButtonTextSmall({
   return (
     <button
       className={`${baseClasses} ${stateClasses}`}
+      style={{ height }}
       onClick={onClick}
       aria-label={text}
     >

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import HeaderWindow from './ui/HeaderWindow';
 import Separator from './ui/Separator';
+import ButtonTextSmall from './ui/ButtonTextSmall';
 
 const PanelOnboarding = ({ onClose, isMobile }) => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -93,19 +94,15 @@ const PanelOnboarding = ({ onClose, isMobile }) => {
       
       {/* Tab Navigation */}
       <div className="px-3 pt-2 pb-1">
-        <div className="flex border-b border-grey-600">
+        <div className="flex gap-1">
           {tabs.map((tab) => (
-            <button
+            <ButtonTextSmall
               key={tab.id}
+              text={tab.label}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-3 py-2 text-xs font-medium transition-colors flex-1 ${
-                activeTab === tab.id
-                  ? 'text-white border-b-2 border-blue-500 bg-grey-600'
-                  : 'text-grey-400 hover:text-grey-200'
-              }`}
-            >
-              {tab.label}
-            </button>
+              isActive={activeTab === tab.id}
+              height="28px"
+            />
           ))}
         </div>
       </div>
