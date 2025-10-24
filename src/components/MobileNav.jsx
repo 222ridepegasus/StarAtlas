@@ -37,7 +37,8 @@ export default function MobileNav({
   onToggleOnboarding,
   
   // Star selection props
-  selectedStar
+  selectedStar,
+  onCloseStarInfo
 }) {
   const [activePanel, setActivePanel] = useState(null); // 'menu', 'filter', 'search', or null
 
@@ -73,6 +74,12 @@ export default function MobileNav({
       if (showOnboarding) {
         onToggleOnboarding();
       }
+      
+      // Close star info panel when opening mobile nav panels
+      if (selectedStar && activePanel !== panelName) {
+        onCloseStarInfo();
+      }
+      
       setActivePanel(activePanel === panelName ? null : panelName);
     }
   };

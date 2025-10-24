@@ -2034,6 +2034,7 @@ const Starfield = () => {
           
           // Star selection props
           selectedStar={selectedStar}
+          onCloseStarInfo={() => setSelectedStar(null)}
         />
       )}
       {uiVisible && !isMobile && (
