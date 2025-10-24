@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ButtonTabIcon from './ButtonTabIcon';
+import Tooltip from './Tooltip';
 
 export default function TabGroup({ 
   tabs, 
@@ -23,13 +24,14 @@ export default function TabGroup({
         style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
       >
         {tabs.map((tab) => (
-          <ButtonTabIcon
-            key={tab.id}
-            icon={tab.icon}
-            alt={tab.alt}
-            isActive={activeTab === tab.id}
-            onClick={() => handleTabClick(tab.id)}
-          />
+          <Tooltip key={tab.id} content={tab.alt} delay={1000}>
+            <ButtonTabIcon
+              icon={tab.icon}
+              alt={tab.alt}
+              isActive={activeTab === tab.id}
+              onClick={() => handleTabClick(tab.id)}
+            />
+          </Tooltip>
         ))}
       </div>
     </div>

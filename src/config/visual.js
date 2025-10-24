@@ -81,7 +81,7 @@ export const STROKE_WEIGHTS = {
 
   // Star stalk (vertical line)
   stalk: 1,
-  stalkOpacity: 0.5,
+  stalkOpacity: 0.7,
   
   // Stalk base (filled circle, no stroke)
   stalkBaseOpacity: 0.6,

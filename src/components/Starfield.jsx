@@ -14,6 +14,7 @@ import Toolbar from './ui/Toolbar.jsx';
 import MobileNav from './MobileNav.jsx';
 import ButtonTextSmall from './ui/ButtonTextSmall.jsx';
 import ButtonMobileIcon from './ui/ButtonMobileIcon.jsx';
+import FPSCounter from './ui/FPSCounter.jsx';
 
 // Helper function to convert RA string to radians
 const raToRadians = (ra) => {
@@ -135,6 +136,7 @@ const Starfield = () => {
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 640);
   const [keyboardControlsEnabled, setKeyboardControlsEnabled] = useState(false); // Disabled by default
   const [showOnboarding, setShowOnboarding] = useState(true); // Show on initial load
+  const [showFPS, setShowFPS] = useState(false); // FPS counter visibility
 
   // Load star data
   useEffect(() => {
@@ -1403,13 +1405,19 @@ const Starfield = () => {
     }
   }, [gridMode, showGrid]);
 
-  // Keyboard shortcut for hiding/showing UI (CMD+. on Mac, CTRL+. on Windows/Linux)
+  // Keyboard shortcuts for UI controls (CMD+. and P key)
   useEffect(() => {
     const handleKeyDown = (event) => {
       // Check for CMD+. (Mac) or CTRL+. (Windows/Linux)
       if ((event.metaKey || event.ctrlKey) && event.key === '.') {
         event.preventDefault();
         setUiVisible(prev => !prev);
+      }
+      
+      // FPS counter toggle (P key) - works regardless of keyboard controls state
+      if (event.key.toLowerCase() === 'p') {
+        event.preventDefault();
+        setShowFPS(prev => !prev);
       }
     };
 
@@ -2145,6 +2153,12 @@ const Starfield = () => {
           UI Hidden - Press {navigator.platform.toLowerCase().includes('mac') ? 'CMD' : 'CTRL'}+. to show
         </div>
       )}
+      
+      {/* FPS Counter - comprehensive performance monitor */}
+      <FPSCounter 
+        isVisible={showFPS}
+        onClose={() => setShowFPS(false)}
+      />
       
       {/* About 20LY Button - only show when onboarding is closed and on desktop */}
       {uiVisible && !showOnboarding && !isMobile && (

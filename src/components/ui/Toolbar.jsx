@@ -9,6 +9,7 @@ import StarClassItem from './StarClassItem';
 import ButtonTextSmall from './ButtonTextSmall';
 import SearchInput from './SearchInput';
 import SearchResults from './SearchResults';
+import Tooltip from './Tooltip';
 
 export default function Toolbar({ 
   onSearchChange = null,
@@ -34,16 +35,16 @@ export default function Toolbar({
 }) {
   // View Options Grid tabs
   const viewGridTabs = [
-    { id: 'gridRadial', icon: '/icons/ui/Icon_UI_GridRadial_01.svg', alt: 'Grid Radial' },
-    { id: 'gridSquare', icon: '/icons/ui/Icon_UI_GridSquarel_01.svg', alt: 'Grid Square' },
-    { id: 'gridNone', icon: '/icons/ui/Icon_UI_GridNone_01.svg', alt: 'Show None' },
+    { id: 'gridRadial', icon: '/icons/ui/Icon_UI_GridRadial_01.svg', alt: 'Show radial grid' },
+    { id: 'gridSquare', icon: '/icons/ui/Icon_UI_GridSquarel_01.svg', alt: 'Show square grid' },
+    { id: 'gridNone', icon: '/icons/ui/Icon_UI_GridNone_01.svg', alt: 'Hide grid' },
   ];
 
   // View Options Display tabs
   const viewDisplayTabs = [
-    { id: 'connections', icon: '/icons/ui/Icon_UI_Connections_01.svg', alt: 'Connections' },
-    { id: 'stalks', icon: '/icons/ui/Icon_UI_Stalks_01.svg', alt: 'Stalks' },
-    { id: 'starsOnly', icon: '/icons/ui/Icon_UI_StarsOnly_01.svg', alt: 'Stars Only' },
+    { id: 'connections', icon: '/icons/ui/Icon_UI_Connections_01.svg', alt: 'Show star connections' },
+    { id: 'stalks', icon: '/icons/ui/Icon_UI_Stalks_01.svg', alt: 'Show star stalks' },
+    { id: 'starsOnly', icon: '/icons/ui/Icon_UI_StarsOnly_01.svg', alt: 'Show stars only' },
   ];
 
   // Star Class collapse state
@@ -198,25 +199,29 @@ export default function Toolbar({
             <div className="flex flex-col gap-2">
               {/* Labels button */}
               <div className="flex items-center gap-2">
-                <ButtonIcon 
-                  icon="/icons/ui/Icon_UI_Labels_01.svg"
-                  alt="Toggle Labels"
-                  isActive={showLabels}
-                  onClick={handleLabelsToggle}
-                  width="32px"
-                />
+                <Tooltip content="Toggle star labels on/off" delay={1000}>
+                  <ButtonIcon 
+                    icon="/icons/ui/Icon_UI_Labels_01.svg"
+                    alt="Toggle Labels"
+                    isActive={showLabels}
+                    onClick={handleLabelsToggle}
+                    width="32px"
+                  />
+                </Tooltip>
                 <span className="text-[11px] font-normal text-grey-200">Labels</span>
               </div>
               
               {/* Keyboard Controls button */}
               <div className="flex items-center gap-2">
-                <ButtonIcon 
-                  icon="/icons/ui/Icon_UI_Keyboard_01.svg"
-                  alt="Toggle Keyboard Controls"
-                  isActive={keyboardControlsEnabled}
-                  onClick={handleKeyboardControlsToggle}
-                  width="32px"
-                />
+                <Tooltip content="Enable/disable keyboard controls (WASD, Space/Shift, Q/E)" delay={1000}>
+                  <ButtonIcon 
+                    icon="/icons/ui/Icon_UI_Keyboard_01.svg"
+                    alt="Toggle Keyboard Controls"
+                    isActive={keyboardControlsEnabled}
+                    onClick={handleKeyboardControlsToggle}
+                    width="32px"
+                  />
+                </Tooltip>
                 <span className="text-[11px] font-normal text-grey-200">Controls</span>
               </div>
             </div>

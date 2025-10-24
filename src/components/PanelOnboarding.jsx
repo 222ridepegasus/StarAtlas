@@ -39,38 +39,66 @@ const PanelOnboarding = ({ onClose, isMobile }) => {
           <div className="px-1 space-y-2.5 pb-2">
             <div>
               <p className="text-grey-100 text-xs font-medium leading-relaxed ">About 20LY</p>
-              <p className="text-grey-300 text-xs leading-relaxed">20LY is an interactive 3D visualisation of our stellar neighbourhood, showing the nearest stars within 20 light years of Earth based on actual astronomical data.</p>
+              <p className="text-grey-300 text-xs leading-relaxed">20LY is an interactive 3D visualisation of our stellar neighbourhood. Here you can explore all star systems within a 20 light year Radius of Earth, based on actual astronomical data.</p>
+            </div>
+
+            <div>
+              <p className="text-grey-100 text-xs font-medium leading-relaxed ">Disclaimer</p>
+              <p className="text-grey-300 text-xs leading-relaxed">Star data is approximate and may contain inaccuracies. Not intended for scientific or navigational use.</p>
             </div>
             
             <div>
               <p className="text-grey-100 text-xs font-medium leading-relaxed ">Tech Stack</p>
-              <p className="text-grey-300 text-xs leading-relaxed">Built with AI-assisted development - Cursor AI was used to write the JavaScript while I focused on designing the interface and user experience.</p>
+              <p className="text-grey-300 text-xs leading-relaxed">This is an AI-assisted development project, Cursor AI was used to write the JavaScript while I focused on designing the interface and user experience.</p>
               <p className="text-grey-300 text-xs leading-relaxed mt-1">20LY is built with Three.js for 3D rendering, React for interactivity, Tailwind for styling, and Astro as the framework.</p>
             </div>
             
             <div>
               <p className="text-grey-100 text-xs font-medium leading-relaxed ">About Me</p>
-              <p className="text-grey-300 text-xs leading-relaxed">I'm Kieran Kelly, a UX/UI designer exploring the intersection of AI-assisted development and creative coding. 20LY is entirely non-commercial and created for educational purposes.</p>
+              <p className="text-grey-300 text-xs leading-relaxed">I'm Kieran Kelly, a UX/UI designer, you can visit my portfolio website at <a href='https://kierankelly.net' target='_blank' rel='noopener noreferrer' className='underline hover:text-grey-100'>kierankelly.net</a>.</p>
             </div>
           </div>
         );
       
       case 'feedback':
         return (
-          <div className="px-1 space-y-2.5 pb-2">
+          <div className="px-1 space-y-1.5 pb-2">
             <div>
-              <p className="text-grey-100 text-xs font-medium leading-relaxed ">Help Shape 20LY:</p>
-              <p className="text-grey-300 text-xs leading-relaxed">This is a learning project and your feedback helps me improve 20LY. Whether it's a bug, a feature idea, or just a thought, please feel free to leave a comment.</p>
+              <p className="text-grey-100 text-xs font-medium leading-relaxed">Help Shape 20LY:</p>
+              <p className="text-grey-300 text-xs leading-relaxed">If you'd like to get in touch and leave feedback, report a bug, or request a feature please click the button below.</p>
             </div>
-            
-              <div className="pt-1">
-                <div className="w-1/2 flex">
-                  <ButtonTextSmall
-                    text="Leave Feedback"
-                    onClick={() => console.log('Leave Feedback clicked')}
-                  />
-                </div>
+
+            <div className="">
+              <div className="w-1/2 flex mb-3">
+                <a 
+                  href="https://tally.so/r/npjd18" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex-1 rounded-md transition-all duration-200 flex items-center justify-center cursor-pointer border text-[11px] font-normal font-sans bg-transparent text-grey-200 border-grey-500 hover:text-grey-100 hover:border-grey-200"
+                  style={{ height: "28px" }}
+                >
+                  Leave Feedback
+                </a>
               </div>
+            </div>
+
+            <div>
+              <p className="text-grey-300 text-xs leading-relaxed">This is a 100% hobby project. If you'd like to support continued development:</p>
+            </div>
+
+            <div className="">
+              <div className="w-1/2 flex">
+              <a 
+                  href="https://ko-fi.com/kierankelly" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex-1 rounded-md transition-all duration-200 flex items-center justify-center cursor-pointer border text-[11px] font-normal font-sans bg-transparent text-grey-200 border-grey-500 hover:text-grey-100 hover:border-grey-200"
+                  style={{ height: "28px" }}
+                >
+                  Buy Me a Coffee ☕
+                </a>
+              </div>
+            </div>
           </div>
         );
       
