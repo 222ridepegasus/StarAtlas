@@ -2031,6 +2031,9 @@ const Starfield = () => {
           // Onboarding props
           showOnboarding={showOnboarding}
           onToggleOnboarding={handleToggleOnboarding}
+          
+          // Star selection props
+          selectedStar={selectedStar}
         />
       )}
       {uiVisible && !isMobile && (

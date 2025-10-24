@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ButtonMobileIcon from './ui/ButtonMobileIcon.jsx';
 import SearchInput from './ui/SearchInput.jsx';
 import SearchResults from './ui/SearchResults.jsx';
@@ -34,9 +34,19 @@ export default function MobileNav({
   
   // Onboarding props
   showOnboarding,
-  onToggleOnboarding
+  onToggleOnboarding,
+  
+  // Star selection props
+  selectedStar
 }) {
   const [activePanel, setActivePanel] = useState(null); // 'menu', 'filter', 'search', or null
+
+  // Close mobile nav panels when a star is selected
+  useEffect(() => {
+    if (selectedStar) {
+      setActivePanel(null);
+    }
+  }, [selectedStar]);
 
   // Star Class data with colors
   const starClasses = [
