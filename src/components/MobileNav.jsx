@@ -59,6 +59,10 @@ export default function MobileNav({
       onToggleOnboarding();
       setActivePanel(null); // Close any other panels
     } else {
+      // If onboarding is open, close it first when opening other panels
+      if (showOnboarding) {
+        onToggleOnboarding();
+      }
       setActivePanel(activePanel === panelName ? null : panelName);
     }
   };

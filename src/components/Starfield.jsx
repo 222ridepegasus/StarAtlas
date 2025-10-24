@@ -15,6 +15,7 @@ import MobileNav from './MobileNav.jsx';
 import ButtonTextSmall from './ui/ButtonTextSmall.jsx';
 import ButtonMobileIcon from './ui/ButtonMobileIcon.jsx';
 import FPSCounter from './ui/FPSCounter.jsx';
+import ErrorBoundary from './ErrorBoundary.jsx';
 
 // Helper function to convert RA string to radians
 const raToRadians = (ra) => {
@@ -145,6 +146,8 @@ const Starfield = () => {
       .then(data => setStars(data))
       .catch(err => console.error('Error loading stars:', err));
   }, []);
+
+
 
   // Sync autoFocusOnClick to ref for use in event handlers
   useEffect(() => {
@@ -1419,6 +1422,7 @@ const Starfield = () => {
         event.preventDefault();
         setShowFPS(prev => !prev);
       }
+      
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -1989,7 +1993,7 @@ const Starfield = () => {
   };
 
   return (
-    <>
+    <ErrorBoundary>
       {uiVisible && isMobile && (
         <MobileNav
           // Search props
@@ -2192,6 +2196,8 @@ const Starfield = () => {
       )}
       
       
+      
+      
       <div 
         ref={mountRef} 
         style={{ 
@@ -2203,7 +2209,7 @@ const Starfield = () => {
           zIndex: 1
         }} 
       />
-    </>
+    </ErrorBoundary>
   );
 };
 

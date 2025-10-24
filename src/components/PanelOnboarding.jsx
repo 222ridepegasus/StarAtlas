@@ -40,17 +40,19 @@ const PanelOnboarding = ({ onClose, isMobile }) => {
             <div>
               <p className="text-grey-100 text-xs font-medium leading-relaxed ">About 20LY</p>
               <p className="text-grey-300 text-xs leading-relaxed">20LY is an interactive 3D visualisation of our stellar neighbourhood. Here you can explore all star systems within a 20 light year Radius of Earth, based on actual astronomical data.</p>
+              
             </div>
 
             <div>
               <p className="text-grey-100 text-xs font-medium leading-relaxed ">Disclaimer</p>
               <p className="text-grey-300 text-xs leading-relaxed">Star data is approximate and may contain inaccuracies. Not intended for scientific or navigational use.</p>
+              <p className="text-grey-300 text-xs leading-relaxed mt-2">This site uses privacy-friendly analytics that don't track personal information or use cookies.</p>
             </div>
             
             <div>
               <p className="text-grey-100 text-xs font-medium leading-relaxed ">Tech Stack</p>
               <p className="text-grey-300 text-xs leading-relaxed">This is an AI-assisted development project, Cursor AI was used to write the JavaScript while I focused on designing the interface and user experience.</p>
-              <p className="text-grey-300 text-xs leading-relaxed mt-1">20LY is built with Three.js for 3D rendering, React for interactivity, Tailwind for styling, and Astro as the framework.</p>
+              <p className="text-grey-300 text-xs leading-relaxed mt-2">20LY is built with Three.js for 3D rendering, React for interactivity, Tailwind for styling, and Astro as the framework.</p>
             </div>
             
             <div>
