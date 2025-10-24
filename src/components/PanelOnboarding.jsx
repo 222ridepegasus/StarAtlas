@@ -91,7 +91,7 @@ const PanelOnboarding = ({ onClose, isMobile }) => {
             <div className="">
               <div className="w-1/2 flex">
               <a 
-                  href="https://ko-fi.com/kierankelly" 
+                  href="https://ko-fi.com/20ly" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="flex-1 rounded-md transition-all duration-200 flex items-center justify-center cursor-pointer border text-[11px] font-normal font-sans bg-transparent text-grey-200 border-grey-500 hover:text-grey-100 hover:border-grey-200"
