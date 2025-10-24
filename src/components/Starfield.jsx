@@ -2160,23 +2160,34 @@ const Starfield = () => {
         onClose={() => setShowFPS(false)}
       />
       
-      {/* About 20LY Button - only show when onboarding is closed and on desktop */}
-      {uiVisible && !showOnboarding && !isMobile && (
+      {/* Bottom Right Group - Version and About Button */}
+      {uiVisible && (
         <div 
-          className="fixed z-40 flex"
+          className="fixed z-40 flex items-end gap-3"
           style={{ 
-            width: '128px', 
-            height: '28px',
             right: '16px',
             bottom: '16px'
           }}
         >
-          <ButtonTextSmall
-            text="About 20LY"
-            onClick={handleOpenOnboarding}
-            height="28px"
-            bgColor="bg-grey-900"
-          />
+          {/* Version Number */}
+          <p 
+            className="text-[11px] text-right text-grey-400 flex items-center"
+            style={{ height: '28px' }}
+          >
+            v0.2.0
+          </p>
+          
+          {/* About 20LY Button - only show when onboarding is closed and on desktop */}
+          {!showOnboarding && !isMobile && (
+            <div style={{ width: '128px', display: 'flex' }}>
+              <ButtonTextSmall
+                text="About 20LY"
+                onClick={handleOpenOnboarding}
+                height="28px"
+                bgColor="bg-grey-900"
+              />
+            </div>
+          )}
         </div>
       )}
       
