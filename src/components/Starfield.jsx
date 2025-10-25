@@ -1495,6 +1495,10 @@ const Starfield = () => {
         event.preventDefault();
         handleResetCamera();
       }
+      if (key === 'escape') {
+        event.preventDefault();
+        handleResetToInitialPosition();
+      }
     };
 
     const handleKeyUp = (event) => {
@@ -1751,6 +1755,30 @@ const Starfield = () => {
           controls.update();
         }
       }, 800); // Wait for orientation to complete
+    }
+  };
+
+  // Handle reset to initial onload position
+  const handleResetToInitialPosition = () => {
+    // Clear any ongoing focus animations
+    focusTargetRef.current = null;
+    focusStartTimeRef.current = null;
+    focusStartPosRef.current = null;
+    focusStartTargetRef.current = null;
+    focusPhaseRef.current = 'orienting';
+    isSearchResultFocusRef.current = false;
+    isResetCameraRef.current = true;
+    setIsFocused(false);
+    
+    // Reset to initial onload position
+    const camera = cameraRef.current;
+    const controls = controlsRef.current;
+    
+    if (camera && controls) {
+      // Set to initial position (15, 15, 15) and look at center
+      camera.position.set(15, 15, 15);
+      controls.target.set(0, 0, 0);
+      controls.update();
     }
   };
 
