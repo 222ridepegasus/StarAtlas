@@ -213,7 +213,7 @@ export default function Toolbar({
               
               {/* Keyboard Controls button */}
               <div className="flex items-center gap-2">
-                <Tooltip content="Enable/disable keyboard controls (WASD, Space/Shift, Q/E)" delay={1000}>
+                <Tooltip content="Enable/disable keyboard controls (WASD, P/L, Q/E, +/-, R, F, Z)" delay={1000}>
                   <ButtonIcon 
                     icon="/icons/ui/Icon_UI_Keyboard_01.svg"
                     alt="Toggle Keyboard Controls"

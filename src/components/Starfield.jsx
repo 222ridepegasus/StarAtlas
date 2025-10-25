@@ -109,8 +109,9 @@ const Starfield = () => {
   const keysPressed = useRef({
     w: false, a: false, s: false, d: false,
     q: false, e: false,
-    space: false, shift: false,
-    f: false, z: false, escape: false
+    p: false, l: false,
+    plus: false, minus: false,
+    f: false, z: false, r: false, zero: false
   });
 
   // State
@@ -135,7 +136,7 @@ const Starfield = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [uiVisible, setUiVisible] = useState(true);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 640);
-  const [keyboardControlsEnabled, setKeyboardControlsEnabled] = useState(false); // Disabled by default
+  const [keyboardControlsEnabled, setKeyboardControlsEnabled] = useState(true); // Enabled by default
   const [showOnboarding, setShowOnboarding] = useState(true); // Show on initial load
   const [showFPS, setShowFPS] = useState(false); // FPS counter visibility
 
@@ -849,7 +850,8 @@ const Starfield = () => {
       const orbitSpeed = 0.01; // Radians per frame
       
       if (keysPressed.current.w || keysPressed.current.a || keysPressed.current.s || keysPressed.current.d ||
-          keysPressed.current.space || keysPressed.current.shift || keysPressed.current.q || keysPressed.current.e) {
+          keysPressed.current.p || keysPressed.current.l || keysPressed.current.q || keysPressed.current.e ||
+          keysPressed.current.plus || keysPressed.current.minus) {
         
         // Get camera direction vectors
         const forward = new THREE.Vector3();
@@ -870,8 +872,23 @@ const Starfield = () => {
         if (keysPressed.current.s) movement.add(forward.clone().multiplyScalar(-moveSpeed));
         if (keysPressed.current.a) movement.add(right.clone().multiplyScalar(-moveSpeed));
         if (keysPressed.current.d) movement.add(right.clone().multiplyScalar(moveSpeed));
-        if (keysPressed.current.space) movement.add(up.clone().multiplyScalar(moveSpeed));
-        if (keysPressed.current.shift) movement.add(up.clone().multiplyScalar(-moveSpeed));
+        if (keysPressed.current.p) movement.add(up.clone().multiplyScalar(moveSpeed));
+        if (keysPressed.current.l) movement.add(up.clone().multiplyScalar(-moveSpeed));
+        
+        // Zoom controls
+        if (keysPressed.current.plus || keysPressed.current.minus) {
+          const zoomSpeed = 0.1; // 10% zoom per frame
+          const cameraToTarget = controls.target.clone().sub(camera.position).normalize();
+          
+          if (keysPressed.current.plus) {
+            // Zoom in: move camera closer to target
+            movement.add(cameraToTarget.clone().multiplyScalar(zoomSpeed));
+          }
+          if (keysPressed.current.minus) {
+            // Zoom out: move camera away from target
+            movement.add(cameraToTarget.clone().multiplyScalar(-zoomSpeed));
+          }
+        }
         
         // Calculate new positions
         const newCameraPos = camera.position.clone().add(movement);
@@ -1417,8 +1434,8 @@ const Starfield = () => {
         setUiVisible(prev => !prev);
       }
       
-      // FPS counter toggle (P key) - works regardless of keyboard controls state
-      if (event.key.toLowerCase() === 'p') {
+      // FPS counter toggle (0 key) - works regardless of keyboard controls state
+      if (event.key === '0') {
         event.preventDefault();
         setShowFPS(prev => !prev);
       }
@@ -1454,11 +1471,16 @@ const Starfield = () => {
       if (key === 'd') keysPressed.current.d = true;
       if (key === 'q') keysPressed.current.q = true;
       if (key === 'e') keysPressed.current.e = true;
-      if (key === ' ') {
-        event.preventDefault(); // Prevent page scroll
-        keysPressed.current.space = true;
+      if (key === 'p') keysPressed.current.p = true;
+      if (key === 'l') keysPressed.current.l = true;
+      if (key === '+' || key === '=') {
+        event.preventDefault();
+        keysPressed.current.plus = true;
       }
-      if (event.shiftKey) keysPressed.current.shift = true;
+      if (key === '-' || key === '_') {
+        event.preventDefault();
+        keysPressed.current.minus = true;
+      }
       
       // Action keys (trigger immediately)
       if (key === 'f' && selectedStar) {
@@ -1469,7 +1491,7 @@ const Starfield = () => {
         event.preventDefault();
         handleZoomToStar(selectedStar);
       }
-      if (key === 'escape') {
+      if (key === 'r') {
         event.preventDefault();
         handleResetCamera();
       }
@@ -1484,8 +1506,10 @@ const Starfield = () => {
       if (key === 'd') keysPressed.current.d = false;
       if (key === 'q') keysPressed.current.q = false;
       if (key === 'e') keysPressed.current.e = false;
-      if (key === ' ') keysPressed.current.space = false;
-      if (!event.shiftKey) keysPressed.current.shift = false;
+      if (key === 'p') keysPressed.current.p = false;
+      if (key === 'l') keysPressed.current.l = false;
+      if (key === '+' || key === '=') keysPressed.current.plus = false;
+      if (key === '-' || key === '_') keysPressed.current.minus = false;
     };
 
     window.addEventListener('keydown', handleKeyDown);
