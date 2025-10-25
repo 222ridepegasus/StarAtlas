@@ -111,7 +111,7 @@ const Starfield = () => {
     q: false, e: false,
     p: false, l: false,
     plus: false, minus: false,
-    f: false, z: false, r: false, zero: false
+    f: false, z: false, g: false, zero: false
   });
 
   // State
@@ -1491,7 +1491,7 @@ const Starfield = () => {
         event.preventDefault();
         handleZoomToStar(selectedStar);
       }
-      if (key === 'r') {
+      if (key === 'g') {
         event.preventDefault();
         handleResetCamera();
       }
