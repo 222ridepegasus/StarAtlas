@@ -123,7 +123,7 @@ const Starfield = () => {
   const [lineMode, setLineMode] = useState('connections');
   const [autoZoom, setAutoZoom] = useState(true);
   const [spectralFilter, setSpectralFilter] = useState({
-    O: true, B: true, A: true, F: true, G: true, K: true, M: true, L: true, T: true, Y: true, D: true
+    A: true, F: true, G: true, K: true, M: true, L: true, T: true, Y: true, D: true
   });
   const [selectedStar, setSelectedStar] = useState(null);
   const [autoFocusOnClick, setAutoFocusOnClick] = useState(false);
