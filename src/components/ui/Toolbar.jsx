@@ -55,8 +55,8 @@ export default function Toolbar({
 
   // Star Class data
   const starClasses = [
-    { type: 'O', color: 'spectral-O' },
-    { type: 'B', color: 'spectral-B' },
+    // { type: 'O', color: 'spectral-O' },
+    // { type: 'B', color: 'spectral-B' },
     { type: 'A', color: 'spectral-A' },
     { type: 'F', color: 'spectral-F' },
     { type: 'G', color: 'spectral-G' },

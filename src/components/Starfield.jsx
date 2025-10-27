@@ -2054,12 +2054,12 @@ const Starfield = () => {
           searchResults={searchResults}
           onStarClick={handleSearchResultSelect}
           
-          // Filter props (convert spectralFilter to array format)
+          // Filter props (convert spectralFilter to array format, excluding O and B)
           starClassFilters={Object.entries(spectralFilter).map(([type, enabled]) => ({
             type,
             enabled,
             count: stars.filter(s => s.components?.[0]?.star_type?.startsWith(type)).length
-          }))}
+          })).filter(filter => filter.type !== 'O' && filter.type !== 'B')}
           onFilterToggle={(type) => {
             handleSpectralFilterChange({
               ...spectralFilter,
