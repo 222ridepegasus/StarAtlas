@@ -211,7 +211,7 @@ export default function MobileNav({
                     value={viewDistance}
                     onChange={onViewDistanceChange}
                     min={4}
-                    max={32}
+                    max={20}
                     step={4}
                     width="100%"
                     thumbSize={20}

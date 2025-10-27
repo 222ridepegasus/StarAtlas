@@ -184,7 +184,7 @@ export default function Toolbar({
             <Slider 
               value={viewDistance}
               min={4}
-              max={32}
+              max={20}
               step={4}
               onChange={handleDistanceChange}
               width="132px"
