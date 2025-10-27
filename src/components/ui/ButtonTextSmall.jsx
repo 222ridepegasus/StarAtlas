@@ -5,7 +5,7 @@ export default function ButtonTextSmall({
   height = "28px",
   bgColor = null
 }) {
-  const baseClasses = "flex-1 rounded-md transition-all duration-200 flex items-center justify-center cursor-pointer border text-[11px] font-normal font-sans";
+  const baseClasses = "flex-1 rounded-md transition-all duration-200 flex items-center justify-center cursor-pointer border text-[11px] font-normal font-sans select-none";
   
   const stateClasses = isActive
     ? "bg-grey-800 text-grey-100 border-grey-200"

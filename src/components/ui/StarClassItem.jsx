@@ -33,15 +33,15 @@ export default function StarClassItem({
             style={{ 
               backgroundColor: color === 'spectral-O' ? '#9bb0ff' :
                              color === 'spectral-B' ? '#aabfff' :
-                             color === 'spectral-A' ? '#f8f7ff' :
-                             color === 'spectral-F' ? '#fff4e8' :
-                             color === 'spectral-G' ? '#fff5b8' :
-                             color === 'spectral-K' ? '#ffc870' :
-                             color === 'spectral-M' ? '#ff6b4a' :
-                             color === 'spectral-L' ? '#c45530' :
-                             color === 'spectral-T' ? '#a855f7' :
-                             color === 'spectral-Y' ? '#7c3aed' :
-                             color === 'spectral-D' ? '#e0e7ff' : '#9bb0ff',
+                             color === 'spectral-A' ? '#ffffff' :
+                             color === 'spectral-F' ? '#ffffb0' :
+                             color === 'spectral-G' ? '#FFFF7B' :
+                             color === 'spectral-K' ? '#E5A24E' :
+                             color === 'spectral-M' ? '#D95536' :
+                             color === 'spectral-L' ? '#8C6A43' :
+                             color === 'spectral-T' ? '#833FBE' :
+                             color === 'spectral-Y' ? '#7C3AED' :
+                             color === 'spectral-D' ? '#CCD3EB' : '#9bb0ff',
               opacity: 0.5
             }}
           />
@@ -50,16 +50,16 @@ export default function StarClassItem({
             className={`${innerIconSize} rounded-full absolute`}
             style={{ 
               backgroundColor: color === 'spectral-O' ? '#9bb0ff' :
-                             color === 'spectral-B' ? '#aabfff' :
-                             color === 'spectral-A' ? '#f8f7ff' :
-                             color === 'spectral-F' ? '#fff4e8' :
-                             color === 'spectral-G' ? '#fff5b8' :
-                             color === 'spectral-K' ? '#ffc870' :
-                             color === 'spectral-M' ? '#ff6b4a' :
-                             color === 'spectral-L' ? '#c45530' :
-                             color === 'spectral-T' ? '#a855f7' :
-                             color === 'spectral-Y' ? '#7c3aed' :
-                             color === 'spectral-D' ? '#e0e7ff' : '#9bb0ff',
+                            color === 'spectral-B' ? '#aabfff' :
+                            color === 'spectral-A' ? '#ffffff' :
+                            color === 'spectral-F' ? '#ffffb0' :
+                            color === 'spectral-G' ? '#FFFF7B' :
+                            color === 'spectral-K' ? '#E5A24E' :
+                            color === 'spectral-M' ? '#D95536' :
+                            color === 'spectral-L' ? '#8C6A43' :
+                            color === 'spectral-T' ? '#833FBE' :
+                            color === 'spectral-Y' ? '#7C3AED' :
+                            color === 'spectral-D' ? '#CCD3EB' : '#9bb0ff',
               opacity: 1
             }}
           />

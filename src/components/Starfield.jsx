@@ -2231,7 +2231,7 @@ const Starfield = () => {
         >
           {/* Version Number */}
           <p 
-            className="text-[11px] text-right text-grey-400 flex items-center"
+            className="text-[11px] text-right text-grey-400 flex items-center select-none"
             style={{ height: '28px' }}
           >
             v0.2.0

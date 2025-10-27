@@ -24,7 +24,7 @@ const PanelOnboarding = ({ onClose, isMobile }) => {
             
             <div>
               <p className="text-grey-100 text-xs leading-relaxed font-medium">How to Explore:</p>
-              <p className="text-grey-300 text-xs">Drag to rotate, Scroll to zoom, Click or Tap Stars for details.</p>
+              <p className="text-grey-300 text-xs">Drag to rotate, Scroll or Pinch to zoom, Click or Tap Stars for details.</p>
             </div>
             
             <div>
