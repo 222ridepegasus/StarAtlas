@@ -10,6 +10,7 @@ import ButtonTextSmall from './ButtonTextSmall';
 import SearchInput from './SearchInput';
 import SearchResults from './SearchResults';
 import Tooltip from './Tooltip';
+import ControlsTooltip from './ControlsTooltip';
 
 export default function Toolbar({ 
   onSearchChange = null,
@@ -213,7 +214,7 @@ export default function Toolbar({
               
               {/* Keyboard Controls button */}
               <div className="flex items-center gap-2">
-                <Tooltip content="Enable/disable keyboard controls (WASD, P/L, Q/E, +/-, G, F, Z, ESC)" delay={1000}>
+                <ControlsTooltip delay={1000}>
                   <ButtonIcon 
                     icon="/icons/ui/Icon_UI_Keyboard_01.svg"
                     alt="Toggle Keyboard Controls"
@@ -221,7 +222,7 @@ export default function Toolbar({
                     onClick={handleKeyboardControlsToggle}
                     width="32px"
                   />
-                </Tooltip>
+                </ControlsTooltip>
                 <span className="text-[11px] font-normal text-grey-200">Controls</span>
               </div>
             </div>
