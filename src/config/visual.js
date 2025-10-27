@@ -67,7 +67,7 @@ export const SIZES = {
   gridCircularSegments: 8,    // 8 radial lines (N, NE, E, SE, S, SW, W, NW)
   
   // View distance options (for zoom feature)
-  viewDistances: [8, 12, 16, 20],  // Available zoom levels in LY
+  viewDistances: [4, 8, 12, 16, 20],  // Available zoom levels in LY
 };
 
 export const STROKE_WEIGHTS = {
