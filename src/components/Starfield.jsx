@@ -1630,6 +1630,7 @@ const Starfield = () => {
   const handleSearchResultSelect = (star) => {
     setSelectedStar(star);
     setShowSearchResults(false);
+    setShowOnboarding(false); // Close onboarding panel when star is selected from search
     
     // If the star is beyond current view distance, expand the view to include it
     if (star.distance_ly > viewDistance) {
