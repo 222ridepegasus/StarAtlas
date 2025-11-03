@@ -12,6 +12,8 @@ export default function ButtonIcon({
     ? "bg-grey-800 border border-grey-400"
     : "bg-grey-600 border border-transparent";
 
+  const iconOpacity = isActive ? 1.0 : 0.6;
+
   return (
     <button
       className={`${baseClasses} ${stateClasses}`}
@@ -21,8 +23,11 @@ export default function ButtonIcon({
       <img 
         src={icon} 
         alt={alt} 
-        className="w-[16px] h-[16px] object-contain"
-        style={{ filter: 'brightness(0) invert(1)' }} // Make SVGs white
+        className="w-[16px] h-[16px] object-contain transition-opacity duration-200"
+        style={{ 
+          filter: 'brightness(0) invert(1)',
+          opacity: iconOpacity
+        }}
       />
     </button>
   );

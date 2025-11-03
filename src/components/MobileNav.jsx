@@ -27,6 +27,8 @@ export default function MobileNav({
   onViewDistanceChange,
   showLabels,
   onShowLabelsChange,
+  showExoplanetsOnly,
+  onToggleExoplanetsOnly,
   showConnections,
   onShowConnectionsChange,
   showStalks,
@@ -223,7 +225,6 @@ export default function MobileNav({
 
               {/* Overlays Section */}
               <div>
-               
                 <div className="flex items-center gap-2 px-2 mt-3 mb-3">
                   <ButtonMobileIcon
                     icon="/icons/ui/Icon_UI_Labels_01.svg"
@@ -232,6 +233,16 @@ export default function MobileNav({
                     onClick={onShowLabelsChange}
                   />
                   <span className="text-white/70 text-[11px] font-normal">Labels</span>
+                </div>
+                
+                <div className="flex items-center gap-2 px-2 mb-3">
+                  <ButtonMobileIcon
+                    icon="/icons/ui/Icon_UI_ExoPlanet_01.svg"
+                    alt="Show Exoplanets Only"
+                    isActive={showExoplanetsOnly}
+                    onClick={onToggleExoplanetsOnly}
+                  />
+                  <span className="text-white/70 text-[11px] font-normal">Exoplanets</span>
                 </div>
               </div>
             </div>

@@ -2,12 +2,10 @@ import { useState, useRef } from 'react';
 import HeaderWindow from './ui/HeaderWindow';
 import ButtonTextSmall from './ui/ButtonTextSmall';
 import ButtonStar from './ui/ButtonStar';
-import InfoSnippet from './ui/InfoSnippet';
 import ListItemStarStats from './ui/ListItemStarStats';
 import Separator from '../components/ui/Separator';
-import CheckboxColor from './ui/CheckboxColor';
 
-const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused, autoFocusOnClick, onAutoFocusChange }) => {
+const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused }) => {
   const [selectedComponent, setSelectedComponent] = useState(0);
   
   const panelRef = useRef(null);
@@ -47,7 +45,7 @@ const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused, autoFoc
     >
       {/* HeaderWindow */}
       <HeaderWindow 
-        title={star.name} 
+        title={star.system_name || star.name} 
         onClose={onClose}
       />
 
@@ -72,18 +70,6 @@ const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused, autoFoc
         />
       </div>
 
-      {/* Auto Focus on Click Checkbox */}
-      <div className="flex items-center gap-2 px-4 pt-3.5 pb-1">
-        <CheckboxColor 
-          color="neutral"
-          isChecked={autoFocusOnClick}
-          onClick={() => onAutoFocusChange && onAutoFocusChange(!autoFocusOnClick)}
-        />
-        <p className="text-[11px] text-grey-200">
-          Auto Focus on Click
-        </p>
-      </div>
-
       {/* StarTab Group */}
       {star.components && star.components.length > 0 && (
         <div className={`px-3 pt-3 ${star.components.length === 1 ? 'grid grid-cols-2' : star.components.length === 2 ? 'grid grid-cols-2' : 'grid grid-cols-2'} gap-1`}>
@@ -91,7 +77,7 @@ const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused, autoFoc
             <ButtonStar
               key={index}
               name={component.name}
-              spectralType={component.star_type}
+              spectralType={component.stellar_type || component.star_type}
               isActive={selectedComponent === index}
               onClick={() => handleComponentSelect(index)}
             />
@@ -99,47 +85,68 @@ const InfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused, autoFoc
         </div>
       )}
 
-      {/* InfoSnippet */}
-      <InfoSnippet text={currentComponent?.description || "Coming soon..."} />
-
       {/* Star Stats */}
-      <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-1.5 px-4 pt-2 pb-6">
+      <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-1.5  px-4 pt-4 pb-6">
         <ListItemStarStats 
           label="Distance (from Earth)" 
-          value={currentComponent?.distance_ly ? `${currentComponent.distance_ly} LY` : `${star.distance_ly.toFixed(2)} LY`}
+          value={currentComponent?.distance_from_earth || (currentComponent?.distance_ly ? `${currentComponent.distance_ly} LY` : `${star.distance_ly.toFixed(2)} LY`)}
         />
         <ListItemStarStats 
-          label="Star Type" 
-          value={currentComponent?.star_type || "--"}
+          label="Stellar Type" 
+          value={currentComponent?.stellar_type || currentComponent?.star_type || "--"}
         />
         <ListItemStarStats 
-          label="Mass compared to Sun" 
-          value={currentComponent?.mass_compared_to_sun || "--"}
+          label="Evolutionary Stage" 
+          value={currentComponent?.evolutionary_stage || "--"}
         />
         <ListItemStarStats 
-          label="Life Span" 
-          value={currentComponent?.life_span || "--"}
+          label="Mass" 
+          value={currentComponent?.mass || currentComponent?.mass_compared_to_sun || "--"}
+        />
+        <ListItemStarStats 
+          label="Radius" 
+          value={currentComponent?.radius || "--"}
+        />
+        <ListItemStarStats 
+          label="Luminosity" 
+          value={currentComponent?.luminosity || "--"}
+        />
+        <ListItemStarStats 
+          label="Temperature" 
+          value={currentComponent?.temperature || "--"}
+        />
+        <ListItemStarStats 
+          label="Magnitude" 
+          value={currentComponent?.magnitude || "--"}
         />
         <ListItemStarStats 
           label="Age" 
           value={currentComponent?.age || "--"}
         />
         <ListItemStarStats 
-          label="Habitable Zone" 
-          value={currentComponent?.habitable_zone || "--"}
+          label="Lifespan" 
+          value={currentComponent?.lifespan || currentComponent?.life_span || "--"}
         />
         <ListItemStarStats 
           label="Discovered" 
           value={currentComponent?.discovered || "--"}
         />
-        {/* <ListItemStarStats 
-          label="Visibility" 
-          value={currentComponent?.visibility || "--"}
-        /> */}
-        {/* <ListItemStarStats 
+        <ListItemStarStats 
+          label="Exoplanets Confirmed" 
+          value={currentComponent?.exoplanets_confirmed !== undefined ? currentComponent.exoplanets_confirmed : "--"}
+        />
+        <ListItemStarStats 
+          label="Exoplanets Candidates" 
+          value={currentComponent?.exoplanets_candidates !== undefined ? currentComponent.exoplanets_candidates : "--"}
+        />
+        <ListItemStarStats 
+          label="Habitable Zone" 
+          value={currentComponent?.habitable_zone || "--"}
+        />
+        <ListItemStarStats 
           label="Alternate Names" 
           value={currentComponent?.alternate_names || "--"}
-        /> */}
+        />
       </div>
     </div>
   );

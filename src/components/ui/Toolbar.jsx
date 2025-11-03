@@ -26,11 +26,13 @@ export default function Toolbar({
   keyboardControlsEnabled = false,
   viewDistance = 20,
   spectralFilter = {},
+  showExoplanetsOnly = false,
   // Callback props
   onGridChange = null,
   onLineModeChange = null,
   onToggleLabels = null,
   onToggleKeyboardControls = null,
+  onToggleExoplanetsOnly = null,
   onViewDistanceChange = null,
   onSpectralFilterChange = null
 }) {
@@ -79,6 +81,12 @@ export default function Toolbar({
   const handleKeyboardControlsToggle = () => {
     if (onToggleKeyboardControls) {
       onToggleKeyboardControls();
+    }
+  };
+
+  const handleExoplanetsToggle = () => {
+    if (onToggleExoplanetsOnly) {
+      onToggleExoplanetsOnly();
     }
   };
 
@@ -224,6 +232,20 @@ export default function Toolbar({
                   />
                 </ControlsTooltip>
                 <span className="text-[11px] font-normal text-grey-200">Controls</span>
+              </div>
+              
+              {/* Exoplanets button */}
+              <div className="flex items-center gap-2">
+                <Tooltip content="Show systems with Exoplanets only" delay={1000}>
+                  <ButtonIcon 
+                    icon="/icons/ui/Icon_UI_ExoPlanet_01.svg"
+                    alt="Show Exoplanets Only"
+                    isActive={showExoplanetsOnly}
+                    onClick={handleExoplanetsToggle}
+                    width="32px"
+                  />
+                </Tooltip>
+                <span className="text-[11px] font-normal text-grey-200">Exoplanets</span>
               </div>
             </div>
           </div>

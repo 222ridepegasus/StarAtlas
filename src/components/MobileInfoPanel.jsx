@@ -2,7 +2,6 @@ import { useState, useRef } from 'react';
 import HeaderWindow from './ui/HeaderWindow';
 import ButtonTextSmall from './ui/ButtonTextSmall';
 import ButtonStar from './ui/ButtonStar';
-import InfoSnippet from './ui/InfoSnippet';
 import ListItemStarStats from './ui/ListItemStarStats';
 import Separator from '../components/ui/Separator';
 
@@ -53,7 +52,7 @@ const MobileInfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused })
     >
       {/* HeaderWindow */}
       <HeaderWindow 
-        title={star.name} 
+        title={star.system_name || star.name} 
         onClose={onClose}
       />
 
@@ -85,7 +84,7 @@ const MobileInfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused })
             <ButtonStar
               key={index}
               name={component.name}
-              spectralType={component.star_type}
+              spectralType={component.stellar_type || component.star_type}
               isActive={selectedComponent === index}
               onClick={() => handleComponentSelect(index)}
             />
@@ -93,38 +92,67 @@ const MobileInfoPanel = ({ star, onClose, onFocus, onZoom, onReset, isFocused })
         </div>
       )}
 
-      {/* InfoSnippet */}
-      <InfoSnippet text={currentComponent?.description || "Coming soon..."} />
-
       {/* Star Stats */}
       <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-1.5 px-4 pt-2 pb-6">
         <ListItemStarStats 
           label="Distance (from Earth)" 
-          value={currentComponent?.distance_ly ? `${currentComponent.distance_ly} LY` : `${star.distance_ly.toFixed(2)} LY`}
+          value={currentComponent?.distance_from_earth || (currentComponent?.distance_ly ? `${currentComponent.distance_ly} LY` : `${star.distance_ly.toFixed(2)} LY`)}
         />
         <ListItemStarStats 
-          label="Star Type" 
-          value={currentComponent?.star_type || "--"}
+          label="Stellar Type" 
+          value={currentComponent?.stellar_type || currentComponent?.star_type || "--"}
         />
         <ListItemStarStats 
-          label="Mass compared to Sun" 
-          value={currentComponent?.mass_compared_to_sun || "--"}
+          label="Evolutionary Stage" 
+          value={currentComponent?.evolutionary_stage || "--"}
         />
         <ListItemStarStats 
-          label="Life Span" 
-          value={currentComponent?.life_span || "--"}
+          label="Mass" 
+          value={currentComponent?.mass || currentComponent?.mass_compared_to_sun || "--"}
+        />
+        <ListItemStarStats 
+          label="Radius" 
+          value={currentComponent?.radius || "--"}
+        />
+        <ListItemStarStats 
+          label="Luminosity" 
+          value={currentComponent?.luminosity || "--"}
+        />
+        <ListItemStarStats 
+          label="Temperature" 
+          value={currentComponent?.temperature || "--"}
+        />
+        <ListItemStarStats 
+          label="Magnitude" 
+          value={currentComponent?.magnitude || "--"}
         />
         <ListItemStarStats 
           label="Age" 
           value={currentComponent?.age || "--"}
         />
         <ListItemStarStats 
-          label="Habitable Zone" 
-          value={currentComponent?.habitable_zone || "--"}
+          label="Lifespan" 
+          value={currentComponent?.lifespan || currentComponent?.life_span || "--"}
         />
         <ListItemStarStats 
           label="Discovered" 
           value={currentComponent?.discovered || "--"}
+        />
+        <ListItemStarStats 
+          label="Exoplanets Confirmed" 
+          value={currentComponent?.exoplanets_confirmed !== undefined ? currentComponent.exoplanets_confirmed : "--"}
+        />
+        <ListItemStarStats 
+          label="Exoplanets Candidates" 
+          value={currentComponent?.exoplanets_candidates !== undefined ? currentComponent.exoplanets_candidates : "--"}
+        />
+        <ListItemStarStats 
+          label="Habitable Zone" 
+          value={currentComponent?.habitable_zone || "--"}
+        />
+        <ListItemStarStats 
+          label="Alternate Names" 
+          value={currentComponent?.alternate_names || "--"}
         />
       </div>
     </div>

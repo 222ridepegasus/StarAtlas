@@ -1,0 +1,1898 @@
+[
+  {
+    "system_name": "Sol",
+    "distance_ly": 0,
+    "ra": "00h 00m 00s",
+    "dec": "+00° 00′ 00″",
+    "components": [
+      {
+        "name": "Sol",
+        "distance_from_earth": "0.00 LY",
+        "stellar_type": "G2V Yellow Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "1.989 × 10^30 kg",
+        "radius": "696,340 km",
+        "luminosity": "-3.828×1026",
+        "temperature": "5,778 K (5,505°C)",
+        "magnitude": "−26.74",
+        "age": "4.6 billion years",
+        "lifespan": "~10 billion years",
+        "discovered": "Antiquity",
+        "exoplanets_confirmed": "N/A",
+        "exoplanets_candidates": "N/A",
+        "habitable_zone": "0.95-1.37 AU",
+        "alternate_names": "Sun, Solar System, Helios"
+      }
+    ]
+  },
+  {
+    "system_name": "Alpha Centauri",
+    "distance_ly": 4.344,
+    "ra": "14h 39m 36s",
+    "dec": "-60° 50′ 02″",
+    "components": [
+      {
+        "name": "Alpha Centauri A",
+        "distance_from_earth": "4.37 LY",
+        "stellar_type": "G2V Yellow Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "110% of Sun",
+        "radius": "122% of Sun",
+        "luminosity": "152% of Sun",
+        "temperature": "5,790 K (5,517°C)",
+        "magnitude": "+0.01",
+        "age": "5-6 billion years",
+        "lifespan": "~10 billion years",
+        "discovered": "Antiquity",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "1",
+        "habitable_zone": "1.2-2.1 AU",
+        "alternate_names": "Rigil Kentaurus"
+      },
+      {
+        "name": "Alpha Centauri B",
+        "distance_from_earth": "4.37 LY",
+        "stellar_type": "K1V Orange Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "90% of Sun",
+        "radius": "86% of Sun",
+        "luminosity": "50% of Sun",
+        "temperature": "5,260 K (4,987°C)",
+        "magnitude": "+1.33",
+        "age": "5-6 billion years",
+        "lifespan": "~12 billion years",
+        "discovered": "1689",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.7-1.2 AU",
+        "alternate_names": "Toliman"
+      },
+      {
+        "name": "Proxima Centauri",
+        "distance_from_earth": "4.24 LY",
+        "stellar_type": "M5.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "12% of Sun",
+        "radius": "15% of Sun",
+        "luminosity": "0.17% of Sun",
+        "temperature": "3,042 K (2,769°C)",
+        "magnitude": "+11.13",
+        "age": "4-5 billion years",
+        "lifespan": "~4 trillion years",
+        "discovered": "1915",
+        "exoplanets_confirmed": "2",
+        "exoplanets_candidates": "1",
+        "habitable_zone": "0.04-0.08 AU",
+        "alternate_names": "Alpha Centauri C"
+      }
+    ]
+  },
+  {
+    "system_name": "Barnard's Star",
+    "distance_ly": 5.96,
+    "ra": "17h 57m 48s",
+    "dec": "+04° 41′ 36″",
+    "components": [
+      {
+        "name": "Barnard's Star",
+        "distance_from_earth": "5.96 LY",
+        "stellar_type": "M4V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "16% of Sun",
+        "radius": "19% of Sun",
+        "luminosity": "0.34% of Sun",
+        "temperature": "3,220 K (2,947°C)",
+        "magnitude": "+9.5",
+        "age": "7-12 billion years",
+        "lifespan": "Several trillion years",
+        "discovered": "1916",
+        "exoplanets_confirmed": "4",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.1-0.2 AU",
+        "alternate_names": "V2500 Ophiuchi"
+      }
+    ]
+  },
+  {
+    "system_name": "Luhman 16",
+    "distance_ly": 6.51,
+    "ra": "10h 49m 18.7s",
+    "dec": "-53° 19′ 09.9″",
+    "components": [
+      {
+        "name": "Luhman 16 A",
+        "distance_from_earth": "6.51 LY",
+        "stellar_type": "L7.5 Brown Dwarf",
+        "evolutionary_stage": "Substellar Object",
+        "mass": "35.4 Jupiter masses",
+        "radius": "~1 Jupiter radius",
+        "luminosity": "0.00005% of Sun",
+        "temperature": "1,300 K (1,027°C)",
+        "magnitude": "+11.0",
+        "age": "400-800 million years",
+        "lifespan": "Indefinite",
+        "discovered": "2013",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "N/A",
+        "alternate_names": "WISE J104915.57-531906.1 A"
+      },
+      {
+        "name": "Luhman 16 B",
+        "distance_from_earth": "6.51 LY",
+        "stellar_type": "T0.5 Brown Dwarf",
+        "evolutionary_stage": "Substellar Object",
+        "mass": "29.4 Jupiter masses",
+        "radius": "~1 Jupiter radius",
+        "luminosity": "0.000025% of Sun",
+        "temperature": "1,200 K (927°C)",
+        "magnitude": "+11.5",
+        "age": "400-800 million years",
+        "lifespan": "Indefinite",
+        "discovered": "2013",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "N/A",
+        "alternate_names": "WISE J104915.57-531906.1 B"
+      }
+    ]
+  },
+  {
+    "system_name": "WISE 0855-0714",
+    "distance_ly": 7.4,
+    "ra": "08h 55m 10.8s",
+    "dec": "-07° 14′ 42.5″",
+    "components": [
+      {
+        "name": "WISE 0855-0714",
+        "distance_from_earth": "7.4 LY",
+        "stellar_type": "Y4 Sub-Brown Dwarf",
+        "evolutionary_stage": "Planetary-Mass Object",
+        "mass": "3-10 Jupiter masses",
+        "radius": "~0.9 Jupiter radii",
+        "luminosity": "0.000005% of Sun",
+        "temperature": "285 K (12°C)",
+        "magnitude": "+26.3",
+        "age": "1-10 billion years",
+        "lifespan": "Indefinite",
+        "discovered": "2013",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "N/A",
+        "alternate_names": "WISE J085510.83-071442.5"
+      }
+    ]
+  },
+  {
+    "system_name": "Wolf 359",
+    "distance_ly": 7.86,
+    "ra": "10h 56m 28.99s",
+    "dec": "+07° 00′ 53.0″",
+    "components": [
+      {
+        "name": "Wolf 359",
+        "distance_from_earth": "7.86 LY",
+        "stellar_type": "M6V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "11% of Sun",
+        "radius": "14% of Sun",
+        "luminosity": "0.1% of Sun",
+        "temperature": "2,800 K (2,527°C)",
+        "magnitude": "+13.54",
+        "age": "Less than 1 billion years",
+        "lifespan": "~8 trillion years",
+        "discovered": "1917",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "1",
+        "habitable_zone": "0.02-0.04 AU",
+        "alternate_names": "CN Leonis"
+      }
+    ]
+  },
+  {
+    "system_name": "Lalande 21185",
+    "distance_ly": 8.3044,
+    "ra": "11h 03m 20s",
+    "dec": "+35° 58′ 12″",
+    "components": [
+      {
+        "name": "Lalande 21185",
+        "distance_from_earth": "8.30 LY",
+        "stellar_type": "M2V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "39% of Sun",
+        "radius": "39% of Sun",
+        "luminosity": "2.2% of Sun",
+        "temperature": "3,547 K (3,274°C)",
+        "magnitude": "+7.52",
+        "age": "3.5-12 billion years",
+        "lifespan": "~180 billion years",
+        "discovered": "1801",
+        "exoplanets_confirmed": "2",
+        "exoplanets_candidates": "1",
+        "habitable_zone": "0.14-0.25 AU",
+        "alternate_names": "Gliese 411"
+      }
+    ]
+  },
+  {
+    "system_name": "Sirius",
+    "distance_ly": 8.61,
+    "ra": "06h 45m 08.917s",
+    "dec": "−16° 42′ 58.02″",
+    "components": [
+      {
+        "name": "Sirius A",
+        "distance_from_earth": "8.61 LY",
+        "stellar_type": "A0mA1 Va White Main Sequence",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "206% of Sun",
+        "radius": "171% of Sun",
+        "luminosity": "2,470% of Sun",
+        "temperature": "9,845 K (9,572°C)",
+        "magnitude": "−1.46",
+        "age": "242 million years",
+        "lifespan": "~1 billion years",
+        "discovered": "Antiquity",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "4.7-6.8 AU",
+        "alternate_names": "Alpha Canis Majoris A, Dog Star"
+      },
+      {
+        "name": "Sirius B",
+        "distance_from_earth": "8.61 LY",
+        "stellar_type": "DA2 White Dwarf",
+        "evolutionary_stage": "White Dwarf",
+        "mass": "102% of Sun",
+        "radius": "0.81% of Sun",
+        "luminosity": "2.45% of Sun",
+        "temperature": "25,000 K (24,727°C)",
+        "magnitude": "+8.44",
+        "age": "228 million years",
+        "lifespan": "Indefinite (white dwarf)",
+        "discovered": "1862",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "N/A",
+        "alternate_names": "Alpha Canis Majoris B, The Pup"
+      }
+    ]
+  },
+  {
+    "system_name": "Gliese 65",
+    "distance_ly": 8.77,
+    "ra": "01h 39m 01.54s",
+    "dec": "−17° 57′ 01.8″",
+    "components": [
+      {
+        "name": "Gliese 65 A",
+        "distance_from_earth": "8.77 LY",
+        "stellar_type": "M5.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "12% of Sun",
+        "radius": "17% of Sun",
+        "luminosity": "0.15% of Sun",
+        "temperature": "2,784 K (2,511°C)",
+        "magnitude": "+12.8",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1948",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "1",
+        "habitable_zone": "0.04-0.05 AU",
+        "alternate_names": "BL Ceti"
+      },
+      {
+        "name": "Gliese 65 B",
+        "distance_from_earth": "8.77 LY",
+        "stellar_type": "M6V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "12% of Sun",
+        "radius": "16% of Sun",
+        "luminosity": "0.13% of Sun",
+        "temperature": "2,728 K (2,455°C)",
+        "magnitude": "+12.8",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1948",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "1",
+        "habitable_zone": "0.03-0.05 AU",
+        "alternate_names": "UV Ceti"
+      }
+    ]
+  },
+  {
+    "system_name": "Ross 154",
+    "distance_ly": 9.71,
+    "ra": "18h 49m 49.364s",
+    "dec": "−23° 50′ 10.447″",
+    "components": [
+      {
+        "name": "Ross 154",
+        "distance_from_earth": "9.71 LY",
+        "stellar_type": "M3.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "18% of Sun",
+        "radius": "20% of Sun",
+        "luminosity": "0.40% of Sun",
+        "temperature": "3,248 K (2,975°C)",
+        "magnitude": "+10.44",
+        "age": "Less than 1 billion years",
+        "lifespan": "Several trillion years",
+        "discovered": "1925",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.06-0.09 AU",
+        "alternate_names": "GJ 729"
+      }
+    ]
+  },
+  {
+    "system_name": "Ross 248",
+    "distance_ly": 10.3,
+    "ra": "23h 41m 54.98s",
+    "dec": "+44° 10′ 39.0″",
+    "components": [
+      {
+        "name": "Ross 248",
+        "distance_from_earth": "10.30 LY",
+        "stellar_type": "M6V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "14% of Sun",
+        "radius": "19% of Sun",
+        "luminosity": "0.2% of Sun",
+        "temperature": "2,800 K (2,527°C)",
+        "magnitude": "+12.29",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1926",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.04-0.06 AU",
+        "alternate_names": "HH Andromedae, Gliese 905"
+      }
+    ]
+  },
+  {
+    "system_name": "Epsilon Eridani",
+    "distance_ly": 10.475,
+    "ra": "03h 32m 55.84496s",
+    "dec": "−09° 27′ 29.7312″",
+    "components": [
+      {
+        "name": "Epsilon Eridani",
+        "distance_from_earth": "10.48 LY",
+        "stellar_type": "K2V Orange Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "82% of Sun",
+        "radius": "74% of Sun",
+        "luminosity": "32% of Sun",
+        "temperature": "5,049 K (4,776°C)",
+        "magnitude": "+3.73",
+        "age": "400-800 million years",
+        "lifespan": "~20 billion years",
+        "discovered": "Antiquity",
+        "exoplanets_confirmed": "1",
+        "exoplanets_candidates": "1",
+        "habitable_zone": "0.54-0.77 AU",
+        "alternate_names": "Ran"
+      }
+    ]
+  },
+  {
+    "system_name": "Lacaille 9352",
+    "distance_ly": 10.7241,
+    "ra": "23h 05m 52.03579s",
+    "dec": "−35° 51′ 11.0552″",
+    "components": [
+      {
+        "name": "Lacaille 9352",
+        "distance_from_earth": "10.72 LY",
+        "stellar_type": "M0.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "48% of Sun",
+        "radius": "47% of Sun",
+        "luminosity": "3.68% of Sun",
+        "temperature": "3,672 K (3,399°C)",
+        "magnitude": "+7.34",
+        "age": "4.57 billion years",
+        "lifespan": "~100 billion years",
+        "discovered": "1763",
+        "exoplanets_confirmed": "2",
+        "exoplanets_candidates": "1",
+        "habitable_zone": "0.16-0.40 AU",
+        "alternate_names": "Gliese 887"
+      }
+    ]
+  },
+  {
+    "system_name": "Ross 128",
+    "distance_ly": 11.007,
+    "ra": "11h 47m 44.39727s",
+    "dec": "+00° 48′ 16.4003″",
+    "components": [
+      {
+        "name": "Ross 128",
+        "distance_from_earth": "11.01 LY",
+        "stellar_type": "M4V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "18% of Sun",
+        "radius": "20% of Sun",
+        "luminosity": "0.37% of Sun",
+        "temperature": "3,189 K (2,916°C)",
+        "magnitude": "+11.13",
+        "age": "5 billion years",
+        "lifespan": "Several trillion years",
+        "discovered": "1926",
+        "exoplanets_confirmed": "1",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.06-0.08 AU",
+        "alternate_names": "FI Virginis"
+      }
+    ]
+  },
+  {
+    "system_name": "EZ Aquarii",
+    "distance_ly": 11.11,
+    "ra": "22h 38m 33.73s",
+    "dec": "−15° 17′ 57.3″",
+    "components": [
+      {
+        "name": "EZ Aquarii A",
+        "distance_from_earth": "11.11 LY",
+        "stellar_type": "M5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "12% of Sun",
+        "radius": "18% of Sun",
+        "luminosity": "0.08% of Sun",
+        "temperature": "N/A",
+        "magnitude": "+13.03",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1972",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.03-0.04 AU",
+        "alternate_names": "Gliese 866 A"
+      },
+      {
+        "name": "EZ Aquarii B",
+        "distance_from_earth": "11.11 LY",
+        "stellar_type": "M5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "11% of Sun",
+        "radius": "21% of Sun",
+        "luminosity": "N/A",
+        "temperature": "2,650 K (2,377°C)",
+        "magnitude": "+13.27",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1972",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "N/A",
+        "alternate_names": "Gliese 866 B"
+      },
+      {
+        "name": "EZ Aquarii C",
+        "distance_from_earth": "11.11 LY",
+        "stellar_type": "M5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "9% of Sun",
+        "radius": "N/A",
+        "luminosity": "0.01% of Sun",
+        "temperature": "N/A",
+        "magnitude": "+15.07",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1972",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.01-0.02 AU",
+        "alternate_names": "Gliese 866 C"
+      }
+    ]
+  },
+  {
+    "system_name": "61 Cygni",
+    "distance_ly": 11.404,
+    "ra": "21h 06m 53.9396s",
+    "dec": "+38° 44′ 57.902″",
+    "components": [
+      {
+        "name": "61 Cygni A",
+        "distance_from_earth": "11.40 LY",
+        "stellar_type": "K5V Orange Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "68% of Sun",
+        "radius": "67% of Sun",
+        "luminosity": "15% of Sun",
+        "temperature": "4,398 K (4,125°C)",
+        "magnitude": "+5.21",
+        "age": "5-7 billion years",
+        "lifespan": "~27 billion years",
+        "discovered": "Antiquity",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.37-0.53 AU",
+        "alternate_names": "GJ 820 A"
+      },
+      {
+        "name": "61 Cygni B",
+        "distance_from_earth": "11.40 LY",
+        "stellar_type": "K7V Orange Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "63% of Sun",
+        "radius": "59% of Sun",
+        "luminosity": "9.7% of Sun",
+        "temperature": "4,174 K (3,901°C)",
+        "magnitude": "+6.05",
+        "age": "5-7 billion years",
+        "lifespan": "~32 billion years",
+        "discovered": "Antiquity",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.30-0.43 AU",
+        "alternate_names": "GJ 820 B"
+      }
+    ]
+  },
+  {
+    "system_name": "Procyon",
+    "distance_ly": 11.46,
+    "ra": "07h 39m 18.12s",
+    "dec": "+05° 13′ 29.96″",
+    "components": [
+      {
+        "name": "Procyon A",
+        "distance_from_earth": "11.46 LY",
+        "stellar_type": "F5 IV–V Yellow-White Subgiant/Main Sequence",
+        "evolutionary_stage": "Subgiant / Main Sequence",
+        "mass": "148% of Sun",
+        "radius": "204% of Sun",
+        "luminosity": "705% of Sun",
+        "temperature": "6,582 K (6,309°C)",
+        "magnitude": "+0.34",
+        "age": "1.87 billion years",
+        "lifespan": "~3 billion years",
+        "discovered": "Antiquity",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "2.39-4.15 AU",
+        "alternate_names": "Alpha Canis Minoris A, Procyon"
+      },
+      {
+        "name": "Procyon B",
+        "distance_from_earth": "11.46 LY",
+        "stellar_type": "DQZ White Dwarf",
+        "evolutionary_stage": "White Dwarf",
+        "mass": "59% of Sun",
+        "radius": "1.23% of Sun",
+        "luminosity": "0.049% of Sun",
+        "temperature": "7,740 K (7,467°C)",
+        "magnitude": "+10.7",
+        "age": "1.37 billion years",
+        "lifespan": "Indefinite (white dwarf)",
+        "discovered": "1896",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "N/A",
+        "alternate_names": "Alpha Canis Minoris B"
+      }
+    ]
+  },
+  {
+    "system_name": "Struve 2398",
+    "distance_ly": 11.4908,
+    "ra": "18h 42m 46.704s",
+    "dec": "+59° 37′ 49.41″",
+    "components": [
+      {
+        "name": "Struve 2398 A",
+        "distance_from_earth": "11.49 LY",
+        "stellar_type": "M3V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "33% of Sun",
+        "radius": "35% of Sun",
+        "luminosity": "1.55% of Sun",
+        "temperature": "3,433 K (3,160°C)",
+        "magnitude": "+8.94",
+        "age": "4-8 billion years",
+        "lifespan": "Several trillion years",
+        "discovered": "1837",
+        "exoplanets_confirmed": "1",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.12-0.20 AU",
+        "alternate_names": "Gliese 725 A"
+      },
+      {
+        "name": "Struve 2398 B",
+        "distance_from_earth": "11.49 LY",
+        "stellar_type": "M3.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "25% of Sun",
+        "radius": "28% of Sun",
+        "luminosity": "2.10% of Sun",
+        "temperature": "3,379 K (3,106°C)",
+        "magnitude": "+9.70",
+        "age": "2-3 billion years",
+        "lifespan": "Several trillion years",
+        "discovered": "1837",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "1",
+        "habitable_zone": "0.14-0.24 AU",
+        "alternate_names": "Gliese 725 B"
+      }
+    ]
+  },
+  {
+    "system_name": "Groombridge 34",
+    "distance_ly": 11.6191,
+    "ra": "00h 18m 22.885s",
+    "dec": "+44° 01′ 22.64″",
+    "components": [
+      {
+        "name": "Groombridge 34 A",
+        "distance_from_earth": "11.62 LY",
+        "stellar_type": "M1.4V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "39% of Sun",
+        "radius": "38% of Sun",
+        "luminosity": "2.25% of Sun",
+        "temperature": "3,601 K (3,328°C)",
+        "magnitude": "+8.12",
+        "age": "3 billion years",
+        "lifespan": "~200 billion years",
+        "discovered": "1838",
+        "exoplanets_confirmed": "2",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.11-0.24 AU",
+        "alternate_names": "Gliese 15 A, GX Andromedae"
+      },
+      {
+        "name": "Groombridge 34 B",
+        "distance_from_earth": "11.62 LY",
+        "stellar_type": "M4.1V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "15% of Sun",
+        "radius": "18% of Sun",
+        "luminosity": "0.085% of Sun",
+        "temperature": "3,304 K (3,031°C)",
+        "magnitude": "+11.01",
+        "age": "2.8 billion years",
+        "lifespan": "Several trillion years",
+        "discovered": "1838",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.05-0.10 AU",
+        "alternate_names": "Gliese 15 B, GQ Andromedae"
+      }
+    ]
+  },
+  {
+    "system_name": "DX Cancri",
+    "distance_ly": 11.68,
+    "ra": "08h 29m 49.353s",
+    "dec": "+26° 46′ 33.62″",
+    "components": [
+      {
+        "name": "DX Cancri",
+        "distance_from_earth": "11.68 LY",
+        "stellar_type": "M6.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "10.6% of Sun",
+        "radius": "12.35% of Sun",
+        "luminosity": "0.073% of Sun",
+        "temperature": "2,840 K (2,567°C)",
+        "magnitude": "+14.81",
+        "age": "200 million years",
+        "lifespan": "Several trillion years",
+        "discovered": "1985",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.03-0.05 AU",
+        "alternate_names": "GJ 1111, G 51-15"
+      }
+    ]
+  },
+  {
+    "system_name": "Epsilon Indi",
+    "distance_ly": 11.867,
+    "ra": "22h 03m 21.65s",
+    "dec": "−56° 47′ 09.52″",
+    "components": [
+      {
+        "name": "Epsilon Indi A",
+        "distance_from_earth": "11.87 LY",
+        "stellar_type": "K5V Orange Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "78% of Sun",
+        "radius": "71% of Sun",
+        "luminosity": "21% of Sun",
+        "temperature": "4,649 K (4,376°C)",
+        "magnitude": "+4.67",
+        "age": "3.5 billion years",
+        "lifespan": "~30 billion years",
+        "discovered": "Antiquity",
+        "exoplanets_confirmed": "1",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.44-0.76 AU",
+        "alternate_names": "GJ 845 A"
+      },
+      {
+        "name": "Epsilon Indi Ba",
+        "distance_from_earth": "12.05 LY",
+        "stellar_type": "T1 Brown Dwarf",
+        "evolutionary_stage": "Substellar Object",
+        "mass": "66.9 Jupiter masses",
+        "radius": "~0.8 Jupiter radii",
+        "luminosity": "0.002% of Sun",
+        "temperature": "1,365 K (1,092°C)",
+        "magnitude": "N/A",
+        "age": "3.5 billion years",
+        "lifespan": "Indefinite (brown dwarf)",
+        "discovered": "2003",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "N/A",
+        "alternate_names": "Epsilon Indi Ba"
+      },
+      {
+        "name": "Epsilon Indi Bb",
+        "distance_from_earth": "12.05 LY",
+        "stellar_type": "T6 Brown Dwarf",
+        "evolutionary_stage": "Substellar Object",
+        "mass": "53.3 Jupiter masses",
+        "radius": "~0.82 Jupiter radii",
+        "luminosity": "0.0006% of Sun",
+        "temperature": "1,000 K (727°C)",
+        "magnitude": "N/A",
+        "age": "3.5 billion years",
+        "lifespan": "Indefinite (brown dwarf)",
+        "discovered": "2003",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "N/A",
+        "alternate_names": "Epsilon Indi Bb"
+      }
+    ]
+  },
+  {
+    "system_name": "GJ 1061",
+    "distance_ly": 11.984,
+    "ra": "03h 35m 59.699s",
+    "dec": "−44° 30′ 45.73″",
+    "components": [
+      {
+        "name": "GJ 1061",
+        "distance_from_earth": "11.98 LY",
+        "stellar_type": "M5.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "12.5% of Sun",
+        "radius": "15.2% of Sun",
+        "luminosity": "0.16% of Sun",
+        "temperature": "2,977 K (2,704°C)",
+        "magnitude": "+13.03",
+        "age": "7-8 billion years",
+        "lifespan": "Several trillion years",
+        "discovered": "1974",
+        "exoplanets_confirmed": "3",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.04-0.07 AU",
+        "alternate_names": "Gliese 1061, LHS 1565"
+      }
+    ]
+  },
+  {
+    "system_name": "YZ Ceti",
+    "distance_ly": 12.122,
+    "ra": "01h 12m 30.6369s",
+    "dec": "−16° 59′ 56.358″",
+    "components": [
+      {
+        "name": "YZ Ceti",
+        "distance_from_earth": "12.12 LY",
+        "stellar_type": "M4.0Ve Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "13% of Sun",
+        "radius": "17% of Sun",
+        "luminosity": "0.22% of Sun",
+        "temperature": "3,056 K (2,783°C)",
+        "magnitude": "+12.11",
+        "age": "5-6 billion years",
+        "lifespan": "~600 billion years",
+        "discovered": "N/A",
+        "exoplanets_confirmed": "3",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.04-0.06 AU",
+        "alternate_names": "Gliese 54.1, GJ 54.1"
+      }
+    ]
+  },
+  {
+    "system_name": "Luyten's Star",
+    "distance_ly": 12.348,
+    "ra": "07h 27m 24.49897s",
+    "dec": "+05° 13′ 32.8415″",
+    "components": [
+      {
+        "name": "Luyten's Star",
+        "distance_from_earth": "12.35 LY",
+        "stellar_type": "M3.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "29% of Sun",
+        "radius": "29% of Sun",
+        "luminosity": "0.88% of Sun",
+        "temperature": "3,382 K (3,109°C)",
+        "magnitude": "+9.87",
+        "age": "≥8 billion years",
+        "lifespan": "~330 billion years",
+        "discovered": "1935",
+        "exoplanets_confirmed": "2",
+        "exoplanets_candidates": "2",
+        "habitable_zone": "0.09-0.13 AU",
+        "alternate_names": "Gliese 273, GJ 273"
+      }
+    ]
+  },
+  {
+    "system_name": "Teegarden's Star",
+    "distance_ly": 12.497,
+    "ra": "02h 53m 00.89179s",
+    "dec": "+16° 52′ 52.6322″",
+    "components": [
+      {
+        "name": "Teegarden's Star",
+        "distance_from_earth": "12.50 LY",
+        "stellar_type": "M7.0V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "9.7% of Sun",
+        "radius": "12% of Sun",
+        "luminosity": "0.072% of Sun",
+        "temperature": "3,034 K (2,761°C)",
+        "magnitude": "+15.13",
+        "age": "≥8 billion years",
+        "lifespan": "~1.3 trillion years",
+        "discovered": "2003",
+        "exoplanets_confirmed": "3",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.03-0.04 AU",
+        "alternate_names": "SO J025300.5+165258"
+      }
+    ]
+  },
+  {
+    "system_name": "Kapteyn's Star",
+    "distance_ly": 12.8308,
+    "ra": "05h 11m 40.58984s",
+    "dec": "−45° 01′ 06.3617″",
+    "components": [
+      {
+        "name": "Kapteyn's Star",
+        "distance_from_earth": "12.83 LY",
+        "stellar_type": "M1.5V Red Subdwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "28% of Sun",
+        "radius": "29% of Sun",
+        "luminosity": "1.2% of Sun",
+        "temperature": "3,570 K (3,297°C)",
+        "magnitude": "+8.83",
+        "age": "10-12 billion years",
+        "lifespan": "~230 billion years",
+        "discovered": "1898",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.10-0.15 AU",
+        "alternate_names": "GJ 191, VZ Pictoris"
+      }
+    ]
+  },
+  {
+    "system_name": "Lacaille 8760",
+    "distance_ly": 12.947,
+    "ra": "21h 17m 15.26907s",
+    "dec": "−38° 52′ 02.5039″",
+    "components": [
+      {
+        "name": "Lacaille 8760",
+        "distance_from_earth": "12.95 LY",
+        "stellar_type": "M0Ve Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "60% of Sun",
+        "radius": "51% of Sun",
+        "luminosity": "7.2% of Sun",
+        "temperature": "3,800 K (3,527°C)",
+        "magnitude": "+6.67",
+        "age": "5 billion years",
+        "lifespan": "~75 billion years",
+        "discovered": "1763",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.26-0.37 AU",
+        "alternate_names": "AX Microscopii, AX Mic"
+      }
+    ]
+  },
+  {
+    "system_name": "SCR 1845−6357",
+    "distance_ly": 13.064,
+    "ra": "18h 45m 05.253s",
+    "dec": "−63° 57′ 47.450″",
+    "components": [
+      {
+        "name": "SCR 1845−6357 A",
+        "distance_from_earth": "13.06 LY",
+        "stellar_type": "M8.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "7.5% of Sun",
+        "radius": "9.4% of Sun",
+        "luminosity": "0.03% of Sun",
+        "temperature": "2,400 K (2,127°C)",
+        "magnitude": "+17.4",
+        "age": "≥1.5 billion years",
+        "lifespan": "~2.8 trillion years",
+        "discovered": "2004",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.02-0.03 AU",
+        "alternate_names": "SCR J1845−6357 A, GJ 12724 A"
+      },
+      {
+        "name": "SCR 1845−6357 B",
+        "distance_from_earth": "13.06 LY",
+        "stellar_type": "T6 Brown Dwarf",
+        "evolutionary_stage": "Substellar Object",
+        "mass": "25–65 Jupiter masses",
+        "radius": "~0.7 Jupiter radii",
+        "luminosity": "0.0005% of Sun",
+        "temperature": "1,000 K (727°C)",
+        "magnitude": "N/A",
+        "age": "≥1.5 billion years",
+        "lifespan": "Indefinite (brown dwarf)",
+        "discovered": "2006",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "N/A (brown dwarf)",
+        "alternate_names": "SCR J1845−6357 B"
+      }
+    ]
+  },
+  {
+    "system_name": "Kruger 60",
+    "distance_ly": 13.072,
+    "ra": "22h 27m 59.558s",
+    "dec": "+57° 41′ 42.081″",
+    "components": [
+      {
+        "name": "Kruger 60 A",
+        "distance_from_earth": "13.07 LY",
+        "stellar_type": "M3V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "27.1% of Sun",
+        "radius": "30.1% of Sun",
+        "luminosity": "0.98% of Sun",
+        "temperature": "3,342 K (3,069°C)",
+        "magnitude": "+9.93",
+        "age": "N/A",
+        "lifespan": "~280 billion years",
+        "discovered": "1894",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.10-0.20 AU",
+        "alternate_names": "GJ 860 A"
+      },
+      {
+        "name": "Kruger 60 B",
+        "distance_from_earth": "13.07 LY",
+        "stellar_type": "M4V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "17.6% of Sun",
+        "radius": "20.9% of Sun",
+        "luminosity": "0.39% of Sun",
+        "temperature": "3,097 K (2,824°C)",
+        "magnitude": "+10.3 to +11.4",
+        "age": "N/A",
+        "lifespan": "~450 billion years",
+        "discovered": "1894",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.07-0.13 AU",
+        "alternate_names": "GJ 860 B, DO Cephei"
+      }
+    ]
+  },
+  {
+    "system_name": "DENIS J1048−3956",
+    "distance_ly": 13.193,
+    "ra": "10h 48m 14.574s",
+    "dec": "−39° 56′ 06.84″",
+    "components": [
+      {
+        "name": "DENIS J1048−3956",
+        "distance_from_earth": "13.19 LY",
+        "stellar_type": "M8.5Ve Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "7.5% of Sun",
+        "radius": "10.8% of Sun",
+        "luminosity": "0.03% of Sun",
+        "temperature": "2,330 K (2,057°C)",
+        "magnitude": "+17.53",
+        "age": "<1 billion years",
+        "lifespan": "~2.5 trillion years",
+        "discovered": "2000",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.02-0.03 AU",
+        "alternate_names": "GJ 11547"
+      }
+    ]
+  },
+  {
+    "system_name": "Ross 614",
+    "distance_ly": 13.42,
+    "ra": "06h 29m 23.401s",
+    "dec": "−02° 48′ 50.32″",
+    "components": [
+      {
+        "name": "Ross 614 A",
+        "distance_from_earth": "13.42 LY",
+        "stellar_type": "M4.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "22.3% of Sun",
+        "radius": "23.8% of Sun",
+        "luminosity": "0.70% of Sun",
+        "temperature": "3,193 K (2,920°C)",
+        "magnitude": "+11.15",
+        "age": "N/A",
+        "lifespan": "~320 billion years",
+        "discovered": "1927",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.08-0.11 AU",
+        "alternate_names": "GJ 234 A, V577 Monocerotis"
+      },
+      {
+        "name": "Ross 614 B",
+        "distance_from_earth": "13.42 LY",
+        "stellar_type": "M8V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "9.1% of Sun",
+        "radius": "11% of Sun",
+        "luminosity": "0.10% of Sun",
+        "temperature": "3,145 K (2,872°C)",
+        "magnitude": "+14.23",
+        "age": "N/A",
+        "lifespan": "~900 billion years",
+        "discovered": "1927",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.03-0.04 AU",
+        "alternate_names": "GJ 234 B"
+      }
+    ]
+  },
+  {
+    "system_name": "UGPS J0722−0540",
+    "distance_ly": 13.4,
+    "ra": "07h 22m 27.29s",
+    "dec": "−05° 40′ 30.0″",
+    "components": [
+      {
+        "name": "UGPS J0722−0540",
+        "distance_from_earth": "13.40 LY",
+        "stellar_type": "T9 Sub-Brown Dwarf",
+        "evolutionary_stage": "Substellar Object",
+        "mass": "3-11 Jupiter masses",
+        "radius": "≈1.02 Jupiter radii",
+        "luminosity": "0.000063% of Sun",
+        "temperature": "505 K (232°C)",
+        "magnitude": "N/A",
+        "age": "60-1,000 million years",
+        "lifespan": "Indefinite (sub-brown dwarf)",
+        "discovered": "2010",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "N/A (sub-brown dwarf)",
+        "alternate_names": "UGPS 0722−05"
+      }
+    ]
+  },
+  {
+    "system_name": "Wolf 1061",
+    "distance_ly": 14.1,
+    "ra": "16h 30m 18.05s",
+    "dec": "−12° 39′ 45.3″",
+    "components": [
+      {
+        "name": "Wolf 1061",
+        "distance_from_earth": "14.1 LY",
+        "stellar_type": "M3.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~33% of Sun",
+        "radius": "~32% of Sun",
+        "luminosity": "1.8% of Sun",
+        "temperature": "3,342 K (3,069°C)",
+        "magnitude": "+10.1",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1919",
+        "exoplanets_confirmed": "3",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.1-0.2 AU",
+        "alternate_names": "HIP 80824, V2306 Ophiuchi"
+      }
+    ]
+  },
+  {
+    "system_name": "Van Maanen's Star",
+    "distance_ly": 14.1,
+    "ra": "00h 49m 09.18s",
+    "dec": "+05° 23′ 42.7″",
+    "components": [
+      {
+        "name": "Van Maanen 2",
+        "distance_from_earth": "14.1 LY",
+        "stellar_type": "DZ8 White Dwarf",
+        "evolutionary_stage": "Cooling Phase",
+        "mass": "67% of Sun",
+        "radius": "1% of Sun",
+        "luminosity": "0.0017% of Sun",
+        "temperature": "6,110 K (5,837°C)",
+        "magnitude": "+12.34",
+        "age": "3.2 billion years (as white dwarf)",
+        "lifespan": "Trillions of years",
+        "discovered": "1917",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "1",
+        "habitable_zone": "N/A (white dwarf)",
+        "alternate_names": "Gliese 35, GJ 35, LHS 7"
+      }
+    ]
+  },
+  {
+    "system_name": "Gliese 1",
+    "distance_ly": 14.2,
+    "ra": "00h 05m 24.45s",
+    "dec": "−37° 21′ 26.7″",
+    "components": [
+      {
+        "name": "Gliese 1",
+        "distance_from_earth": "14.2 LY",
+        "stellar_type": "M1.5V-M4V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "33% of Sun",
+        "radius": "38% of Sun",
+        "luminosity": "~2% of Sun",
+        "temperature": "3,600 K (3,327°C)",
+        "magnitude": "+8.6",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1885",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.1-0.2 AU",
+        "alternate_names": "GJ 1, LHS 1"
+      }
+    ]
+  },
+  {
+    "system_name": "Wolf 424",
+    "distance_ly": 14.37,
+    "ra": "12h 33m 17.50s",
+    "dec": "+09° 01′ 15.8″",
+    "components": [
+      {
+        "name": "Wolf 424 A",
+        "distance_from_earth": "14.37 LY",
+        "stellar_type": "M5.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "13.8% of Sun",
+        "radius": "15% of Sun",
+        "luminosity": "0.3% of Sun",
+        "temperature": "3,100 K (2,827°C)",
+        "magnitude": "+12.5 (combined)",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1941",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.05-0.1 AU",
+        "alternate_names": "FL Virginis, Gliese 473"
+      },
+      {
+        "name": "Wolf 424 B",
+        "distance_from_earth": "14.37 LY",
+        "stellar_type": "M5.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "12.6% of Sun",
+        "radius": "15.3% of Sun",
+        "luminosity": "0.3% of Sun",
+        "temperature": "3,100 K (2,827°C)",
+        "magnitude": "+12.5 (combined)",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1941",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.05-0.1 AU",
+        "alternate_names": "FL Virginis B"
+      }
+    ]
+  },
+  {
+    "system_name": "TZ Arietis",
+    "distance_ly": 14.6,
+    "ra": "02h 00m 12.79s",
+    "dec": "+13° 03′ 08.5″",
+    "components": [
+      {
+        "name": "TZ Arietis",
+        "distance_from_earth": "14.6 LY",
+        "stellar_type": "M3.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~33% of Sun",
+        "radius": "~32% of Sun",
+        "luminosity": "~1.5% of Sun",
+        "temperature": "3,350 K (3,077°C)",
+        "magnitude": "+12.3",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1968",
+        "exoplanets_confirmed": "1",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.1-0.2 AU",
+        "alternate_names": "Gliese 83.1, GJ 9066"
+      }
+    ]
+  },
+  {
+    "system_name": "Gliese 687",
+    "distance_ly": 14.84,
+    "ra": "17h 36m 25.89s",
+    "dec": "+68° 20′ 20.9″",
+    "components": [
+      {
+        "name": "Gliese 687",
+        "distance_from_earth": "14.84 LY",
+        "stellar_type": "M3V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "40% of Sun",
+        "radius": "50% of Sun",
+        "luminosity": "~2% of Sun",
+        "temperature": "3,413 K (3,140°C)",
+        "magnitude": "+9.15",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "N/A",
+        "exoplanets_confirmed": "1",
+        "exoplanets_candidates": "1",
+        "habitable_zone": "0.1-0.2 AU",
+        "alternate_names": "GJ 687, LHS 450"
+      }
+    ]
+  },
+  {
+    "system_name": "Gliese 674",
+    "distance_ly": 14.85,
+    "ra": "17h 28m 39.95s",
+    "dec": "−46° 53′ 42.7″",
+    "components": [
+      {
+        "name": "Gliese 674",
+        "distance_from_earth": "14.85 LY",
+        "stellar_type": "M3V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~35% of Sun",
+        "radius": "~40% of Sun",
+        "luminosity": "1.6% of Sun",
+        "temperature": "3,404 K (3,131°C)",
+        "magnitude": "+9.38",
+        "age": "~2 billion years",
+        "lifespan": "Several trillion years",
+        "discovered": "N/A",
+        "exoplanets_confirmed": "1",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.1-0.2 AU",
+        "alternate_names": "GJ 674, LHS 449"
+      }
+    ]
+  },
+  {
+    "system_name": "LHS 292",
+    "distance_ly": 14.871,
+    "ra": "10h 48m 12.59s",
+    "dec": "−11° 20′ 08.7″",
+    "components": [
+      {
+        "name": "LHS 292",
+        "distance_from_earth": "14.871 LY",
+        "stellar_type": "M6.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~10% of Sun",
+        "radius": "~12% of Sun",
+        "luminosity": "0.08% of Sun",
+        "temperature": "2,700 K (2,427°C)",
+        "magnitude": "+15.6",
+        "age": "N/A",
+        "lifespan": "~10 trillion years",
+        "discovered": "N/A",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.03-0.05 AU",
+        "alternate_names": "Gliese 412 B"
+      }
+    ]
+  },
+  {
+    "system_name": "Gliese 440",
+    "distance_ly": 15.1,
+    "ra": "11h 45m 42.97s",
+    "dec": "−64° 50′ 29.7″",
+    "components": [
+      {
+        "name": "Gliese 440",
+        "distance_from_earth": "15.1 LY",
+        "stellar_type": "DQ6 White Dwarf",
+        "evolutionary_stage": "Cooling Phase",
+        "mass": "~56% of Sun",
+        "radius": "~1.3% of Sun",
+        "luminosity": "0.05% of Sun",
+        "temperature": "7,800 K (7,527°C)",
+        "magnitude": "+11.5",
+        "age": "1.2 billion years",
+        "lifespan": "Trillions of years",
+        "discovered": "1917",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "1",
+        "habitable_zone": "N/A",
+        "alternate_names": "LP 145-141, LAWD 37"
+      }
+    ]
+  },
+  {
+    "system_name": "GJ 1245",
+    "distance_ly": 15.2,
+    "ra": "19h 53m 54.492s",
+    "dec": "+44° 24′ 53.41″",
+    "components": [
+      {
+        "name": "GJ 1245 A",
+        "distance_from_earth": "15.2 LY",
+        "stellar_type": "M5.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~12% of Sun",
+        "radius": "~13% of Sun",
+        "luminosity": "0.0084% of Sun",
+        "temperature": "~3,000 K (~2,727°C)",
+        "magnitude": "+13.41",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1976",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.02-0.04 AU",
+        "alternate_names": "V1581 Cygni, G 208-44 A"
+      },
+      {
+        "name": "GJ 1245 B",
+        "distance_from_earth": "15.2 LY",
+        "stellar_type": "M6V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~10% of Sun",
+        "radius": "~11% of Sun",
+        "luminosity": "0.0048% of Sun",
+        "temperature": "~2,900 K (~2,627°C)",
+        "magnitude": "+14.01",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1976",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.02-0.03 AU",
+        "alternate_names": "G 208-45"
+      },
+      {
+        "name": "GJ 1245 C",
+        "distance_from_earth": "15.2 LY",
+        "stellar_type": "M8V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~8% of Sun",
+        "radius": "~9% of Sun",
+        "luminosity": "~0.002% of Sun",
+        "temperature": "~2,700 K (~2,427°C)",
+        "magnitude": "+16.75",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1990s",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.01-0.02 AU",
+        "alternate_names": "G 208-44 B"
+      }
+    ]
+  },
+  {
+    "system_name": "WISE 1741+2553",
+    "distance_ly": 15.2,
+    "ra": "17h 41m 24.6s",
+    "dec": "+25° 53′ 19.5″",
+    "components": [
+      {
+        "name": "WISE 1741+2553",
+        "distance_from_earth": "15.2 LY",
+        "stellar_type": "T9 Brown Dwarf",
+        "evolutionary_stage": "Substellar Object",
+        "mass": "~30 Jupiter masses",
+        "radius": "~10% of Sun",
+        "luminosity": "<0.0001% of Sun",
+        "temperature": "~475 K (~200°C)",
+        "magnitude": "+22.14",
+        "age": "N/A",
+        "lifespan": "Trillions of years",
+        "discovered": "2011",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "N/A",
+        "alternate_names": "WISEPA J174124.26+255319.5"
+      }
+    ]
+  },
+  {
+    "system_name": "Gliese 876",
+    "distance_ly": 15.238,
+    "ra": "22h 53m 16.73s",
+    "dec": "−14° 15′ 49.3″",
+    "components": [
+      {
+        "name": "Gliese 876",
+        "distance_from_earth": "15.238 LY",
+        "stellar_type": "M4V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~35% of Sun",
+        "radius": "~38% of Sun",
+        "luminosity": "1.3% of Sun",
+        "temperature": "3,377 K (3,104°C)",
+        "magnitude": "+10.17",
+        "age": "~6-10 billion years",
+        "lifespan": "~100 billion years",
+        "discovered": "1928",
+        "exoplanets_confirmed": "4",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.116-0.227 AU",
+        "alternate_names": "IL Aquarii, Ross 780"
+      }
+    ]
+  },
+  {
+    "system_name": "WISE 1639-6847",
+    "distance_ly": 15.5,
+    "ra": "16h 39m 40.83s",
+    "dec": "−68° 47′ 38.6″",
+    "components": [
+      {
+        "name": "WISE 1639-6847",
+        "distance_from_earth": "15.5 LY",
+        "stellar_type": "Y0 pec Brown Dwarf",
+        "evolutionary_stage": "Substellar Object",
+        "mass": "~10 Jupiter masses",
+        "radius": "~10% of Sun",
+        "luminosity": "<0.0001% of Sun",
+        "temperature": "~412 K (~139°C)",
+        "magnitude": "+22+",
+        "age": "N/A",
+        "lifespan": "Trillions of years",
+        "discovered": "2012",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "N/A",
+        "alternate_names": "WISE J163940.83-684738.6, W1639"
+      }
+    ]
+  },
+  {
+    "system_name": "LHS 288",
+    "distance_ly": 15.759,
+    "ra": "08h 39m 11.28s",
+    "dec": "−32° 56′ 15.2″",
+    "components": [
+      {
+        "name": "LHS 288",
+        "distance_from_earth": "15.759 LY",
+        "stellar_type": "M5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~11% of Sun",
+        "radius": "~13% of Sun",
+        "luminosity": "1.15% of Sun",
+        "temperature": "2,760 K (2,487°C)",
+        "magnitude": "+13.92",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "N/A",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "1",
+        "habitable_zone": "0.03-0.06 AU",
+        "alternate_names": "Luyten 143-23, GJ 3618"
+      }
+    ]
+  },
+  {
+    "system_name": "GJ 1002",
+    "distance_ly": 15.8,
+    "ra": "00h 06m 43.87s",
+    "dec": "−07° 32′ 17.5″",
+    "components": [
+      {
+        "name": "GJ 1002",
+        "distance_from_earth": "15.8 LY",
+        "stellar_type": "M5.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~12% of Sun",
+        "radius": "~14% of Sun",
+        "luminosity": "~1% of Sun",
+        "temperature": "3,024 K (2,751°C)",
+        "magnitude": "+13.8",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "N/A",
+        "exoplanets_confirmed": "2",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.04-0.08 AU",
+        "alternate_names": "LHS 2"
+      }
+    ]
+  },
+  {
+    "system_name": "DENIS 0255-4700",
+    "distance_ly": 15.9,
+    "ra": "02h 55m 03.7s",
+    "dec": "−47° 00′ 52″",
+    "components": [
+      {
+        "name": "DENIS 0255-4700",
+        "distance_from_earth": "15.9 LY",
+        "stellar_type": "L8 Brown Dwarf",
+        "evolutionary_stage": "Substellar Object",
+        "mass": "25-65 Jupiter masses",
+        "radius": "~10% of Sun",
+        "luminosity": "<0.001% of Sun",
+        "temperature": "~1,300 K (~1,027°C)",
+        "magnitude": "+24.44",
+        "age": "0.3-10 billion years",
+        "lifespan": "Trillions of years",
+        "discovered": "1999",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "N/A",
+        "alternate_names": "2MUCD 10158, DENIS-P J0255.0-4700"
+      }
+    ]
+  },
+  {
+    "system_name": "Groombridge 1618",
+    "distance_ly": 15.89,
+    "ra": "10h 11m 22.14s",
+    "dec": "+49° 27′ 15.3″",
+    "components": [
+      {
+        "name": "Groombridge 1618",
+        "distance_from_earth": "15.89 LY",
+        "stellar_type": "K7.5V Orange Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~67% of Sun",
+        "radius": "~61% of Sun",
+        "luminosity": "15% of Sun",
+        "temperature": "~4,000 K (~3,727°C)",
+        "magnitude": "+6.6",
+        "age": "N/A",
+        "lifespan": "~50 billion years",
+        "discovered": "1838",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.26-0.56 AU",
+        "alternate_names": "NSV 4765"
+      }
+    ]
+  },
+  {
+    "system_name": "Gliese 412",
+    "distance_ly": 16,
+    "ra": "11h 05m 28.59s",
+    "dec": "+43° 31′ 36.0″",
+    "components": [
+      {
+        "name": "Gliese 412 A",
+        "distance_from_earth": "16.0 LY",
+        "stellar_type": "M1V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~39% of Sun",
+        "radius": "~40% of Sun",
+        "luminosity": "2.23% of Sun",
+        "temperature": "3,639 K (3,366°C)",
+        "magnitude": "+8.77",
+        "age": "N/A",
+        "lifespan": "~100 billion years",
+        "discovered": "1860",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.1-0.2 AU",
+        "alternate_names": "Lalande 21258, BD+44 2051 A"
+      },
+      {
+        "name": "Gliese 412 B",
+        "distance_from_earth": "16.0 LY",
+        "stellar_type": "M6V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~9.5% of Sun",
+        "radius": "~13% of Sun",
+        "luminosity": "0.09% of Sun",
+        "temperature": "2,863 K (2,590°C)",
+        "magnitude": "+14.4",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1939",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.02-0.04 AU",
+        "alternate_names": "WX Ursae Majoris, LHS 292"
+      }
+    ]
+  },
+  {
+    "system_name": "AD Leonis",
+    "distance_ly": 16.2,
+    "ra": "10h 19m 36.28s",
+    "dec": "+19° 52′ 12.0″",
+    "components": [
+      {
+        "name": "AD Leonis",
+        "distance_from_earth": "16.2 LY",
+        "stellar_type": "M3.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~39-42% of Sun",
+        "radius": "~39% of Sun",
+        "luminosity": "2.3% of Sun",
+        "temperature": "3,400 K (3,127°C)",
+        "magnitude": "+9.43",
+        "age": "25-300 million years",
+        "lifespan": "Several trillion years",
+        "discovered": "1949",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.12-0.20 AU",
+        "alternate_names": "Gliese 388"
+      }
+    ]
+  },
+  {
+    "system_name": "Gliese 832",
+    "distance_ly": 16.2,
+    "ra": "21h 33m 33.98s",
+    "dec": "−49° 00′ 32.4″",
+    "components": [
+      {
+        "name": "Gliese 832",
+        "distance_from_earth": "16.2 LY",
+        "stellar_type": "M2V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~45% of Sun",
+        "radius": "~48% of Sun",
+        "luminosity": "4.5% of Sun",
+        "temperature": "3,600 K (3,327°C)",
+        "magnitude": "+8.66",
+        "age": "~6 billion years",
+        "lifespan": "Several trillion years",
+        "discovered": "N/A",
+        "exoplanets_confirmed": "1",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.16-0.26 AU",
+        "alternate_names": "GJ 832"
+      }
+    ]
+  },
+  {
+    "system_name": "Gliese 682",
+    "distance_ly": 16.3,
+    "ra": "17h 37m 03.66s",
+    "dec": "−44° 19′ 11.2″",
+    "components": [
+      {
+        "name": "Gliese 682",
+        "distance_from_earth": "16.3 LY",
+        "stellar_type": "M4.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~29% of Sun",
+        "radius": "~32% of Sun",
+        "luminosity": "1.2% of Sun",
+        "temperature": "3,200 K (2,927°C)",
+        "magnitude": "+10.95",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "N/A",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.08-0.14 AU",
+        "alternate_names": "GJ 682, LHS 451"
+      }
+    ]
+  },
+  {
+    "system_name": "40 Eridani",
+    "distance_ly": 16.3,
+    "ra": "04h 15m 16.32s",
+    "dec": "−07° 39′ 10.3″",
+    "components": [
+      {
+        "name": "40 Eridani A",
+        "distance_from_earth": "16.3 LY",
+        "stellar_type": "K1V Orange Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~84% of Sun",
+        "radius": "~81% of Sun",
+        "luminosity": "40% of Sun",
+        "temperature": "5,100 K (4,827°C)",
+        "magnitude": "+4.43",
+        "age": "5.6 billion years",
+        "lifespan": "~20 billion years",
+        "discovered": "Antiquity",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.55-0.85 AU",
+        "alternate_names": "Keid, Omicron² Eridani A"
+      },
+      {
+        "name": "40 Eridani B",
+        "distance_from_earth": "16.3 LY",
+        "stellar_type": "DA4 White Dwarf",
+        "evolutionary_stage": "Cooling Phase",
+        "mass": "~57% of Sun",
+        "radius": "~1.4% of Sun",
+        "luminosity": "0.013% of Sun",
+        "temperature": "16,500 K (16,227°C)",
+        "magnitude": "+9.52",
+        "age": "120 million years",
+        "lifespan": "Trillions of years",
+        "discovered": "1783",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "N/A",
+        "alternate_names": "Omicron² Eridani B"
+      },
+      {
+        "name": "40 Eridani C",
+        "distance_from_earth": "16.3 LY",
+        "stellar_type": "M4.5e Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~20% of Sun",
+        "radius": "~31% of Sun",
+        "luminosity": "0.8% of Sun",
+        "temperature": "3,100 K (2,827°C)",
+        "magnitude": "+11.17",
+        "age": "N/A",
+        "lifespan": "Several trillion years",
+        "discovered": "1783",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.06-0.12 AU",
+        "alternate_names": "DY Eridani, Omicron² Eridani C"
+      }
+    ]
+  },
+  {
+    "system_name": "EV Lacertae",
+    "distance_ly": 16.48,
+    "ra": "22h 46m 49.73s",
+    "dec": "+44° 20′ 02.4″",
+    "components": [
+      {
+        "name": "EV Lacertae",
+        "distance_from_earth": "16.48 LY",
+        "stellar_type": "M3.5V Red Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~32% of Sun",
+        "radius": "~35% of Sun",
+        "luminosity": "1.6% of Sun",
+        "temperature": "3,400 K (3,127°C)",
+        "magnitude": "+10.0",
+        "age": "300 million years",
+        "lifespan": "Several trillion years",
+        "discovered": "N/A",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.10-0.16 AU",
+        "alternate_names": "Gliese 873, HIP 112460"
+      }
+    ]
+  },
+  {
+    "system_name": "70 Ophiuchi",
+    "distance_ly": 16.7,
+    "ra": "18h 05m 27.29s",
+    "dec": "+02° 30′ 00.4″",
+    "components": [
+      {
+        "name": "70 Ophiuchi A",
+        "distance_from_earth": "16.7 LY",
+        "stellar_type": "K0V Orange Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~89% of Sun",
+        "radius": "~86% of Sun",
+        "luminosity": "47% of Sun",
+        "temperature": "5,300 K (5,027°C)",
+        "magnitude": "+4.03",
+        "age": "2-6 billion years",
+        "lifespan": "~20 billion years",
+        "discovered": "Antiquity",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.58-0.88 AU",
+        "alternate_names": "V2391 Ophiuchi A"
+      },
+      {
+        "name": "70 Ophiuchi B",
+        "distance_from_earth": "16.7 LY",
+        "stellar_type": "K4V Orange Dwarf",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~70% of Sun",
+        "radius": "~70% of Sun",
+        "luminosity": "20% of Sun",
+        "temperature": "4,600 K (4,327°C)",
+        "magnitude": "+6.00",
+        "age": "2-6 billion years",
+        "lifespan": "~30 billion years",
+        "discovered": "1783",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "0.35-0.60 AU",
+        "alternate_names": "V2391 Ophiuchi B"
+      }
+    ]
+  },
+  {
+    "system_name": "Altair",
+    "distance_ly": 16.7,
+    "ra": "19h 50m 47.00s",
+    "dec": "+08° 52′ 06.0″",
+    "components": [
+      {
+        "name": "Altair",
+        "distance_from_earth": "16.7 LY",
+        "stellar_type": "A7V White Main-Sequence",
+        "evolutionary_stage": "Main Sequence",
+        "mass": "~180% of Sun",
+        "radius": "~163-203% of Sun",
+        "luminosity": "~1100% of Sun",
+        "temperature": "7,550 K (7,277°C)",
+        "magnitude": "+0.77",
+        "age": "~100 million years",
+        "lifespan": "~2 billion years",
+        "discovered": "Antiquity",
+        "exoplanets_confirmed": "0",
+        "exoplanets_candidates": "0",
+        "habitable_zone": "2.8-4.5 AU",
+        "alternate_names": "Alpha Aquilae"
+      }
+    ]
+  }
+]

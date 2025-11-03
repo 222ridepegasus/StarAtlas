@@ -19,9 +19,13 @@ import ErrorBoundary from './ErrorBoundary.jsx';
 
 // Helper function to convert RA string to radians
 const raToRadians = (ra) => {
-  const raRegex = /(\d+)h(\d+)m([\d.]+)s/;
+  // Handle formats with or without spaces: "14h39m36.5s" or "14h 39m 36s"
+  const raRegex = /(\d+)\s*h\s*(\d+)\s*m\s*([\d.]+)\s*s/;
   const match = ra.match(raRegex);
-  if (!match) return 0;
+  if (!match) {
+    console.warn('Failed to parse RA:', ra);
+    return 0;
+  }
   const hours = parseInt(match[1], 10);
   const minutes = parseInt(match[2], 10);
   const seconds = parseFloat(match[3]);
@@ -33,10 +37,14 @@ const raToRadians = (ra) => {
 // Helper function to convert Dec string to radians
 const decToRadians = (dec) => {
   const decNormalized = dec.replace('−', '-');
-  // Updated regex to handle both Unicode (′″) and straight quotes ('"), plus decimal seconds
-  const decRegex = /([+-]?\d+)°(\d+)[′']([\d.]+)[″"]/;
+  // Updated regex to handle both Unicode (′″) and straight quotes ('"), plus decimal seconds, with optional spaces
+  // Handles formats like: "-60°50'02\"" or "-60° 50′ 02″" or "+04° 41′ 36″"
+  const decRegex = /([+-]?\d+)\s*°\s*(\d+)\s*[′']\s*([\d.]+)\s*[″"]/;
   const match = decNormalized.match(decRegex);
-  if (!match) return 0;
+  if (!match) {
+    console.warn('Failed to parse Dec:', dec);
+    return 0;
+  }
   const degrees = parseInt(match[1], 10);
   const minutes = parseInt(match[2], 10);
   const seconds = parseFloat(match[3]); // Changed to parseFloat for decimal seconds
@@ -83,7 +91,6 @@ const Starfield = () => {
   const isDraggingRef = useRef(false);
   const mouseDownPosRef = useRef(new THREE.Vector2());
   const selectedStarRef = useRef(null);
-  const autoFocusOnClickRef = useRef(false);
   const rebuildConnectionsRef = useRef(null);
   const targetCameraDistanceRef = useRef(26);
   const shouldAutoZoomRef = useRef(false);
@@ -122,11 +129,11 @@ const Starfield = () => {
   const [showLabels, setShowLabels] = useState(true);
   const [lineMode, setLineMode] = useState('connections');
   const [autoZoom, setAutoZoom] = useState(true);
+  const [showExoplanetsOnly, setShowExoplanetsOnly] = useState(false);
   const [spectralFilter, setSpectralFilter] = useState({
     A: true, F: true, G: true, K: true, M: true, L: true, T: true, Y: true, D: true
   });
   const [selectedStar, setSelectedStar] = useState(null);
-  const [autoFocusOnClick, setAutoFocusOnClick] = useState(false);
   const [measureMode, setMeasureMode] = useState(false);
   const [measurePoints, setMeasurePoints] = useState([]);
   const [measureDistance, setMeasureDistance] = useState(null);
@@ -142,18 +149,11 @@ const Starfield = () => {
 
   // Load star data
   useEffect(() => {
-    fetch('/data/stars.json')
+    fetch('/data/stars_kk.json')
       .then(res => res.json())
       .then(data => setStars(data))
       .catch(err => console.error('Error loading stars:', err));
   }, []);
-
-
-
-  // Sync autoFocusOnClick to ref for use in event handlers
-  useEffect(() => {
-    autoFocusOnClickRef.current = autoFocusOnClick;
-  }, [autoFocusOnClick]);
 
   // Detect mobile viewport (≤640px)
   useEffect(() => {
@@ -256,6 +256,16 @@ const Starfield = () => {
     const initialLineMode = lineMode;
     const initialShowGrid = showGrid;
     const initialGridMode = gridMode;
+    const initialShowExoplanetsOnly = showExoplanetsOnly;
+    
+    // Helper function to check if a star has confirmed exoplanets
+    const hasConfirmedExoplanets = (star) => {
+      if (!star.components || star.components.length === 0) return false;
+      return star.components.some(component => {
+        const exoplanetsConfirmed = component.exoplanets_confirmed;
+        return exoplanetsConfirmed !== undefined && exoplanetsConfirmed !== null && parseInt(exoplanetsConfirmed) > 0;
+      });
+    };
 
     labelsRef.current = [];
     starObjectsRef.current = [];
@@ -381,7 +391,7 @@ const Starfield = () => {
       const starGroup = [];
 
       const primaryComponent = star.components[0];
-      const spectralType = primaryComponent.spectral_type || primaryComponent.star_type || 'M';
+      const spectralType = primaryComponent.spectral_type || primaryComponent.stellar_type || primaryComponent.star_type || 'M';
       const color = getSpectralColor(spectralType);
       const spectralClass = spectralType.charAt(0).toUpperCase();
 
@@ -391,6 +401,11 @@ const Starfield = () => {
       
       // Skip stars with N/A or missing coordinates
       if (!ra || !dec || ra === 'N/A' || dec === 'N/A') {
+        return;
+      }
+      
+      // Filter by exoplanets if enabled
+      if (initialShowExoplanetsOnly && !hasConfirmedExoplanets(star)) {
         return;
       }
       
@@ -422,7 +437,7 @@ const Starfield = () => {
       starGroup.push(glow);
 
       const label = new Text();
-      label.text = formatStarName(star.name);
+      label.text = formatStarName(star.system_name || star.name);
       label.font = LABEL_CONFIG.font.path;
       label.fontSize = LABEL_CONFIG.font.size;
       label.color = LABEL_CONFIG.appearance.color;
@@ -736,21 +751,7 @@ const Starfield = () => {
             setShowOnboarding(false);
           }
           
-          // Auto-focus if enabled
-          if (autoFocusOnClickRef.current) {
-            // Store starting positions for smooth transition
-            focusStartTimeRef.current = Date.now();
-            focusStartPosRef.current = cameraRef.current.position.clone();
-            focusStartTargetRef.current = controlsRef.current.target.clone();
-            focusTargetRef.current = star.position.clone();
-            focusPhaseRef.current = 'orienting';
-            shouldAutoZoomRef.current = false; // Don't auto-zoom on click, just focus
-            isSearchResultFocusRef.current = true; // Skip zoom phase - just orient the camera
-            isResetCameraRef.current = false;
-            // Don't set focused state immediately - let the animation complete
-          } else {
-            setIsFocused(false); // Clear focus state when clicking new star
-          }
+          setIsFocused(false); // Clear focus state when clicking new star
         }
       } else {
         // No star clicked
@@ -1240,7 +1241,7 @@ const Starfield = () => {
       renderer.dispose();
       controls.dispose();
     };
-  }, [stars]);
+  }, [stars, showExoplanetsOnly]);
 
   useEffect(() => {
     if (!sceneRef.current) return;
@@ -1619,9 +1620,10 @@ const Starfield = () => {
       return;
     }
 
-    const filteredStars = stars.filter(star => 
-      star.name.toLowerCase().includes(searchTerm.toLowerCase())
-    ).slice(0, 10); // Limit to 10 results
+    const filteredStars = stars.filter(star => {
+      const starName = (star.system_name || star.name || '').toLowerCase();
+      return starName.includes(searchTerm.toLowerCase());
+    }).slice(0, 10); // Limit to 10 results
 
     setSearchResults(filteredStars);
     setShowSearchResults(filteredStars.length > 0);
@@ -1809,6 +1811,10 @@ const Starfield = () => {
 
   const handleToggleLabels = () => {
     setShowLabels(!showLabels);
+  };
+
+  const handleToggleExoplanetsOnly = () => {
+    setShowExoplanetsOnly(!showExoplanetsOnly);
   };
 
   const handleToggleKeyboardControls = () => {
@@ -2059,7 +2065,11 @@ const Starfield = () => {
           starClassFilters={Object.entries(spectralFilter).map(([type, enabled]) => ({
             type,
             enabled,
-            count: stars.filter(s => s.components?.[0]?.star_type?.startsWith(type)).length
+            count: stars.filter(s => {
+              const component = s.components?.[0];
+              const spectralType = component?.spectral_type || component?.stellar_type || component?.star_type || '';
+              return spectralType.startsWith(type);
+            }).length
           })).filter(filter => filter.type !== 'O' && filter.type !== 'B')}
           onFilterToggle={(type) => {
             handleSpectralFilterChange({
@@ -2076,6 +2086,8 @@ const Starfield = () => {
           onViewDistanceChange={handleViewDistanceChange}
           showLabels={showLabels}
           onShowLabelsChange={handleToggleLabels}
+          showExoplanetsOnly={showExoplanetsOnly}
+          onToggleExoplanetsOnly={handleToggleExoplanetsOnly}
           showConnections={lineMode === 'connections'}
           onShowConnectionsChange={(enabled) => handleLineModeChange(enabled ? 'connections' : 'starsOnly')}
           showStalks={lineMode === 'stalks'}
@@ -2104,11 +2116,13 @@ const Starfield = () => {
           showLabels={showLabels}
           viewDistance={viewDistance}
           spectralFilter={spectralFilter}
+          showExoplanetsOnly={showExoplanetsOnly}
           // Callback props
           onGridChange={handleGridChange}
           onLineModeChange={handleLineModeChange}
           onToggleLabels={handleToggleLabels}
           onToggleKeyboardControls={handleToggleKeyboardControls}
+          onToggleExoplanetsOnly={handleToggleExoplanetsOnly}
           keyboardControlsEnabled={keyboardControlsEnabled}
           onViewDistanceChange={handleViewDistanceChange}
           onSpectralFilterChange={handleSpectralFilterChange}
@@ -2147,8 +2161,6 @@ const Starfield = () => {
             onZoom={handleZoomToStar}
             onReset={handleResetCamera}
             isFocused={isFocused}
-            autoFocusOnClick={autoFocusOnClick}
-            onAutoFocusChange={setAutoFocusOnClick}
           />
         )
       )}
@@ -2178,7 +2190,7 @@ const Starfield = () => {
           )}
           {measurePoints.length === 1 && (
             <div>
-              <div>✅ Selected: {measurePoints[0].name}</div>
+              <div>✅ Selected: {measurePoints[0].system_name || measurePoints[0].name}</div>
               <div style={{ fontSize: '12px', marginTop: '4px', opacity: 0.8 }}>
                 Click another star to measure distance
               </div>
