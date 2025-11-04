@@ -404,10 +404,8 @@ const Starfield = () => {
         return;
       }
       
-      // Filter by exoplanets if enabled
-      if (initialShowExoplanetsOnly && !hasConfirmedExoplanets(star)) {
-        return;
-      }
+      // Check if this is Sol (always shown as reference point)
+      const isSol = (star.system_name || star.name || '').toLowerCase() === 'sol';
       
       const pos = raDecToXYZ(ra, dec, star.distance_ly);
 
@@ -417,8 +415,10 @@ const Starfield = () => {
       const material = new THREE.MeshBasicMaterial({ color });
       const sphere = new THREE.Mesh(geometry, material);
       sphere.position.copy(pos);
-      sphere.userData = { star, distance: star.distance_ly, spectralClass };
-      sphere.visible = star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass];
+      const hasExoplanets = hasConfirmedExoplanets(star);
+      const isSolRef = isSol;
+      sphere.userData = { star, distance: star.distance_ly, spectralClass, hasExoplanets, isSol: isSolRef };
+      sphere.visible = star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass] && (!initialShowExoplanetsOnly || isSolRef || hasExoplanets);
       scene.add(sphere);
       starGroup.push(sphere);
       starMeshes.push(sphere);
@@ -431,8 +431,8 @@ const Starfield = () => {
       });
       const glow = new THREE.Mesh(glowGeometry, glowMaterial);
       glow.position.copy(sphere.position);
-      glow.userData = { distance: star.distance_ly, spectralClass };
-      glow.visible = star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass];
+      glow.userData = { distance: star.distance_ly, spectralClass, hasExoplanets, isSol: isSolRef };
+      glow.visible = star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass] && (!initialShowExoplanetsOnly || isSolRef || hasExoplanets);
       scene.add(glow);
       starGroup.push(glow);
 
@@ -456,10 +456,12 @@ const Starfield = () => {
       label.userData.vOffset = LABEL_CONFIG.position.vOffset;
       label.userData.distance = star.distance_ly;
       label.userData.spectralClass = spectralClass;
+      label.userData.hasExoplanets = hasExoplanets;
+      label.userData.isSol = isSolRef;
       
       label.position.copy(sphere.position);
       label.sync();
-      label.visible = initialShowLabels && star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass];
+      label.visible = initialShowLabels && star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass] && (!initialShowExoplanetsOnly || isSolRef || hasExoplanets);
       if (isSafariLocal) {
         label.outlineWidth = 0;
         label.outlineOpacity = 0.0;
@@ -485,8 +487,8 @@ const Starfield = () => {
         stalkLineMaterialsRef.current.push(stalkMat);
         const stalk = new Line2(stalkGeo, stalkMat);
         stalk.computeLineDistances();
-        stalk.userData = { distance: star.distance_ly, spectralClass };
-        stalk.visible = initialLineMode === 'stalks' && star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass];
+        stalk.userData = { distance: star.distance_ly, spectralClass, hasExoplanets, isSol: isSolRef };
+        stalk.visible = initialLineMode === 'stalks' && star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass] && (!initialShowExoplanetsOnly || isSolRef || hasExoplanets);
         scene.add(stalk);
         starGroup.push(stalk);
         stalksRef.current.push(stalk);
@@ -501,8 +503,8 @@ const Starfield = () => {
         const baseCircleMesh = new THREE.Mesh(baseCircle, baseCircleMaterial);
         baseCircleMesh.rotation.x = -Math.PI / 2;
         baseCircleMesh.position.set(pos.x, 0.01, pos.z);
-        baseCircleMesh.userData = { distance: star.distance_ly, spectralClass };
-        baseCircleMesh.visible = initialLineMode === 'stalks' && star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass];
+        baseCircleMesh.userData = { distance: star.distance_ly, spectralClass, hasExoplanets, isSol: isSolRef };
+        baseCircleMesh.visible = initialLineMode === 'stalks' && star.distance_ly <= initialViewDistance && initialSpectralFilter[spectralClass] && (!initialShowExoplanetsOnly || isSolRef || hasExoplanets);
         scene.add(baseCircleMesh);
         starGroup.push(baseCircleMesh);
         stalksRef.current.push(baseCircleMesh);
@@ -1241,7 +1243,7 @@ const Starfield = () => {
       renderer.dispose();
       controls.dispose();
     };
-  }, [stars, showExoplanetsOnly]);
+  }, [stars]);
 
   useEffect(() => {
     if (!sceneRef.current) return;
@@ -1265,8 +1267,11 @@ const Starfield = () => {
           // Skip stalks - they're managed by the dedicated lineMode useEffect
           if (isStalk) return;
           
-          // For stars and glows, just check distance and filter
-          obj.visible = withinDistance && passesFilter;
+          // Check exoplanets filter
+          const passesExoplanetsFilter = !showExoplanetsOnly || obj.userData.isSol || obj.userData.hasExoplanets;
+          
+          // For stars and glows, check distance, spectral filter, and exoplanets filter
+          obj.visible = withinDistance && passesFilter && passesExoplanetsFilter;
         }
       });
     });
@@ -1312,7 +1317,7 @@ const Starfield = () => {
         debounceTimeoutRef.current = null;
       }
     };
-  }, [viewDistance, spectralFilter]);
+  }, [viewDistance, spectralFilter, showExoplanetsOnly]);
 
   // Update target camera distance when view distance changes (only if autoZoom is enabled)
   useEffect(() => {
@@ -1336,7 +1341,10 @@ const Starfield = () => {
         passesFilter = spectralFilter[label.userData.spectralClass];
       }
       
-      const shouldBeVisible = showLabels && withinDistance && passesFilter;
+      // Check exoplanets filter
+      const passesExoplanetsFilter = !showExoplanetsOnly || label.userData.isSol || label.userData.hasExoplanets;
+      
+      const shouldBeVisible = showLabels && withinDistance && passesFilter && passesExoplanetsFilter;
       
       // If label is becoming visible, immediately update its orientation to face camera
       if (shouldBeVisible && !label.visible && camera) {
@@ -1346,7 +1354,7 @@ const Starfield = () => {
       
       label.visible = shouldBeVisible;
     });
-  }, [viewDistance, spectralFilter, showLabels]);
+  }, [viewDistance, spectralFilter, showLabels, showExoplanetsOnly]);
 
   // Handle measure line visualization
   useEffect(() => {
@@ -1389,7 +1397,8 @@ const Starfield = () => {
       if (stalk.userData.spectralClass) {
         passesFilter = spectralFilter[stalk.userData.spectralClass];
       }
-      stalk.visible = lineMode === 'stalks' && withinDistance && passesFilter;
+      const passesExoplanetsFilter = !showExoplanetsOnly || stalk.userData.isSol || stalk.userData.hasExoplanets;
+      stalk.visible = lineMode === 'stalks' && withinDistance && passesFilter && passesExoplanetsFilter;
     });
 
     connectionsRef.current.forEach(connection => {
@@ -1400,7 +1409,7 @@ const Starfield = () => {
     if (lineMode === 'connections' && rebuildConnectionsRef.current) {
       rebuildConnectionsRef.current();
     }
-  }, [lineMode, viewDistance, spectralFilter]);
+  }, [lineMode, viewDistance, spectralFilter, showExoplanetsOnly]);
 
   const handleToggleGrid = (mode) => {
     setGridMode(mode);

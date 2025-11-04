@@ -51,10 +51,8 @@ export default function MobileNav({
     }
   }, [selectedStar]);
 
-  // Star Class data with colors
+  // Star Class data with colors (exclude O and B on mobile)
   const starClasses = [
-    { type: 'O', color: 'spectral-O' },
-    { type: 'B', color: 'spectral-B' },
     { type: 'A', color: 'spectral-A' },
     { type: 'F', color: 'spectral-F' },
     { type: 'G', color: 'spectral-G' },
