@@ -2263,8 +2263,7 @@ const Starfield = () => {
           </p>
           
           {/* About 20LY Button - only show when onboarding is closed and on desktop */}
-          {/* Temporarily hidden and disabled */}
-          {false && !showOnboarding && !isMobile && (
+          {!showOnboarding && !isMobile && (
             <div style={{ width: '128px', display: 'flex' }}>
               <ButtonTextSmall
                 text="About 20LY"

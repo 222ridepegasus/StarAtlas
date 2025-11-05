@@ -157,19 +157,14 @@ export default function Toolbar({
       {/* Controls Block */}
       <div className="bg-grey-700 rounded-lg mb-2">
         {/* Header Section */}
-        <div className="px-2 pt-2 pb-2 flex items-center justify-between">
-          <ButtonIcon
-            icon="/icons/ui/Icon_UI_Menu_01.svg"
-            alt="Open menu"
-            isActive={showOnboarding}
-            onClick={handleOpenOnboarding}
-            width="32px"
-          />
+        <div className="px-2.5 pt-3.5 pb-3.5 flex items-center">
           <img 
             src="/icons/Logo_20LY.svg" 
             alt="20LY Logo" 
             width="60" 
             height="13"
+            onClick={handleOpenOnboarding}
+            className="cursor-pointer"
           />
         </div>
 
