@@ -22,9 +22,22 @@ const PanelOnboarding = ({ onClose, isMobile }) => {
               <p className="text-grey-300 text-xs">The nearest stars to Earth within 20 light years.</p>
             </div>
             
-            <div>
+            <div className="px-1 space-y-0.5">
               <p className="text-grey-100 text-xs leading-relaxed font-medium">How to Explore:</p>
-              <p className="text-grey-300 text-xs">Drag to rotate, Scroll or Pinch to zoom, Click or Tap Stars for details.</p>
+              <p className="text-grey-300 text-xs">• <span className='font-bold'>Drag</span> to Rotate</p>
+              <p className="text-grey-300 text-xs">• <span className='font-bold'>Scroll or Pinch</span> to Zoom</p>
+              <p className="text-grey-300 text-xs">• <span className='font-bold'>Click or Tap</span> to select a Star</p>
+            </div>
+
+            <div className="px-1 space-y-0.5 hidden sm:block">
+              <p className="text-grey-100 text-xs leading-relaxed font-medium">Keyboard Controls:</p>
+              <p className="text-grey-300 text-xs">• <span className='font-bold'>W,A,S,D</span> to Move Camera</p>
+              <p className="text-grey-300 text-xs">• <span className='font-bold'>Q,E</span> to Orbit Camera</p>
+              <p className="text-grey-300 text-xs">• <span className='font-bold'>+,-</span> to Zoom Camera</p>
+              <p className="text-grey-300 text-xs">• <span className='font-bold'>F</span> to Focus on a Star (when selected)</p>
+              <p className="text-grey-300 text-xs">• <span className='font-bold'>Z</span> to Zoom to a Star (when selected)</p>
+              <p className="text-grey-300 text-xs">• <span className='font-bold'>G</span> to Free Camera (when foccused)</p>
+              <p className="text-grey-300 text-xs">• <span className='font-bold'>ESC</span> to reset Map.</p>
             </div>
             
             <div>
@@ -118,11 +131,22 @@ const PanelOnboarding = ({ onClose, isMobile }) => {
       }`}
     >
       {/* HeaderWindow */}
-      <HeaderWindow 
-        title="Welcome to 20LY" 
-        onClose={onClose}
-        showClose={!isMobile}
-      />
+      {isMobile ? (
+        <div className="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 h-9 relative pl-3 pr-3 rounded-tl-lg rounded-tr-lg bg-grey-650">
+          <img 
+            src="/icons/Logo_20LY.svg" 
+            alt="20LY Logo" 
+            width="60" 
+            height="13"
+          />
+        </div>
+      ) : (
+        <HeaderWindow 
+          title="Welcome to 20LY" 
+          onClose={onClose}
+          showClose={!isMobile}
+        />
+      )}
       
       <Separator />
       

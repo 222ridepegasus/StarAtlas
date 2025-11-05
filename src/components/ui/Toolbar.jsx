@@ -27,6 +27,7 @@ export default function Toolbar({
   viewDistance = 20,
   spectralFilter = {},
   showExoplanetsOnly = false,
+  showOnboarding = false,
   // Callback props
   onGridChange = null,
   onLineModeChange = null,
@@ -34,7 +35,8 @@ export default function Toolbar({
   onToggleKeyboardControls = null,
   onToggleExoplanetsOnly = null,
   onViewDistanceChange = null,
-  onSpectralFilterChange = null
+  onSpectralFilterChange = null,
+  onOpenOnboarding = null
 }) {
   // View Options Grid tabs
   const viewGridTabs = [
@@ -142,12 +144,37 @@ export default function Toolbar({
     }
   };
 
+  const handleOpenOnboarding = () => {
+    if (onOpenOnboarding) {
+      onOpenOnboarding();
+    }
+  };
+
   return (
     <div className="fixed top-4 left-4 font-sans z-50 select-none">
       {/* Master Wrap - no styling, just positioning */}
       
       {/* Controls Block */}
       <div className="bg-grey-700 rounded-lg mb-2">
+        {/* Header Section */}
+        <div className="px-2 pt-2 pb-2 flex items-center justify-between">
+          <ButtonIcon
+            icon="/icons/ui/Icon_UI_Menu_01.svg"
+            alt="Open menu"
+            isActive={showOnboarding}
+            onClick={handleOpenOnboarding}
+            width="32px"
+          />
+          <img 
+            src="/icons/Logo_20LY.svg" 
+            alt="20LY Logo" 
+            width="60" 
+            height="13"
+          />
+        </div>
+
+        <Separator />
+
         {/* Search Section */}
         <div className="px-2 pt-3 pb-3">
           <SearchInput 

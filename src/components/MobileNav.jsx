@@ -97,21 +97,21 @@ export default function MobileNav({
     <div className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
       {/* Top Button Bar */}
       <div className="flex items-center justify-between px-4 pt-3 gap-3 pointer-events-auto bg-gradient-to-b from-grey-900/95 to-grey-900/0">
-        {/* Left: Hamburger Menu */}
+        {/* Left: Hamburger Menu - opens onboarding */}
         <ButtonMobileIcon
-          icon={activePanel === 'menu' ? '/icons/ui/Icon_UI_Close_01.svg' : '/icons/ui/Icon_UI_Menu_01.svg'}
-          alt={activePanel === 'menu' ? 'Close menu' : 'Open menu'}
-          isActive={activePanel === 'menu'}
-          onClick={() => togglePanel('menu')}
+          icon={showOnboarding ? '/icons/ui/Icon_UI_Close_01.svg' : '/icons/ui/Icon_UI_Menu_01.svg'}
+          alt={showOnboarding ? 'Close info' : 'About 20LY'}
+          isActive={showOnboarding}
+          onClick={() => togglePanel('info')}
         />
 
-        {/* Center-Right: Info, Filter, and Search */}
+        {/* Center-Right: View Options, Filter, and Search */}
         <div className="flex items-center gap-3">
           <ButtonMobileIcon
-            icon={showOnboarding ? '/icons/ui/Icon_UI_Close_01.svg' : '/icons/ui/Icon_UI_Info_01.svg'}
-            alt={showOnboarding ? 'Close info' : 'About 20LY'}
-            isActive={showOnboarding}
-            onClick={() => togglePanel('info')}
+            icon={activePanel === 'menu' ? '/icons/ui/Icon_UI_Close_01.svg' : '/icons/ui/Icon_UI_ViewOptionsMobile_01.svg'}
+            alt={activePanel === 'menu' ? 'Close menu' : 'Open menu'}
+            isActive={activePanel === 'menu'}
+            onClick={() => togglePanel('menu')}
           />
           <ButtonMobileIcon
             icon={activePanel === 'filter' ? '/icons/ui/Icon_UI_Close_01.svg' : '/icons/ui/Icon_UI_Filter_01.svg'}
@@ -128,10 +128,10 @@ export default function MobileNav({
         </div>
       </div>
 
-      {/* Menu Panel (left side) */}
+      {/* Menu Panel (right side) */}
       <div
         className={`
-          absolute left-4 top-[68px] w-[160px]
+          absolute right-4 top-[68px] w-[156px]
           transition-all duration-300 ease-out pointer-events-auto
           ${activePanel === 'menu' ? 'max-h-[70vh] opacity-100' : 'max-h-0 opacity-0'}
           overflow-hidden rounded-lg

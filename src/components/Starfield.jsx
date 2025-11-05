@@ -749,20 +749,21 @@ const Starfield = () => {
           highlight.visible = true;
           
           // Close onboarding panel when a star is clicked
-          if (showOnboarding) {
-            setShowOnboarding(false);
-          }
+          setShowOnboarding(false);
           
           setIsFocused(false); // Clear focus state when clicking new star
         }
       } else {
-        // No star clicked
+        // No star clicked - empty canvas click
         if (!measureMode) {
           // Only clear selection if not in measure mode
           selectedStarRef.current = null;
           setSelectedStar(null);
           setIsFocused(false); // Clear focus state when deselecting
           highlight.visible = false;
+          
+          // Close onboarding panel when clicking on empty canvas
+          setShowOnboarding(false);
         }
       }
     };
@@ -2126,6 +2127,7 @@ const Starfield = () => {
           viewDistance={viewDistance}
           spectralFilter={spectralFilter}
           showExoplanetsOnly={showExoplanetsOnly}
+          showOnboarding={showOnboarding}
           // Callback props
           onGridChange={handleGridChange}
           onLineModeChange={handleLineModeChange}
@@ -2135,6 +2137,7 @@ const Starfield = () => {
           keyboardControlsEnabled={keyboardControlsEnabled}
           onViewDistanceChange={handleViewDistanceChange}
           onSpectralFilterChange={handleSpectralFilterChange}
+          onOpenOnboarding={handleOpenOnboarding}
         />
       )}
       {/* Onboarding Panel - shows on initial load */}
@@ -2256,11 +2259,12 @@ const Starfield = () => {
             className="text-[11px] text-right text-grey-400 flex items-center select-none"
             style={{ height: '28px' }}
           >
-            v0.2.0
+            v1.0.0
           </p>
           
           {/* About 20LY Button - only show when onboarding is closed and on desktop */}
-          {!showOnboarding && !isMobile && (
+          {/* Temporarily hidden and disabled */}
+          {false && !showOnboarding && !isMobile && (
             <div style={{ width: '128px', display: 'flex' }}>
               <ButtonTextSmall
                 text="About 20LY"
