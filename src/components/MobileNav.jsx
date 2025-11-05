@@ -251,7 +251,7 @@ export default function MobileNav({
       {/* Filter Panel (right side) */}
       <div
         className={`
-          absolute right-4 top-[68px] w-[160px]
+          absolute right-4 top-[68px] w-[156px]
           transition-all duration-300 ease-out pointer-events-auto
           ${activePanel === 'filter' ? 'max-h-[70vh] opacity-100' : 'max-h-0 opacity-0'}
           overflow-hidden rounded-lg
