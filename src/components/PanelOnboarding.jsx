@@ -35,7 +35,7 @@ const PanelOnboarding = ({ onClose, isMobile }) => {
               <p className="text-grey-300 text-xs">• <span className='font-bold'>Q,E</span> to Orbit Camera</p>
               <p className="text-grey-300 text-xs">• <span className='font-bold'>+,-</span> to Zoom Camera</p>
               <p className="text-grey-300 text-xs">• <span className='font-bold'>F</span> to Focus on a Star (when selected)</p>
-              <p className="text-grey-300 text-xs">• <span className='font-bold'>Z</span> to Zoom to a Star (when selected)</p>
+              <p className="text-grey-300 text-xs">• <span className='font-bold'>Z</span> or <span className='font-bold'>RMB</span> to Zoom to a Star (when selected)</p>
               <p className="text-grey-300 text-xs">• <span className='font-bold'>G</span> to Free Camera (when foccused)</p>
               <p className="text-grey-300 text-xs">• <span className='font-bold'>ESC</span> to reset Map.</p>
             </div>
