@@ -28,6 +28,7 @@ export default function Toolbar({
   spectralFilter = {},
   showExoplanetsOnly = false,
   showOnboarding = false,
+  filteredStarCount = 0,
   // Callback props
   onGridChange = null,
   onLineModeChange = null,
@@ -170,6 +171,14 @@ export default function Toolbar({
 
         <Separator />
 
+        {/* Star Systems Count Section */}
+        <div className="px-2 pt-1 pb-2 bg-grey-700">
+          <span className="text-[11px] text-grey-300 font-sans">Systems Visible: </span>
+          <span className="text-[11px] text-white font-semibold font-sans">{filteredStarCount}</span>
+        </div>
+
+        <Separator />
+
         {/* Search Section */}
         <div className="px-2 pt-3 pb-3">
           <SearchInput 
@@ -210,7 +219,7 @@ export default function Toolbar({
           <SectionHeader title="Distance" value={`${viewDistance} LY`} />
           
           {/* Slider wrapper for manual padding control */}
-          <div className="px-2 py-2 pb-5">
+          <div className="px-2 py-1 pb-3.5">
             <Slider 
               value={viewDistance}
               min={4}

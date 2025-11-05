@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Text } from 'troika-three-text';
@@ -15,6 +15,7 @@ import MobileNav from './MobileNav.jsx';
 import ButtonTextSmall from './ui/ButtonTextSmall.jsx';
 import ButtonMobileIcon from './ui/ButtonMobileIcon.jsx';
 import FPSCounter from './ui/FPSCounter.jsx';
+import StarSystemCount from './ui/StarSystemCount.jsx';
 import ErrorBoundary from './ErrorBoundary.jsx';
 
 // Helper function to convert RA string to radians
@@ -62,6 +63,15 @@ const raDecToXYZ = (ra, dec, distance) => {
   const y = distance * Math.sin(decRad);
   const z = distance * Math.cos(decRad) * Math.sin(raRad);
   return new THREE.Vector3(x, y, z);
+};
+
+// Helper function to check if a star has confirmed exoplanets
+const hasConfirmedExoplanets = (star) => {
+  if (!star.components || star.components.length === 0) return false;
+  return star.components.some(component => {
+    const exoplanetsConfirmed = component.exoplanets_confirmed;
+    return exoplanetsConfirmed !== undefined && exoplanetsConfirmed !== null && parseInt(exoplanetsConfirmed) > 0;
+  });
 };
 
 const Starfield = () => {
@@ -146,6 +156,30 @@ const Starfield = () => {
   const [keyboardControlsEnabled, setKeyboardControlsEnabled] = useState(true); // Enabled by default
   const [showOnboarding, setShowOnboarding] = useState(true); // Show on initial load
   const [showFPS, setShowFPS] = useState(false); // FPS counter visibility
+
+  // Calculate filtered star count based on view distance, spectral filter, and exoplanets toggle
+  const filteredStarCount = useMemo(() => {
+    return stars.filter(star => {
+      // Check distance
+      const withinDistance = star.distance_ly <= viewDistance;
+      if (!withinDistance) return false;
+
+      // Check spectral filter
+      const primaryComponent = star.components?.[0];
+      const spectralType = primaryComponent?.spectral_type || primaryComponent?.stellar_type || primaryComponent?.star_type || 'M';
+      const spectralClass = spectralType.charAt(0).toUpperCase();
+      const passesFilter = spectralFilter[spectralClass];
+      if (!passesFilter) return false;
+
+      // Check exoplanets filter
+      const isSol = (star.system_name || star.name || '').toLowerCase() === 'sol';
+      const hasExoplanets = hasConfirmedExoplanets(star);
+      const passesExoplanetsFilter = !showExoplanetsOnly || isSol || hasExoplanets;
+      if (!passesExoplanetsFilter) return false;
+
+      return true;
+    }).length;
+  }, [stars, viewDistance, spectralFilter, showExoplanetsOnly]);
 
   // Load star data
   useEffect(() => {
@@ -257,15 +291,6 @@ const Starfield = () => {
     const initialShowGrid = showGrid;
     const initialGridMode = gridMode;
     const initialShowExoplanetsOnly = showExoplanetsOnly;
-    
-    // Helper function to check if a star has confirmed exoplanets
-    const hasConfirmedExoplanets = (star) => {
-      if (!star.components || star.components.length === 0) return false;
-      return star.components.some(component => {
-        const exoplanetsConfirmed = component.exoplanets_confirmed;
-        return exoplanetsConfirmed !== undefined && exoplanetsConfirmed !== null && parseInt(exoplanetsConfirmed) > 0;
-      });
-    };
 
     labelsRef.current = [];
     starObjectsRef.current = [];
@@ -2063,6 +2088,13 @@ const Starfield = () => {
 
   return (
     <ErrorBoundary>
+      {/* Star System Count - floating at bottom on mobile only (desktop version is in Toolbar) */}
+      {uiVisible && isMobile && (
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-30 pointer-events-none">
+          <StarSystemCount count={filteredStarCount} />
+        </div>
+      )}
+      
       {uiVisible && isMobile && (
         <MobileNav
           // Search props
@@ -2128,6 +2160,7 @@ const Starfield = () => {
           spectralFilter={spectralFilter}
           showExoplanetsOnly={showExoplanetsOnly}
           showOnboarding={showOnboarding}
+          filteredStarCount={filteredStarCount}
           // Callback props
           onGridChange={handleGridChange}
           onLineModeChange={handleLineModeChange}
